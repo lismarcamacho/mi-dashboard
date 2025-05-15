@@ -1,15 +1,49 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('adminlte::page')
+{{-- Setup Custom Preloader Content --}}
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <x-welcome />
-            </div>
-        </div>
+@section('preloader')
+    <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
+    <h4 class="mt-4 text-dark">Cargando...</h4>
+@stop
+
+
+@section('title', 'Dashboard')
+
+@section('content_header')
+    <h1>Dashboard</h1>
+@stop
+
+@section('content')
+    <p>Welcome to this beautiful admin panel. Lismar</p>
+    <div class="card-primary">
+  <div class="card-header">
+    <h3 class="card-title">Default Card Primary Example</h3>
+    <div class="card-tools">
+      <!-- Buttons, labels, and many other things can be placed here! -->
+      <!-- Here is a label for example -->
+      <span class="badge badge-primary">Label</span>
     </div>
-</x-app-layout>
+    <!-- /.card-tools -->
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body">
+    The body of the card
+  </div>
+  <!-- /.card-body -->
+  <div class="card-footer">
+    The footer of the card
+  </div>
+  <!-- /.card-footer -->
+</div>
+<!-- /.card -->
+    
+@stop
+
+@section('css')
+    {{-- Add here extra stylesheets --}}
+    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
+@stop
+
+@section('js')
+    <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
+@stop
