@@ -14,28 +14,172 @@
 @stop
 
 @section('content')
-    <p>Welcome to this beautiful admin panel. Lismar</p>
-    <div class="card-primary">
-  <div class="card-header">
-    <h3 class="card-title">Default Card Primary Example</h3>
-    <div class="card-tools">
-      <!-- Buttons, labels, and many other things can be placed here! -->
-      <!-- Here is a label for example -->
-      <span class="badge badge-primary">Label</span>
-    </div>
-    <!-- /.card-tools -->
+
+<x-adminlte-alert icon="fas fa-user">
+    User has logged in!
+</x-adminlte-alert>
+
+      <p>Welcome to this beautiful admin panel. Lismar</p>
+
+      <div class="container text-center">
+  <div class="row">
+    <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
+    <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
+
+    <!-- Force next columns to break to new line -->
+    <div class="w-100"></div>
+
+    <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
+    <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
   </div>
-  <!-- /.card-header -->
-  <div class="card-body">
-    The body of the card
-  </div>
-  <!-- /.card-body -->
-  <div class="card-footer">
-    The footer of the card
-  </div>
-  <!-- /.card-footer -->
 </div>
-<!-- /.card -->
+
+  <div class="card-info">
+          <div class="card-header">
+            <h3 class="card-title">Default Card Secondary Example</h3>
+                  <div class="card-tools">
+                    <!-- Buttons, labels, and many other things can be placed here! -->
+                    <!-- Here is a label for example -->
+
+                  </div>
+          <!-- /.card-tools -->
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            The body of the card
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            The footer of the card
+          </div>
+          <!-- /.card-footer -->
+  </div>
+  <!-- /.card -->
+
+<br>
+
+    <div class="card-info">
+          <div class="card-header">
+            <h3 class="card-title">Default Card Secondary Example</h3>
+                  <div class="card-tools">
+                    <!-- Buttons, labels, and many other things can be placed here! -->
+                    <!-- Here is a label for example -->
+                    <span class="badge badge-info">Label</span>
+                  </div>
+          <!-- /.card-tools -->
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            The body of the card
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            The footer of the card
+          </div>
+          <!-- /.card-footer -->
+  </div>
+  <!-- /.card -->
+
+<br>
+
+
+    <div class="card-info">
+          <div class="card-header">
+            <h3 class="card-title">Default Card Secondary Example</h3>
+                  <div class="card-tools">
+                    <!-- Buttons, labels, and many other things can be placed here! -->
+                    <!-- Here is a label for example -->
+                    <span class="badge badge-info">Label</span>
+                  </div>
+          <!-- /.card-tools -->
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            The body of the card
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            The footer of the card
+          </div>
+          <!-- /.card-footer -->
+  </div>
+  <!-- /.card -->
+
+
+<br>
+
+
+    <div class="card-info">
+          <div class="card-header">
+            <h3 class="card-title">Default Card Secondary Example</h3>
+                  <div class="card-tools">
+                    <!-- Buttons, labels, and many other things can be placed here! -->
+                    <!-- Here is a label for example -->
+                    <span class="badge badge-info">Label</span>
+                  </div>
+          <!-- /.card-tools -->
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            The body of the card
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            The footer of the card
+          </div>
+          <!-- /.card-footer -->
+  </div>
+  <!-- /.card -->
+
+
+<br>
+
+    <div class="card-info">
+          <div class="card-header">
+            <h3 class="card-title">Default Card Secondary Example</h3>
+                  <div class="card-tools">
+                    <!-- Buttons, labels, and many other things can be placed here! -->
+                    <!-- Here is a label for example -->
+                    <span class="badge badge-info">Label</span>
+                  </div>
+          <!-- /.card-tools -->
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            The body of the card
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            The footer of the card
+          </div>
+          <!-- /.card-footer -->
+  </div>
+  <!-- /.card -->
+
+
+<br>
+
+    <div class="card-info">
+          <div class="card-header">
+            <h3 class="card-title">Default Card Secondary Example</h3>
+                  <div class="card-tools">
+                    <!-- Buttons, labels, and many other things can be placed here! -->
+                    <!-- Here is a label for example -->
+                    <span class="badge badge-info">Label</span>
+                  </div>
+          <!-- /.card-tools -->
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            The body of the card
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            The footer of the card
+          </div>
+          <!-- /.card-footer -->
+  </div>
+  <!-- /.card -->
     
 @stop
 

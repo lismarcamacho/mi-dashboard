@@ -1,6 +1,3 @@
-@extends('adminlte::auth.passwords.reset')
-
-<!-- PENDIENTE POR QUITAR-->
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
