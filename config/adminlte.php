@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b> Lismar',
+    'logo' => '<b>Admin</b> ',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -236,7 +236,7 @@ return [
     |
     */
 
-    'right_sidebar' => false,
+    'right_sidebar' => true,
     'right_sidebar_icon' => 'fas fa-cogs',
     'right_sidebar_theme' => 'dark',
     'right_sidebar_slide' => true,
@@ -302,44 +302,91 @@ return [
         // Navbar items:
         [
             'type' => 'navbar-search',
-            'text' => 'search',
+            'text' => 'Busqueda',
             'topnav_right' => true,
+            'search'=>true,
+            'method'=>'post'
         ],
         [
             'type' => 'fullscreen-widget',
             'topnav_right' => true,
         ],
 
-        // Sidebar items:
         [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
+
+            'text'=>'link 1',
+            'url'=>'#', // puede ir route tambien
+            'topnav_user'=>true
         ],
+
+        
+        [
+
+            'text'=>'link 2',
+            'url'=>'#', // puede ir route tambien
+            'topnav'=>true
+        ],
+
+        [
+
+            'text'=>'Dashboard',
+            'url'=>'home', // puede ir route tambien
+            'icon'=>'fas fa-fw fa-home',
+            'label' =>'Nuevo',
+            'label_color'=>'danger',
+            'icon_color'=>'green'
+        ],
+
+
+
+        // Sidebar items:
+        //[
+        //    'type' => 'sidebar-menu-search',
+        //    'text' => 'search',
+        //],
         [
             'text' => 'blog',
             'url' => 'admin/blog',
             'can' => 'manage-blog',
         ],
         [
-            'text' => 'pages',
+            'text' => 'Paginas',
             'url' => 'admin/pages',
             'icon' => 'far fa-fw fa-file',
             'label' => 4,
             'label_color' => 'success',
         ],
-        ['header' => 'account_settings'],
+        ['header' => 'CONFIGURACIÓN DE CUENTA'],
         [
-            'text' => 'profile',
+            'text' => 'Perfil',
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
-            'text' => 'change_password',
+            'text' => 'Cambiar clave',
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
         ],
+
+        ['header' => 'USUARIOS'],
         [
-            'text' => 'multilevel',
+            'text' => 'Roles',
+            'url' => 'admin/settings',
+            'icon' => 'far fa-fw fa-file',
+        ],
+        [
+            'text' => 'Permisos',
+            'url' => 'admin/settings',
+            'icon' => 'fas fa-fw fa-lock',
+        ],
+                [
+            'text' => 'Usuarios',
+            'url' => 'admin/settings',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        ['header' => 'OTRAS CONFIGURACIONES'],
+        [
+            'text' => 'Multinivel',
             'icon' => 'fas fa-fw fa-share',
             'submenu' => [
                 [
@@ -376,19 +423,19 @@ return [
                 ],
             ],
         ],
-        ['header' => 'labels'],
+        ['header' => 'MENU 2'],
         [
-            'text' => 'important',
+            'text' => 'Importante',
             'icon_color' => 'red',
             'url' => '#',
         ],
         [
-            'text' => 'warning',
+            'text' => 'Alerta',
             'icon_color' => 'yellow',
             'url' => '#',
         ],
         [
-            'text' => 'information',
+            'text' => 'Información',
             'icon_color' => 'cyan',
             'url' => '#',
         ],

@@ -15,24 +15,10 @@
 
 @section('content')
 
-<x-adminlte-alert icon="fas fa-user">
-    User has logged in!
-</x-adminlte-alert>
 
-      <p>Welcome to this beautiful admin panel. Lismar</p>
 
-      <div class="container text-center">
-  <div class="row">
-    <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
-    <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
+      <p>Welcome to this beautiful admin panel. </p>
 
-    <!-- Force next columns to break to new line -->
-    <div class="w-100"></div>
-
-    <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
-    <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
-  </div>
-</div>
 
   <div class="card-info">
           <div class="card-header">
