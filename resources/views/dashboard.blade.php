@@ -6,6 +6,7 @@
     <h4 class="mt-4 text-dark">Cargando...</h4>
 @stop
 
+@section('plugins.Sweetalert2',true)
 
 @section('title', 'Dashboard')
 
@@ -175,5 +176,20 @@
 @stop
 
 @section('js')
-    <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
+    <script> </script>
+@stop
+
+@section('js')
+      <script>
+            Swal.fire({
+            title: 'Hello world',
+            text: 'You click on the button',
+            icon: 'success'
+          });
+
+          alert("You clicked the button!");
+          console.log("Hi, I'm using the Laravel-AdminLTE package!"); 
+
+      </script>
+
 @stop

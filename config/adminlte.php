@@ -359,7 +359,7 @@ return [
         ['header' => 'CONFIGURACIÓN DE CUENTA'],
         [
             'text' => 'Perfil',
-            'url' => 'admin/settings',
+            'url' => 'admin/profile',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
@@ -368,22 +368,18 @@ return [
             'icon' => 'fas fa-fw fa-lock',
         ],
 
-        ['header' => 'USUARIOS'],
+        ['header' => 'CARRERAS'],
         [
-            'text' => 'Roles',
+            'text' => 'Lista de Carreras',
             'url' => 'admin/settings',
             'icon' => 'far fa-fw fa-file',
         ],
         [
-            'text' => 'Permisos',
+            'text' => 'Agregar Carrera',
             'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-fw fa-file',
         ],
-                [
-            'text' => 'Usuarios',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
+             
         ['header' => 'OTRAS CONFIGURACIONES'],
         [
             'text' => 'Multinivel',
@@ -522,7 +518,7 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
