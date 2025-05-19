@@ -330,7 +330,7 @@ return [
         [
 
             'text'=>'Dashboard',
-            'url'=>'home', // puede ir route tambien
+            'url'=>'dashboard', // puede ir route tambien
             'icon'=>'fas fa-fw fa-home',
             'label' =>'Nuevo',
             'label_color'=>'danger',
@@ -364,10 +364,28 @@ return [
         ],
         [
             'text' => 'Cambiar clave',
-            'url' => 'admin/settings',
+            'url'  => 'admin/password',
             'icon' => 'fas fa-fw fa-lock',
         ],
 
+
+        ['header' => 'ADMINISTRACIÓN DE USUARIOS'],
+        [
+            'text' => 'Lista de Usuarios',
+            'url' => 'admin/settings',
+            'icon' => 'far fa-fw fa-file',
+            
+        ],
+        [
+            'text' => 'Agregar Usuario',
+            'url' => 'admin/settings',
+            'icon' => 'fas fa-fw fa-file',
+        ],
+                [
+            'text' => 'Agregar Rol',
+            'url' => 'admin/settings',
+            'icon' => 'fas fa-fw fa-file',
+        ],
         ['header' => 'CARRERAS'],
         [
             'text' => 'Lista de Carreras',

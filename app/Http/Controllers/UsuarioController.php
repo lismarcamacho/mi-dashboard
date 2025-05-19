@@ -18,6 +18,12 @@ class UsuarioController extends Controller
         return view('users.create');
     }
 
+       public function edit(User $user)
+    {
+        // Lógica para mostrar el formulario de edición del usuario
+        return view('users.edit', compact('user')); // Ejemplo de retorno de una vista
+    }
+
     public function store(Request $request)
     {
         // Valida y guarda el usuario
@@ -25,6 +31,15 @@ class UsuarioController extends Controller
         $user->save();
 
         return redirect()->route('users.index');
+    }
+
+      public function destroy(User $user)
+    {
+        // Lógica para eliminar el usuario
+        $user->delete();
+
+        // Redireccionar o devolver una respuesta
+        return redirect()->route('users.index')->with('success', 'Usuario eliminado correctamente.');
     }
 
 }

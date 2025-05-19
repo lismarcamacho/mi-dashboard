@@ -1,12 +1,18 @@
 <!-- users/index.blade.php -->
 @extends('adminlte::page')
-
+@section('preloader')
+    <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
+    <h4 class="mt-4 text-dark">Cargando Perfil de usuario...</h4>
+@stop
 @section('title', 'Perfil de Usuario'){{-- o el layout de AdminLTE que estés usando --}}
 
 @section('content')
 <div class="container">
-    <h1>Usuarios</h1>
-    <a href="{{ route('users.create') }}" class="btn btn-primary">Crear Nuevo</a>
+    <h1>Perfil de Usuario</h1>
+    <!--<a href="{{ route('users.create') }}" class="btn btn-primary">Crear Nuevo</a>-->
+            @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
     <table class="table">
         <thead>
             <tr>
@@ -30,9 +36,34 @@
                         <button type="submit" class="btn btn-danger">Eliminar</button>
                     </form>
                 </td>
+                <td>
+                    
+                </td>
             </tr>
        
         </tbody>
     </table>
 </div>
+
+<div class="max-w-7xlw mx-auto sm:px-6 lg:px-8 space-y-6">
+    <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+        <div class="max-w-xl">
+           <!-- @ include('profile.update-profile-information-form')-->
+
+        </div>
+    </div>
+
+
+
+    <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+        <div class="max-w-xl">
+            <!--@ include('profile.delete-user-form')-->
+
+        </div>
+    </div>
+
+
+
+</div>
+
 @endsection

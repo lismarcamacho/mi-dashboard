@@ -1,3 +1,14 @@
+<!-- users/index.blade.php -->
+@extends('adminlte::page')
+@section('preloader')
+    <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
+    <h4 class="mt-4 text-dark">Cargando Perfil de usuario...</h4>
+@stop
+@section('content')
+
+
+@section('title', 'Perfil de Usuario'){{-- o el layout de AdminLTE que estés usando --}}
+
 <x-form-section submit="updateProfileInformation">
     <x-slot name="title">
         {{ __('Profile Information') }}
