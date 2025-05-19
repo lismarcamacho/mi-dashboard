@@ -22,7 +22,7 @@ Route::middleware([
 
 // routes/web.php
 
-Route::get('admin/profile', [PerfilController::class, 'index'])->name('admin.profile');
+//Route::get('admin/profile', [PerfilController::class, 'index'])->name('admin.profile');
 
 Route::get('/admin/profile', [PerfilController::class, 'index'])->name('profile.index');
 
