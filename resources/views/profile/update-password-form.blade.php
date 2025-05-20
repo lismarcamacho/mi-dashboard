@@ -11,7 +11,7 @@
 
 @section('content_header')
   
-    <h1 style="text-align: center;">Cambiar Clave de usuario</h1>
+    <h1 style="text-align: center;">Cambiar Clave de Usuario</h1>
 
 @stop
 
@@ -35,21 +35,21 @@
                     @csrf
 
                     <div class="mb-3">
-                        <label for="current_password" class="form-label">Contraseña Actual</label>
+                        <label for="current_password" class="form-label">Clave Actual</label>
                         <input type="password" class="form-control" id="current_password" name="current_password">
                     </div>
 
                     <div class="mb-3">
-                        <label for="password" class="form-label">Nueva Contraseña</label>
+                        <label for="password" class="form-label">Nueva Clave</label>
                         <input type="password" class="form-control" id="password" name="password">
                     </div>
 
                     <div class="mb-3">
-                        <label for="password_confirmation" class="form-label">Confirmar Nueva Contraseña</label>
+                        <label for="password_confirmation" class="form-label">Confirmar Nueva Clave</label>
                         <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Actualizar Contraseña</button>
+                    <button type="submit" class="btn btn-primary">Actualizar Clave</button>
                     <a href="{{ route('profile.index') }}" class="btn btn-secondary">Cancelar</a>
 
                     @if (session('success'))

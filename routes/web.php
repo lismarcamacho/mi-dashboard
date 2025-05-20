@@ -36,7 +36,7 @@ Route::resource('users', UsuarioController::class);
 
 // Ruta para mostrar una lista de usuarios (asumiendo un método 'index' en el controlador)
 Route::get('/users', [UsuarioController::class, 'index'])->name('users.index');
-
+Route::get('/users', [PerfilController::class, 'index'])->name('users.index');
 // Ruta para mostrar el formulario de creación de un nuevo usuario (asumiendo un método 'create')
 Route::get('/users/crear', [UsuarioController::class, 'create'])->name('users.create');
 

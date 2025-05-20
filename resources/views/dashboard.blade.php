@@ -18,7 +18,7 @@
 
 
 
-      <p>Welcome to this beautiful admin panel. </p>
+      <p>Welcome <b>{{Auth::User()->name}} </b>to this beautiful admin panel. </p>
 
 
   <div class="card-info">
