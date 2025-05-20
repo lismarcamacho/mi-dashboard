@@ -37,16 +37,19 @@
                     <div class="mb-3">
                         <label for="current_password" class="form-label">Clave Actual</label>
                         <input type="password" class="form-control" id="current_password" name="current_password">
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('password_confirmation')">Mostrar</button>
                     </div>
 
                     <div class="mb-3">
                         <label for="password" class="form-label">Nueva Clave</label>
                         <input type="password" class="form-control" id="password" name="password">
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('password_confirmation')">Mostrar</button>
                     </div>
 
                     <div class="mb-3">
                         <label for="password_confirmation" class="form-label">Confirmar Nueva Clave</label>
                         <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('password_confirmation')">Mostrar</button>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Actualizar Clave</button>
@@ -61,6 +64,9 @@
                             </div>
                         @endif
                 </form>
+                            <div class="mt-2">
+                <button type="button" class="btn btn-info" onclick="toggleAllPasswords()">Mostrar Todas las Claves</button>
+            </div>
             </div>
         </div>
     </div>
@@ -137,5 +143,45 @@
         .mb-3 {
             margin-bottom: 1rem;
         }
+
+        button.btn.btn-outline-secondary {
+            margin-left: 85%;
+            margin-top: -18%;
+        }
     </style>
+@endpush
+
+
+@push('js')
+    <script>
+        function togglePasswordVisibility(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleButton = passwordInput.nextElementSibling;
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleButton.textContent = "Ocultar";
+            } else {
+                passwordInput.type = "password";
+                toggleButton.textContent = "Mostrar";
+            }
+        }
+
+        function toggleAllPasswords() {
+            const passwordInputs = document.querySelectorAll('input[type="password"]');
+            const toggleButtons = document.querySelectorAll('.btn-outline-secondary');
+            let show = false;
+            if (passwordInputs.length > 0 && passwordInputs[0].type === "password") {
+                show = true;
+            }
+
+            passwordInputs.forEach(input => {
+                input.type = show ? "text" : "password";
+            });
+
+            toggleButtons.forEach(button => {
+                button.textContent = show ? "Ocultar" : "Mostrar";
+            });
+        }
+    </script>
 @endpush
