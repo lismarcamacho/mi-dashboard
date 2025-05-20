@@ -389,12 +389,12 @@ return [
         ['header' => 'CARRERAS'],
         [
             'text' => 'Lista de Carreras',
-            'url' => 'admin/settings',
+            'route' => 'carreras.index',
             'icon' => 'far fa-fw fa-file',
         ],
         [
             'text' => 'Agregar Carrera',
-            'url' => 'admin/settings',
+            'url' => 'admin/carreras/create',
             'icon' => 'fas fa-fw fa-file',
         ],
              

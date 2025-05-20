@@ -11,7 +11,8 @@ class CarreraController extends Controller
      */
     public function index()
     {
-        return("lista de carreras");
+      // return ("lista de carreras");
+
     }
 
     /**
@@ -19,7 +20,9 @@ class CarreraController extends Controller
      */
     public function create()
     {
-        return("Nueva carrera");
+       // return("Nueva carrera");
+        return view ('carreras.create');
+
     }
 
     /**

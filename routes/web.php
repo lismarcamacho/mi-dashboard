@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PerfilController;
+use App\Models\Carrera;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,9 +18,10 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-
     
 });
+
+
 
 // routes/web.php
 
@@ -55,3 +58,20 @@ Route::patch('/users/{user}', [UsuarioController::class, 'update'])->name('users
 
 // Ruta para eliminar un usuario (asumiendo un método 'destroy')
 Route::delete('/users/{user}', [UsuarioController::class, 'destroy'])->name('users.destroy');
+
+Route::resource('/carreras', CarreraController::class)->names('carreras');
+//Route::get('/carrera/crear', [CarreraController::class, 'create'])->name('carrera.create');
+
+Route::prefix('admin')->group(function () {
+    Route::get('/carreras', [CarreraController::class, 'index'])->name('carreras.index');
+    Route::get('/carreras/create', [CarreraController::class, 'create'])->name('carreras.create');
+    Route::post('/carreras', [CarreraController::class, 'store'])->name('carreras.store');
+    Route::get('/carreras/{carreras}', [CarreraController::class, 'show'])->name('carreras.show');
+    Route::get('/carreras/{carreras}/edit', [CarreraController::class, 'edit'])->name('carreras.edit');
+    Route::put('/carreras/{carreras}', [CarreraController::class, 'update'])->name('carreras.update');
+    Route::delete('/carreras/{carreras}', [CarreraController::class, 'destroy'])->name('carreras.destroy');
+});
+
+Route::get('/admin/test', function () {
+    return view('testadminlte');
+});
