@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
-@section('title', 'Prueba AdminLTE')
+@section('title', 'Crear Nueva Carrera')
 
 @section('content')
-    <h1>¡AdminLTE funciona!</h1>
+    <h1>Crear Nueva Carrera</h1>
 @stop
