@@ -3,7 +3,7 @@
 
 @section('preloader')
     <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
-    <h4 class="mt-4 text-dark">Cargando...</h4>
+    <h4 class="mt-4 text-dark">Cargando Dashboard...</h4>
 @stop
 
 @section('plugins.Sweetalert2',true)

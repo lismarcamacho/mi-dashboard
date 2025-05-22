@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('carreras', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo',10);
-            $table->string('Nombre de la Carrera',75);
-            $table->string('Area de Estudio',75);
-            $table->string('Duración',25);
+            $table->string('codigo_carrera',10)->nullable(false);
+            $table->string('nombre_carrera',75)->nullable(false);
+            $table->string('titulo',75)->nullable(false);
+            $table->string('duración_x_titulo',25)->nullable(false);
+            $table->string('descripcion',75);
             $table->timestamps();
         });
     }

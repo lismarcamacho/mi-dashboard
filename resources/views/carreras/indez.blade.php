@@ -3,5 +3,5 @@
 @section('title', 'Crear Nueva Carrera')
 
 @section('content')
-    <h1>Crear Nueva Carrera</h1>
+    <h1>lista de carreras/h1>
 @stop

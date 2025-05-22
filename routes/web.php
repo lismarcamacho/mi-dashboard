@@ -72,6 +72,8 @@ Route::prefix('admin')->group(function () {
     Route::delete('/carreras/{carreras}', [CarreraController::class, 'destroy'])->name('carreras.destroy');
 });
 
+Route::post('/admin/carreras', [CarreraController::class, 'store'])->name('admin.carreras.store')->middleware('web');
+
 Route::get('/admin/test', function () {
     return view('testadminlte');
 });

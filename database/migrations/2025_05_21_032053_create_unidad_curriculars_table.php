@@ -21,7 +21,9 @@ return new class extends Migration
             $table->string('hte',4)->nullable(false);
             $table->string('dist',4)->nullable(false);
             $table->string('fase',4)->nullable(false);           
-            $table->string('eje',15)->nullable(false);                               
+            $table->string('eje',15)->nullable(false);
+            $table->dateTime('fecha_pnf')->nullable(false);
+            $table->string('min_aprobatorio')->nullable(false);
             $table->timestamps();
         });
     }

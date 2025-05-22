@@ -125,3 +125,14 @@ return [
     ],
 
 ];
+// provider , esto sirve para poder agregar vistas nuevas en carpetas personalizadas en mi proyecto
+
+//'providers' => [
+        // ... otros proveedores de servicios ...
+    //    JeroenNoten\LaravelAdminLte\ServiceProvider::class
+    //],
+
+   //'aliases' => [
+        // ... otros aliases ...
+     // 'AdminLTE' => JeroenNoten\LaravelAdminLte\Facades\AdminLTE::class
+ // ],
