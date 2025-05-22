@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('codigo_carrera',10)->nullable(false);
             $table->string('nombre_carrera',75)->nullable(false);
             $table->string('titulo',75)->nullable(false);
-            $table->string('duración_x_titulo',25)->nullable(false);
+            $table->string('duracion_x_titulo',25)->nullable(false);
             $table->string('descripcion',75);
             $table->timestamps();
         });
