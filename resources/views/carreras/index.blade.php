@@ -5,7 +5,9 @@
     <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
     <h4 class="mt-4 text-dark">Cargando Lista de Carreras..</h4>
 @stop
-@section('content')
+
+
+@section('content_header')
     <h1>lista de carreras</h1>
 @stop
 
