@@ -8,13 +8,13 @@
 
 
 @section('content_header')
-    <h1>lista de carreras</h1>
+    <h1>Lista de carreras</h1>
 @stop
 
 @section('content')
 <div class="container" style="margin-top: 10%; background-color: #fff; box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);
     margin-bottom: 1rem;">
-    <h3 tyle="margin-top: 10%; " >Perfil de Usuario Autenticado</h3>
+    <h3 tyle="margin-top: 10%; " >Listado de Carreras</h3>
     <!-- <a href="{{ route('carreras.create') }}" class="btn btn-primary"></a>-->
             @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
