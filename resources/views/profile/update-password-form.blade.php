@@ -21,15 +21,15 @@
             <div class="card-body">
                     <!--<h3>Cambiar Clave de usuario</h3> -->
 
-                    <!--@ if ($errors->any())
+                    @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
-                                @ foreach ($errors->all() as $error)
-                                    <li>{ { $error }}</li>
-                                @ endforeach
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
                             </ul>
                         </div>
-                    @ endif-->
+                    @endif
 
                 <form method="POST" action="{{ route('profile.cambiarClave') }}">
                     @csrf
@@ -37,18 +37,27 @@
                     <div class="mb-3">
                         <label for="current_password" class="form-label">Clave Actual</label>
                         <input type="password" class="form-control" id="current_password" name="current_password">
+                        @error('password')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                         <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('password_confirmation')">Mostrar</button>
                     </div>
 
                     <div class="mb-3">
                         <label for="password" class="form-label">Nueva Clave</label>
                         <input type="password" class="form-control" id="password" name="password">
+                        @error('password')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                         <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('password_confirmation')">Mostrar</button>
                     </div>
 
                     <div class="mb-3">
                         <label for="password_confirmation" class="form-label">Confirmar Nueva Clave</label>
                         <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+                        @error('password')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                         <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('password_confirmation')">Mostrar</button>
                     </div>
 
