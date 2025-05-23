@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Auth;
-use App\Http\Controllers\Hash; // Si necesitas actualizar la contraseña
+use Illuminate\Support\Facades\Hash; // Importa la clase Hash
+use Illuminate\Support\Facades\Auth; // Importa la clase Auth
 use Illuminate\Support\Facades\Validator; // Para validar los datos
+use Illuminate\Validation\Rules\Password;
+
 
 class UsuarioController extends Controller
 {
@@ -13,7 +15,10 @@ class UsuarioController extends Controller
     public function index()
     {
         $users = User::all();
+        $users = User::paginate(15); 
+        dd($users);
         return view('users.index', compact('users'));
+        //return view('users.index', ['users' => $users]);
     }
 
     public function create()
@@ -36,8 +41,48 @@ class UsuarioController extends Controller
         return redirect()->route('users.index');
     }
 
+
+
+    // ... otros métodos ...
+
+
+
+    // ... otros métodos ...
+
+
+
     
-    public function cambiarClave(Request $request)
+
+    
+   // public function cambiarClave(Request $request)
+    //{
+     //   $request->validate([
+     //       'current_password' => 'required|current_password',
+     //       'password' => ['required', 'confirmed', Password::min(8)], // Utiliza la regla de contraseña de Laravel
+     //   ], [
+     //       'current_password.required' => 'La contraseña actual es obligatoria.',
+     //       'current_password.current_password' => 'La contraseña actual es incorrecta.',
+     //       'password.required' => 'La nueva contraseña es obligatoria.',
+     //       'password.confirmed' => 'La confirmación de la nueva contraseña no coincide.',
+     //       'password.min' => 'La nueva contraseña debe tener al menos 8 caracteres.',
+     //   ]);
+
+     //   try{
+
+     //   $user = Auth::user();
+     //   $user->update([
+     //       'password' => Hash::make($request->password),
+     //   ]);
+
+     //   return redirect()->route('profile.index')->with('success', 'Contraseña actualizada correctamente.');
+     //   }catch (\Exception $e) {
+        // Log the error: Log::error('Error al actualizar la contraseña: ' . $e->getMessage());
+     //   return redirect()->back()->with('error', 'Hubo un error al actualizar la contraseña. Por favor, inténtalo de nuevo.');
+   // }
+//}
+
+
+    public function cambiarClave(Request $request, User $user)
     {
         $request->validate([
             'current_password' => 'required|current_password',
@@ -53,6 +98,7 @@ class UsuarioController extends Controller
         try{
 
         $user = Auth::user();
+        dd($user);
 
         $user->update([
             'password' => Hash::make($request->password),
@@ -63,7 +109,12 @@ class UsuarioController extends Controller
         // Log the error: Log::error('Error al actualizar la contraseña: ' . $e->getMessage());
         return redirect()->back()->with('error', 'Hubo un error al actualizar la contraseña. Por favor, inténtalo de nuevo.');
     }
-}
+    }
+
+
+
+
+
 
       public function destroy(User $user)
     {
@@ -113,7 +164,15 @@ class UsuarioController extends Controller
         return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
     }
 
+    // REVISAR BIEN ESTE METODO
 
+    public function show($id) // Generalmente el método show recibe un ID como parámetro
+    {
+        // Aquí va la lógica para mostrar un usuario específico
+        // Por ejemplo, buscar el usuario por su ID
+        $user = \App\Models\User::findOrFail($id); // Asegúrate de usar el modelo correcto
+        return view('users.show', ['user' => $user]); // Pasar el usuario a una vista
+    }
 
 }
 

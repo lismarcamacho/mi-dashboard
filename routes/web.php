@@ -26,6 +26,9 @@ Route::middleware([
 // routes/web.php
 
 //Route::get('admin/profile', [PerfilController::class, 'index'])->name('admin.profile');
+Route::middleware(['auth'])->group(function () {
+
+
 
 Route::get('/admin/profile', [PerfilController::class, 'index'])->name('profile.index');
 
@@ -41,7 +44,7 @@ Route::resource('users', UsuarioController::class);
 Route::get('/users', [UsuarioController::class, 'index'])->name('users.index');
 Route::get('/users', [PerfilController::class, 'index'])->name('users.index');
 // Ruta para mostrar el formulario de creación de un nuevo usuario (asumiendo un método 'create')
-Route::get('/users/crear', [UsuarioController::class, 'create'])->name('users.create');
+//Route::get('/users/crear', [UsuarioController::class, 'create'])->name('users.create');
 
 // Ruta para guardar un nuevo usuario (asumiendo un método 'store')
 Route::post('/users', [UsuarioController::class, 'store'])->name('users.store');
@@ -59,6 +62,8 @@ Route::patch('/users/{user}', [UsuarioController::class, 'update'])->name('users
 // Ruta para eliminar un usuario (asumiendo un método 'destroy')
 Route::delete('/users/{user}', [UsuarioController::class, 'destroy'])->name('users.destroy');
 
+}); // **************************************FIN MIDDLEWARE
+
 Route::resource('/carreras', CarreraController::class)->names('carreras');
 //Route::get('/carrera/crear', [CarreraController::class, 'create'])->name('carrera.create');
 
@@ -73,6 +78,11 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::post('/admin/carreras', [CarreraController::class, 'store'])->name('admin.carreras.store')->middleware('web');
+
+
+
+
+
 
 Route::get('/admin/test', function () {
     return view('testadminlte');

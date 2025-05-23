@@ -8,7 +8,7 @@
 @stop
 
 @section('content_header')
-    <h1>Agregar Nueva Carrera</h1>
+    <center><h1>Agregar Nueva Carrera</h1></center>
 @stop
 
 @section('content')
@@ -42,9 +42,9 @@
 
         <div class="row">
 
-        <x-adminlte-select name="titulo" label="Titulo a obtener:"   fgroup-class="col-md-6">
+        <x-adminlte-select name="titulo" label="Titulo a obtener:"   fgroup-class="col-md-6" >
             <option>ASISTENTE CONTABLE</option>
-            <option disabled>TSU EN CONTADURIA PUBLICA </option>
+            <option selected>TSU EN CONTADURIA PUBLICA </option>
             <option selected>LICENCIADO EN CONTADURIA PUBLICA</option>
 
         </x-adminlte-select>

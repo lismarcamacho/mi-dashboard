@@ -8,14 +8,14 @@
 
 
 @section('content_header')
-    <h1>Lista de carreras</h1>
+    <center><h1>Lista de carreras</h1></center>
 @stop
 
 @section('content')
-<div class="container" style="margin-top: 10%; background-color: #fff; box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);
+<div class="container" style="margin-top: 3%; background-color: #fff; box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);
     margin-bottom: 1rem;">
-    <h3 tyle="margin-top: 10%; " >Listado de Carreras</h3>
-    <!-- <a href="{{ route('carreras.create') }}" class="btn btn-primary"></a>-->
+    <center><h3 tyle="margin-top: 10%; " ></h3></center>
+
             @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
@@ -40,15 +40,33 @@
                         <td>{{ $carrera->nombre_carrera }}</td>
                         <td>{{ $carrera->titulo }}</td>
                         <td>{{ $carrera->duracion_x_titulo }}</td>
+                        <td>{{ $carrera->descripcion }}</td>
+
                     </tr>
                 @endforeach
             </tbody>
-                    <a href="{{ route('carreras.edit', $carrera->id) }}" class="btn btn-warning">Editar</a>
+                    <div class="botones">
+                    <a href="{{ route('carreras.create') }}" class="btn btn-primary ml-2"> Agregar Carrera</a>
+                    <a href="{{ route('carreras.edit', $carrera->id) }}" class="btn btn-warning ml-2">Editar</a>
                     <form action="{{ route('carreras.destroy', $carrera->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                 
+                        <button type="submit" class="btn btn-danger ml-2">Eliminar</button>
+
+
+                    </div>
+                        <div id="buscar" style="display: flex; align-items: center; margin-top:-7%" class=" ml-4">
+                        <x-adminlte-input name="iSearch" label="Busqueda por codigo o Nombre de Carrera" placeholder="busqueda" igroup-size="md-8">
+                            <x-slot name="appendSlot">
+                                <x-adminlte-button theme="outline-danger" label="buscar"/>
+                            </x-slot>
+                            <x-slot name="prependSlot">
+                                <div class="input-group-text text-danger">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                            </x-slot>
+                        </x-adminlte-input>
+                    </div>
 
                 </form>
                 </td>
@@ -66,14 +84,24 @@
 @section('css')
     {{-- Tus estilos CSS opcionales --}}
         <style>
-        .btn-primary {
-            color: #fff;
-            background-color: #007bff;
-            border-color: #007bff;
-            margin-left: 65%;
-            margin-top:-5%;
+        .botones {
+
+            margin-left: 70%;
+            margin-top:1%;
+            margin-block-end: inherit;
+
+            
+        }
+
+        .form-group {
 
         }
+
+        .buscar{
+            margin-top:-5%;
+        }
+    
+
         </style>
 @stop
 

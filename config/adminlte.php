@@ -372,7 +372,7 @@ return [
         ['header' => 'ADMINISTRACIÓN DE USUARIOS'],
         [
             'text' => 'Lista de Usuarios',
-            'url' => 'admin/settings',
+            'url' => 'users/list-users',
             'icon' => 'far fa-fw fa-file',
             
         ],
@@ -386,7 +386,7 @@ return [
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-file',
         ],
-        ['header' => 'CARRERAS'],
+        ['header' => 'PNF: CARRERAS'],
         [
             'text' => 'Lista de Carreras',
             'route' => 'carreras.index',

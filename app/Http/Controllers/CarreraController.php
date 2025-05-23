@@ -23,7 +23,7 @@ class CarreraController extends Controller
 
 
         // Or, if you want to paginate the results:
-        $carreras = Carrera::paginate(5); // Show 10 carreras per page
+        $carreras = Carrera::paginate(15); // Show 10 carreras per page
         // Fetch all carreras from the database
 
         return view('carreras.index', compact('carreras'));
@@ -65,14 +65,6 @@ public function store(Request $request)
 
 
 
-    /*$request->validate([
-        'codigo_carrera' => 'required|string|unique:carreras', // Asegúrate de que 'codigo_carrera' esté en la validación
-        'nombre_carrera' => 'required|string|max:255',
-        'titulo' => 'required|string|max:255',
-        'duracion_x_titulo' => 'required|string|max:255',
-        'descripcion' => 'required|string|max:255',
-
-    ]);*/
 
 
 

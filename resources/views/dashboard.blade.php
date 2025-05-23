@@ -11,7 +11,7 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>Inicio</h1>
 @stop
 
 @section('content')
@@ -23,7 +23,7 @@
 
   <div class="card-info">
           <div class="card-header">
-            <h3 class="card-title">Default Card Secondary Example</h3>
+            <h3 class="card-title">Lista de Actividades </h3>
                   <div class="card-tools">
                     <!-- Buttons, labels, and many other things can be placed here! -->
                     <!-- Here is a label for example -->
@@ -33,7 +33,7 @@
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            The body of the card
+            Actividad o Notificación
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
@@ -44,20 +44,19 @@
   <!-- /.card -->
 
 <br>
-
-    <div class="card-info">
+  <div class="card-info">
           <div class="card-header">
-            <h3 class="card-title">Default Card Secondary Example</h3>
+            <h3 class="card-title">Lista de Actividades </h3>
                   <div class="card-tools">
                     <!-- Buttons, labels, and many other things can be placed here! -->
                     <!-- Here is a label for example -->
-                    <span class="badge badge-info">Label</span>
+
                   </div>
           <!-- /.card-tools -->
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            The body of the card
+            Actividad o Notificación
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
@@ -66,6 +65,8 @@
           <!-- /.card-footer -->
   </div>
   <!-- /.card -->
+
+<br>
 
 <br>
 
