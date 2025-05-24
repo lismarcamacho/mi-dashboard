@@ -26,6 +26,8 @@ Route::middleware([
 // routes/web.php
 
 //Route::get('admin/profile', [PerfilController::class, 'index'])->name('admin.profile');
+
+// ****************************OJO NO MOVER MIDDLEWARE**********************
 Route::middleware(['auth'])->group(function () {
 
 
@@ -62,7 +64,10 @@ Route::patch('/users/{user}', [UsuarioController::class, 'update'])->name('users
 // Ruta para eliminar un usuario (asumiendo un método 'destroy')
 Route::delete('/users/{user}', [UsuarioController::class, 'destroy'])->name('users.destroy');
 
-}); // **************************************FIN MIDDLEWARE
+}); // **************************************FIN MIDDLEWARE***************************
+
+
+// PENDIENTE POR RENOMBRAR TODAS LAS RUTAS, EL MODELO, LA MIGRACION A ESPECIALIDAD
 
 Route::resource('/carreras', CarreraController::class)->names('carreras');
 //Route::get('/carrera/crear', [CarreraController::class, 'create'])->name('carrera.create');
@@ -72,9 +77,9 @@ Route::prefix('admin')->group(function () {
     Route::get('/carreras/create', [CarreraController::class, 'create'])->name('carreras.create');
     Route::post('/carreras', [CarreraController::class, 'store'])->name('carreras.store');
     Route::get('/carreras/{carreras}', [CarreraController::class, 'show'])->name('carreras.show');
-    Route::get('/carreras/{carreras}/edit', [CarreraController::class, 'edit'])->name('carreras.edit');
-    Route::put('/carreras/{carreras}', [CarreraController::class, 'update'])->name('carreras.update');
-    Route::delete('/carreras/{carreras}', [CarreraController::class, 'destroy'])->name('carreras.destroy');
+    Route::get('/carreras/{carrera}/edit', [CarreraController::class, 'edit'])->name('carreras.edit');
+    Route::put('/carreras/{carrera}', [CarreraController::class, 'update'])->name('carreras.update');
+    Route::delete('/carreras/{carrera}', [CarreraController::class, 'destroy'])->name('carreras.destroy');
 });
 
 Route::post('/admin/carreras', [CarreraController::class, 'store'])->name('admin.carreras.store')->middleware('web');

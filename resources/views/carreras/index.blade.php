@@ -1,14 +1,14 @@
 @extends('adminlte::page')
 
-@section('title', 'Lista de Carrera')
+@section('title', 'Lista de Especialiadades')
 @section('preloader')
     <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
-    <h4 class="mt-4 text-dark">Cargando Lista de Carreras..</h4>
+    <h4 class="mt-4 text-dark">Cargando Lista de Especialidades..</h4>
 @stop
 
 
 @section('content_header')
-    <center><h1>Lista de carreras</h1></center>
+    <center><h1>Lista de Especialidades</h1></center>
 @stop
 
 @section('content')
@@ -23,11 +23,11 @@
         
             <tr>
                 <th>ID</th>
-                <th>Codigo Carrera</th>
-                <th>Nombre carrera</th>
+                <th>Codigo Especialidad</th>
+                <th>Nombre Especialidad</th>
                 <th>Titulo</th>
-                <th> Duracion por Titulo</th>
-                <th> Descripcion</th>
+                <th>Duracion por Titulo</th>
+                <th>Descripcion</th>
             </tr>
         
         <br>
@@ -46,7 +46,7 @@
                 @endforeach
             </tbody>
                     <div class="botones">
-                    <a href="{{ route('carreras.create') }}" class="btn btn-primary ml-2"> Agregar Carrera</a>
+                    <a href="{{ route('carreras.create') }}" class="btn btn-primary ml-2"> Agregar</a>
                     <a href="{{ route('carreras.edit', $carrera->id) }}" class="btn btn-warning ml-2">Editar</a>
                     <form action="{{ route('carreras.destroy', $carrera->id) }}" method="POST" class="d-inline">
                         @csrf
@@ -56,7 +56,7 @@
 
                     </div>
                         <div id="buscar" style="display: flex; align-items: center; margin-top:-7%" class=" ml-4">
-                        <x-adminlte-input name="iSearch" label="Busqueda por codigo o Nombre de Carrera" placeholder="busqueda" igroup-size="md-8">
+                        <x-adminlte-input name="iSearch" label="Busqueda por codigo o Nombre de Especialidad" placeholder="busqueda" igroup-size="md-8">
                             <x-slot name="appendSlot">
                                 <x-adminlte-button theme="outline-danger" label="buscar"/>
                             </x-slot>

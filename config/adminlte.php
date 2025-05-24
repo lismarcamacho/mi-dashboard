@@ -356,8 +356,14 @@ return [
             'label' => 4,
             'label_color' => 'success',
         ],
-        ['header' => 'CONFIGURACIÓN DE CUENTA'],
+    //    ['header' => 'CONFIGURACIÓN DE CUENTA'],
         [
+
+            'text' => 'Perfil de usuario',
+            'icon' => 'fas fa-fw fa-user',
+            'url' => '#',
+            'submenu' => [
+                 [
             'text' => 'Perfil',
             'url' => 'admin/profile',
             'icon' => 'fas fa-fw fa-user',
@@ -365,76 +371,79 @@ return [
         [
             'text' => 'Cambiar clave',
             'url'  => 'admin/password',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-fw fa-lock'],
+               
+            ],
         ],
+  //      ['header' => 'PNF: CARRERAS'],
+  //      [
+  //          'text' => 'Lista de Carreras',
+  //          'route' => 'carreras.index',
+  //          'icon' => 'far fa-fw fa-file',
+  //      ],
+  //      [
+  //          'text' => 'Agregar Carrera',
+  //          'url' => 'admin/carreras/create',
+  //          'icon' => 'fas fa-fw fa-file',
+  //      ],
 
-
-        ['header' => 'ADMINISTRACIÓN DE USUARIOS'],
-        [
-            'text' => 'Lista de Usuarios',
-            'url' => 'users/list-users',
-            'icon' => 'far fa-fw fa-file',
-            
-        ],
-        [
-            'text' => 'Agregar Usuario',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-file',
-        ],
+  
                 [
-            'text' => 'Agregar Rol',
-            'url' => 'admin/settings',
+            'text' => 'Gestión de Programas',
             'icon' => 'fas fa-fw fa-file',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Lista de Programas',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/programas/create',
+
+                ],
+                [
+                    'text' => 'Agregar Programa',
+                    'url' => 'admin/programas/create',
+                ],
+               
+            ],
         ],
-        ['header' => 'PNF: CARRERAS'],
-        [
-            'text' => 'Lista de Carreras',
-            'route' => 'carreras.index',
-            'icon' => 'far fa-fw fa-file',
-        ],
-        [
-            'text' => 'Agregar Carrera',
-            'url' => 'admin/carreras/create',
+
+                [
+            'text' => 'Gestión Especialidades',
             'icon' => 'fas fa-fw fa-file',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Lista de Especialidades',
+                   'route' => 'carreras.index',
+                ],
+                [
+                    'text' => 'Agregar Especialidad',
+                    'url' => 'admin/carreras/create',
+                ],
+               
+            ],
         ],
              
-        ['header' => 'OTRAS CONFIGURACIONES'],
+        //['header' => 'ADMINISTRACIÓN DE USUARIOS'],
         [
-            'text' => 'Multinivel',
-            'icon' => 'fas fa-fw fa-share',
+            'text' => 'Gestión de Usuarios',
+            'icon' => 'fas fa-fw fa-user',
+            'url' => '#',
             'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
+                 [
+                    'text' => 'Lista de Usuario',
+                    'url' => 'users/list',
                 ],
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
+                    'text' => 'Agregar Usuario',
+                    'url' => 'users/add',
                 ],
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
+                    'text' => 'Agregar Rol',
+                    'url' => 'rol/add',
+                  
                 ],
+               
             ],
         ],
         ['header' => 'MENU 2'],

@@ -1,19 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'Crear Carrera')
+@section('title', 'Registrar Especialidad')
 
 @section('preloader')
     <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
-    <h4 class="mt-4 text-dark">Cargando Formulario Nueva Carrera..</h4>
+    <h4 class="mt-4 text-dark">Cargando Formulario Nueva Especialidad..</h4>
 @stop
 
 @section('content_header')
-    <center><h1>Agregar Nueva Carrera</h1></center>
+    <center><h1>Agregar Especialidad</h1></center>
 @stop
 
 @section('content')
 
-    <p> Ingrese la información de la Carrera</p>
+    <p> Ingrese la información de la Especialidad</p>
 
 {{-- El resto de tu contenido de la vista --}}
     <form action="{{ route('carreras.store') }}" method="POST">
@@ -22,7 +22,7 @@
 
 
         {{-- With prepend slot --}}
-        <x-adminlte-input  class="col-md-6" name="codigo_carrera" label="Codigo Carrera" placeholder="codigo carrera" label-class="text-lightblue" value="{{old('codigo_carrera')}}">
+        <x-adminlte-input  class="col-md-6" name="codigo_carrera" label="Codigo Especialidad" placeholder="codigo carrera" label-class="text-lightblue" value="{{old('codigo_carrera')}}">
             <x-slot name="prependSlot">
                 <div class="input-group-text">
                     <i class=" text-darkblue"></i>
@@ -31,7 +31,7 @@
         </x-adminlte-input>
 
 
-        <x-adminlte-input  class="col-md-6" name="nombre_carrera" label="Nombre Carrera" placeholder="nombre carrera" label-class="text-lightblue" value="{{old('nombre_carrera')}}">
+        <x-adminlte-input  class="col-md-6" name="nombre_carrera" label="Nombre Especialidad" placeholder="nombre carrera" label-class="text-lightblue" value="{{old('nombre_carrera')}}">
             <x-slot name="prependSlot">
                 <div class="input-group-text">
                     <i class=" text-darkblue"></i>  
@@ -46,7 +46,7 @@
             <option>ASISTENTE CONTABLE</option>
             <option selected>TSU EN CONTADURIA PUBLICA </option>
             <option selected>LICENCIADO EN CONTADURIA PUBLICA</option>
-
+            <option selected>INGENIERO EN ELECTRICIDAD</option>
         </x-adminlte-select>
 
         </div>
@@ -74,7 +74,7 @@
 
       
 
-        <button type="submit" class="btn btn-primary">Guardar Carrera</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
         <a href="{{ route('carreras.index') }}" class="btn btn-secondary">Cancelar</a>
 
 
