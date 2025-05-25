@@ -407,6 +407,84 @@ return [
             ],
         ],
 
+                        [
+            'text' => 'Gestión de Areas administrativas',
+            'icon' => 'fas fa-fw fa-file',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Lista',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/areasadmin/create',
+
+                ],
+                [
+                    'text' => 'Agregar Area',
+                    'url' => 'admin/areasadmin/create',
+                ],
+
+               
+            ],
+        ],
+
+        [
+            'text' => 'Gestión de mallas',
+            'icon' => 'fas fa-fw fa-file',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Lista',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/mallas/create',
+
+                ],
+                [
+                    'text' => 'Agregar ',
+                    'url' => 'admin/malla/create',
+                ],
+
+               
+            ],
+        ],
+
+        [
+            'text' => 'Gestión de Trayectos',
+            'icon' => 'fas fa-fw fa-file',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Lista',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/trayectos/create',
+
+                ],
+                [
+                    'text' => 'Agregar ',
+                    'url' => 'admin/trayectos/create',
+                ],
+               
+            ],
+        ],
+
+                                        [
+            'text' => 'Gestión de Fases',
+            'icon' => 'fas fa-fw fa-file',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Lista',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/fases/create',
+
+                ],
+                [
+                    'text' => 'Agregar ',
+                    'url' => 'admin/fases/create',
+                ],
+               
+            ],
+        ],
+
                 [
             'text' => 'Gestión Especialidades',
             'icon' => 'fas fa-fw fa-file',

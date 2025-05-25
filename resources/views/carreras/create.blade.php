@@ -26,6 +26,9 @@
             <x-slot name="prependSlot">
                 <div class="input-group-text">
                     <i class=" text-darkblue"></i>
+                 <!-- @ error('codigo_carrera')
+                    <div class="error">{ { $message }}</div>
+                  @ enderror -->
                 </div>
             </x-slot>
         </x-adminlte-input>
@@ -34,7 +37,10 @@
         <x-adminlte-input  class="col-md-6" name="nombre_carrera" label="Nombre Especialidad" placeholder="nombre carrera" label-class="text-lightblue" value="{{old('nombre_carrera')}}">
             <x-slot name="prependSlot">
                 <div class="input-group-text">
-                    <i class=" text-darkblue"></i>  
+                    <i class=" text-darkblue"></i> 
+                 <!-- @ error('nombre_carrera')
+                 <div class="error">{ { $message }}</div> //las dos llaves que estan abriendo deben estar juntas
+                  @ enderror -->
                 </div>
             </x-slot>
         </x-adminlte-input>
@@ -48,14 +54,19 @@
             <option selected>LICENCIADO EN CONTADURIA PUBLICA</option>
             <option selected>INGENIERO EN ELECTRICIDAD</option>
         </x-adminlte-select>
-
+            <!-- @ error('titulo')
+            <div class="error">{ { $message }}</div>
+        @ enderror-->
         </div>
         
-
+          <!-- EL metodo old permite mantener los datos cuando se recarga el formulario por errores del usuario cuando se valida el formulario -->
         <x-adminlte-input  class="col-md-6" name="duracion_x_titulo" label="Duracion por Titulo" placeholder="Duracion por Titulo" label-class="text-lightblue" value="{{old('duracion_x_titulo')}}">
             <x-slot name="prependSlot">
                 <div class="input-group-text">
                     <i class=" text-darkblue"></i>
+                       <!-- @ error('duracion_x_titulo')
+                     <div class="error">{ { $message }}</div>
+                      @ enderror -->
                 </div>
             </x-slot>
         </x-adminlte-input>
@@ -64,6 +75,9 @@
             <x-slot name="prependSlot">
                 <div class="input-group-text">
                     <i class=" text-darkblue"></i>
+                       <!-- @ error('descripcion')
+                      <div class="error">{ { $message }}</div>
+                      @ enderror -->
                 </div>
             </x-slot>
         </x-adminlte-input>
