@@ -312,11 +312,25 @@ return [
             'topnav_right' => true,
         ],
 
+            [
+            'type' => 'navbar-notification',
+            'id' => 'my-notification',
+            'icon' => 'fas fa-bell',
+            'url' => 'notifications/show',
+            'topnav_right' => true,
+            'dropdown_mode' => true,
+            'dropdown_flabel' => 'All notifications',
+            'update_cfg' => [
+            'url' => 'notifications/get',
+            'period' => 30,
+            ],
+        ],
+
         [
 
             'text'=>'link 1',
             'url'=>'#', // puede ir route tambien
-            'topnav_user'=>true
+            'topnav_user'=>true,
         ],
 
         
@@ -324,9 +338,17 @@ return [
 
             'text'=>'link 2',
             'url'=>'#', // puede ir route tambien
-            'topnav'=>true
+            'topnav'=>true,
         ],
-
+        [
+            'type' => 'darkmode-widget',
+            'topnav_right' => true,     // Or "topnav => true" to place on the left.
+        ],
+        [
+        'type' => 'sidebar-menu-search',
+        'text' => 'Buscar en meu',             // Placeholder for the underlying input.
+        'id' => 'sidebarMenuSearch'     // ID attribute for the underlying input (optional).
+        ],
         [
 
             'text'=>'Dashboard',

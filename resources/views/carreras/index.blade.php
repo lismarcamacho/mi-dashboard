@@ -84,6 +84,17 @@
 @section('css')
     {{-- Tus estilos CSS opcionales --}}
         <style>
+
+
+/* Estilos para el tema oscuro */
+        body.dark-theme .element.style,
+        [data-theme="dark"] .element.style {
+            color: white;
+            background-color: #333; /* Un gris oscuro */
+            border-color: #555;
+        }
+
+
         .botones {
 
             margin-left: 70%;

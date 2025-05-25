@@ -20,8 +20,21 @@ Route::middleware([
     })->name('dashboard');
     
 });
+/*
+|  puede definir una ruta y un controlador para capturar
+| las palabras clave enviadas en el navvar superior, como se muestra a continuación:
+*/
+Route::match(
+    ['get', 'post'],
+    '/navbar/search',
+    'SearchController@showNavbarSearchResults'
+);
 
-
+/* ruta a Controlador de notificaiones */
+Route::get(
+    'notifications/get',
+    [App\Http\Controllers\NotificationsController::class, 'getNotificationsData']
+)->name('notifications.get');
 
 // routes/web.php
 

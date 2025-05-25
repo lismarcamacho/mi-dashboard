@@ -16,6 +16,9 @@
     <p> Ingrese la información de la Especialidad</p>
 
 {{-- El resto de tu contenido de la vista --}}
+
+<div class="card">
+    <div class="card-body">
     <form action="{{ route('carreras.store') }}" method="POST">
         @csrf
 
@@ -95,6 +98,10 @@
 
         
     </form>
+
+    </div>
+</div>
+
 @stop
 
 @section('css')
