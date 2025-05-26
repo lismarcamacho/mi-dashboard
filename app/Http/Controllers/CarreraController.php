@@ -18,7 +18,7 @@ class CarreraController extends Controller
         $carreras = Carrera::all();
 
         // Or, if you want to paginate the results:
-        $carreras = Carrera::paginate(15); // Show 10 carreras per page
+        //$carreras = Carrera::paginate(15); // Show 10 carreras per page
         // Fetch all carreras from the database
 
         return view('carreras.index', compact('carreras'));
