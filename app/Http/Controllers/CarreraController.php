@@ -47,7 +47,7 @@ public function store(Request $request)
 {
     $validacion= $request->validate([
 
-        'codigo_carrera'=>'required|string|unique:Carreras,codigo_carrera|min:5',
+        'codigo_carrera'=>'required|string|unique:Carreras,codigo_carrera|min:5|max:15',
         'nombre_carrera' => 'required|string|unique:Carreras,nombre_carrera||max:105',
         'titulo' => 'required|string|max:105',
         'duracion_x_titulo' => 'required|string|max:75',
@@ -69,11 +69,13 @@ public function store(Request $request)
       //  return back();
 
 
-    return redirect()->route('carreras.index')->with('success', 'Carrera creada exitosamente');
-
+   return redirect()->route('carreras.index')->with('success', 'Especialidad creada exitosamente');
    // return $request; 
     /**SE PUEDE DESHABILITAR EL RESTO DEL CODIGO DE ESTE METODO STORE Y 
     SOLO CON ESTE RETURN SABEMOS QUE SE ESTAN PASANDO TODOS LOS CAMPOS*********** */
+
+    // La funcion back retrocede al formulario anterior para enviar la notificacion de registro exitoso
+    //return back()->with('message','ok');
 }
 
 

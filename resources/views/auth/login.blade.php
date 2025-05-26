@@ -21,9 +21,14 @@
             </div>
 
             <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
+                <x-label for="password" value="{{ __('Clave') }}" />
                 <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
-            </div>
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                        <button type="button" id="togglePasswordButton" class="focus:outline-none">
+                        <i class="fa fa-eye text-gray-600 cursor-pointer"></i>
+                        <span class="sr-only" id="showPasswordLabel">Mostrar contraseña</span>
+                        </button>
+                    </div>
 
             <div class="block mt-4">
                 <label for="remember_me" class="flex items-center">
@@ -46,3 +51,6 @@
         </form>
     </x-authentication-card>
 </x-guest-layout>
+
+
+

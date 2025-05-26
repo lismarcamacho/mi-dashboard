@@ -15,9 +15,25 @@
 
     <p> Ingrese la información de la Especialidad</p>
 
+    @php // ESTE CODIGO ES OTRA MANERA DE ENVIAR LA NOTIFICACION AL USUARIO PERO SE QUEDA EN EL FORMULARIO
+        if (session()){
+            if (session('message')==('ok')) {
+                # code...
+                echo '<x-adminlte-alert class="bg-teal text-uppercase" icon="fa fa-lg fa-thumbs-up" title="Done" dismissable>
+                Especialidad Creada exitosamente!
+                </x-adminlte-alert>';
+            }
+
+        }
+
+    @endphp
+
 {{-- El resto de tu contenido de la vista --}}
 
 <div class="card">
+
+
+
     <div class="card-body">
     <form action="{{ route('carreras.store') }}" method="POST">
         @csrf
