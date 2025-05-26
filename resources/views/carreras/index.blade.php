@@ -55,12 +55,18 @@
             $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
                    <i class="fa fa-lg fa-fw fa-eye"></i>
                </button>';
+            
+               $config=[
+                'language'=>[
+                    'url'=>'//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json',
+                ]
 
+            ];
 
         @endphp
 
         {{-- Minimal example / fill data using the component slot --}}
-        <x-adminlte-datatable id="table1" :heads="$heads">
+        <x-adminlte-datatable id="table1" :heads="$heads" :config="$config">
                 @foreach ($carreras as $carrera)
                     <tr>
                         <td>{{ $carrera->id }}</td>
