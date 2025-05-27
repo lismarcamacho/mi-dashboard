@@ -4,46 +4,39 @@
 
 @section('preloader')
     <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
-    <h4 class="mt-4 text-dark">Cargando Formulario Nueva Especialidad..</h4>
+    <h4 class="mt-4 text-dark">Cargando Formulario Editar Especialidad..</h4>
 @stop
 
 @section('content_header')
     <center>
-        <h1>Agregar Especialidad</h1>
+        <h1>Editar Especialidad</h1>
     </center>
 @stop
 
 @section('content')
 
-    <p> Ingrese la información de la Especialidad</p>
+    <p> Modifique la información de la Especialidad</p>
 
-    <!--@ php// ESTE CODIGO ES OTRA MANERA DE ENVIAR LA NOTIFICACION AL USUARIO PERO SE QUEDA EN EL FORMULARIO
-        if (session()) {
-            if (session('message') == 'ok') {
-                # code...
-                echo '<x-adminlte-alert class="bg-teal text-uppercase" icon="fa fa-lg fa-thumbs-up" title="Done" dismissable>
-                Especialidad Creada exitosamente!
-                </x-adminlte-alert>';
-            }
-        }
-
-    @ endphp -->
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
 
     {{-- El resto de tu contenido de la vista --}}
 
     <div class="card">
 
 
-
         <div class="card-body">
-            <form action="{{ route('carreras.store') }}" method="POST">
+            <form action="{{ route('carreras.update', $carrera) }}" method="POST">
                 @csrf
 
+
+                @method('PUT')
 
 
                 {{-- With prepend slot --}}
                 <x-adminlte-input class="col-md-6" name="codigo_carrera" label="Codigo Especialidad"
-                    placeholder="codigo carrera" label-class="text-lightblue" value="{{ old('codigo_carrera') }}">
+                    label-class="text-lightblue" value="{{$carrera->codigo_carrera}}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
@@ -56,7 +49,7 @@
 
 
                 <x-adminlte-input class="col-md-6" name="nombre_carrera" label="Nombre Especialidad"
-                    placeholder="nombre carrera" label-class="text-lightblue" value="{{ old('nombre_carrera') }}">
+                     label-class="text-lightblue" value="{{$carrera->nombre_carrera}}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
@@ -66,15 +59,16 @@
                         </div>
                     </x-slot>
                 </x-adminlte-input>
-
+                
 
                 <div class="row">
 
                     <x-adminlte-select name="titulo" label="Titulo a obtener:" fgroup-class="col-md-6">
-                        <option>ASISTENTE CONTABLE</option>
-                        <option selected>TSU EN CONTADURIA PUBLICA </option>
-                        <option selected>LICENCIADO EN CONTADURIA PUBLICA</option>
-                        <option selected>INGENIERO EN ELECTRICIDAD</option>
+                        <option value="{{$carrera->titulo}}"></option>
+                        <option value="Asistente Contable">ASISTENTE CONTABLE</option>
+                        <option value="Tsu en Contaduria Publica">TSU EN CONTADURIA PUBLICA </option>
+                        <option value="Licenciado en Contaduria Publica">LICENCIADO EN CONTADURIA PUBLICA</option>
+                        <option value="Ingeniero en Electricidad">INGENIERO EN ELECTRICIDAD</option>
                     </x-adminlte-select>
                     <!-- @ error('titulo')
                 <div class="error">{ { $message }}</div>
@@ -83,7 +77,7 @@
 
                 <!-- EL metodo old permite mantener los datos cuando se recarga el formulario por errores del usuario cuando se valida el formulario -->
                 <x-adminlte-input class="col-md-6" name="duracion_x_titulo" label="Duracion por Titulo"
-                    placeholder="Duracion por Titulo" label-class="text-lightblue" value="{{ old('duracion_x_titulo') }}">
+                     label-class="text-lightblue" value="{{$carrera->duracion_x_titulo}}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
@@ -94,8 +88,8 @@
                     </x-slot>
                 </x-adminlte-input>
 
-                <x-adminlte-input class="col-md-6" name="descripcion" label="Descripcion" placeholder="Descripcion"
-                    label-class="text-lightblue" value="{{ old('descripcion') }}">
+                <x-adminlte-input class="col-md-6" name="descripcion" label="Descripcion" 
+                    label-class="text-lightblue" value="{{$carrera->descripcion}}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
@@ -110,9 +104,7 @@
 
 
 
-
-
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="submit" class="btn btn-primary">Actualizar</button>
                 <a href="{{ route('carreras.index') }}" class="btn btn-secondary">Cancelar</a>
 
 
@@ -127,10 +119,4 @@
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
-@stop
-
-@section('js')
-    <script>
- 
-    </script>
 @stop

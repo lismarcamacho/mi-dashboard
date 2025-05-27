@@ -1,4 +1,4 @@
-@extends('adminlte::auth.passwords.reset')
+<!--@ extends('adminlte::auth.passwords.reset') -->
 
 <!-- PENDIENTE POR QUITAR-->
 <x-guest-layout>

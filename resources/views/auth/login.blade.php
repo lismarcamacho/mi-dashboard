@@ -26,7 +26,7 @@
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                         <button type="button" id="togglePasswordButton" class="focus:outline-none">
                         <i class="fa fa-eye text-gray-600 cursor-pointer"></i>
-                        <span class="sr-only" id="showPasswordLabel">Mostrar contraseña</span>
+ 
                         </button>
                     </div>
 
@@ -36,6 +36,7 @@
                     <span class="ms-2 text-sm text-gray-600">{{ __('Recuerdame') }}</span>
                 </label>
             </div>
+
 
             <div class="flex items-center justify-end mt-4">
                 @if (Route::has('password.request'))

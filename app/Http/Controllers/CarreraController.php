@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Carrera;
-
+use GuzzleHttp\Client;
 use Illuminate\Validation\Rules\Can;
 
 class CarreraController extends Controller
@@ -19,6 +19,7 @@ class CarreraController extends Controller
 
         // Or, if you want to paginate the results:
         //$carreras = Carrera::paginate(15); // Show 10 carreras per page
+        
         // Fetch all carreras from the database
 
         return view('carreras.index', compact('carreras'));
@@ -48,7 +49,7 @@ public function store(Request $request)
     $validacion= $request->validate([
 
         'codigo_carrera'=>'required|string|unique:Carreras,codigo_carrera|min:5|max:15',
-        'nombre_carrera' => 'required|string|unique:Carreras,nombre_carrera||max:105',
+        'nombre_carrera' => 'required|string|unique:Carreras,nombre_carrera|max:105',
         'titulo' => 'required|string|max:105',
         'duracion_x_titulo' => 'required|string|max:75',
         'descripcion' => 'required|string|max:255',
@@ -64,18 +65,16 @@ public function store(Request $request)
       $carrera->descripcion = $request->input('descripcion');
       $carrera->save();
         //dd('Guardado intentado');
-        //return session()->flash('success', '¡Formulario guardado exitosamente!');
+        //return session()->flash('success', 'Especialidad creada exitosamente');
 
       //  return back();
-
-
-   return redirect()->route('carreras.index')->with('success', 'Especialidad creada exitosamente');
+      return redirect()->route('carreras.index')->with('success', 'Especialidad creada exitosamente');
    // return $request; 
     /**SE PUEDE DESHABILITAR EL RESTO DEL CODIGO DE ESTE METODO STORE Y 
     SOLO CON ESTE RETURN SABEMOS QUE SE ESTAN PASANDO TODOS LOS CAMPOS*********** */
 
     // La funcion back retrocede al formulario anterior para enviar la notificacion de registro exitoso
-    //return back()->with('message','ok');
+   // return back()->with('message','ok');
 }
 
 
@@ -95,6 +94,10 @@ public function store(Request $request)
     public function edit(string $id)
     {
         //
+        $carrera = Carrera::find($id);
+        //return $carrera; // comprobando que el registro se obtiene correctamente
+        return view('carreras.edit', compact('carrera'));
+        //return ($id);  Comprobamos que el id se obtiene correctamente
     }
 
     /**
@@ -110,6 +113,14 @@ public function store(Request $request)
      */
     public function destroy(string $id)
     {
-        //
+        
+        // ESTE RETURN INDICA QUE EL METODO DESTROY ESTA FUNCIONANDO CORECTAMENTE
+       // return ($id);
+
+       $carrera= Carrera::find($id);
+       $carrera->delete();
+       //return back();
+       
+    return redirect()->route('carreras.index')->with('success', 'Especialidad eliminada exitosamente');
     }
 }

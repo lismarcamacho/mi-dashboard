@@ -17,6 +17,17 @@
         <!-- Styles -->
         @livewireStyles
 
+                {{-- Ejemplo de inclusión de CSS en el <head> --}}
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.dataTables.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/buttons.dataTables.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/responsive.dataTables.min.css') }}">
+
+        {{-- Ejemplo de inclusión de JavaScript antes del </body> --}}
+        <script type="text/javascript" src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
+
+
     </head>
     <body class="font-sans antialiased">
         <x-banner />

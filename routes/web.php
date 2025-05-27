@@ -3,6 +3,7 @@
 use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PerfilController;
+use App\Actions\Fortify\ResetUserPassword;
 use App\Models\Carrera;
 use Illuminate\Support\Facades\Route;
 
@@ -77,9 +78,13 @@ Route::patch('/users/{user}', [UsuarioController::class, 'update'])->name('users
 // Ruta para eliminar un usuario (asumiendo un método 'destroy')
 Route::delete('/users/{user}', [UsuarioController::class, 'destroy'])->name('users.destroy');
 
+
+
 }); // **************************************FIN MIDDLEWARE***************************
 
 
+
+Route::post('password/reset', [ResetUserPassword::class, 'reset'])->name('password.update');
 // PENDIENTE POR RENOMBRAR TODAS LAS RUTAS, EL MODELO, LA MIGRACION A ESPECIALIDAD
 
 Route::resource('/carreras', CarreraController::class)->names('carreras');
