@@ -114,7 +114,10 @@ class CarreraController extends Controller
         $carrera->duracion_x_titulo = $request->input('duracion_x_titulo');
         $carrera->descripcion = $request->input('descripcion');
         $carrera->save();
-        return redirect()->route('carreras.index')->width('success','Actualizado Correctamente');
+       // return redirect()->route('carreras.index')->width('success','Actualizado Correctamente');
+        //return session()->flash('success', 'Especialidad Actualizada exitosamente');
+        return back()->with('success', 'Especialidad Actualizada exitosamente');
+        //return 'Actualización Exitosa';
     }
 
     /**

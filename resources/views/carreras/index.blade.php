@@ -63,7 +63,9 @@
         @endphp
 
         {{-- Minimal example / fill data using the component slot :config="$config" --}}
-        <x-adminlte-datatable id="table1" :heads="$heads">
+        <x-adminlte-datatable id="table5" :heads="$heads"  :config="$config" theme="light" striped hoverable>
+
+        
             @foreach ($carreras as $carrera)
                 <tr>
                     <td>{{ $carrera->id }}</td>
@@ -72,7 +74,8 @@
                     <td>{{ $carrera->titulo }}</td>
                     <td>{{ $carrera->duracion_x_titulo }}</td>
                     <td>{{ $carrera->descripcion }}</td>
-                    <td><a href="{{route('carreras.edit' , $carrera)}}"   class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
+                    <td><a href="{{ route('carreras.edit', $carrera) }}"
+                            class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </a>
                         <form style="display: inline" action="{{ route('carreras.destroy', $carrera) }}" method="POST"
@@ -92,14 +95,26 @@
 
 
 
-
-
+    </div>
+{{-- Custom --}}
+<x-adminlte-modal id="modalCustom" title="Instrucciones" size="lg" theme="teal"
+    icon="fas fa-bell" v-centered static-backdrop scrollable>
+    <div style="height:800px;"><h2>Instrucciones</h2>
+        <div style="height:400px;">
+            <p> - El boton lapiz lleva a otra interfaz llamada editar especialidad<br>
+                - El boton papelera elimina, primero pregunta si desea eliminar
+                 el registro, luego lo elimina y envia una notifiacion en la <b>interfaz</b>
+                 lista de especialidades
+                 de que el registro ha sido eliminado</p></div>
     </div>
 
-    {{-- Minimal --}}
-    <x-adminlte-modal id="modalMin" title="Minimal" />
-    {{-- Example button to open modal --}}
-    <x-adminlte-button label="Open Modal" data-toggle="modal" data-target="#modalMin" />
+    <x-slot name="footerSlot">
+        <x-adminlte-button class="mr-auto" theme="success" label="Accept"/>
+        <x-adminlte-button theme="danger" label="Dismiss" data-dismiss="modal"/>
+    </x-slot>
+</x-adminlte-modal>
+{{-- Example button to open modal --}}
+<x-adminlte-button label="Leer Instructivo" data-toggle="modal" data-target="#modalCustom" class="bg-teal"/>
 
 @endsection
 
@@ -139,16 +154,17 @@
         // cuando el domunento este listo dispara la funcion
         $(document).ready(function() {
 
-               if (!$.fn.dataTable.isDataTable('#table1')) {
+               if (!$.fn.dataTable.isDataTable('#table5')) {
                     console.log('Ruta del idioma:', 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'); // Ajusta la ruta
 
-                    $('#table1').DataTable({
+                    $('#table5').DataTable({
                       // Tus opciones de DataTables aquí
                         language: {
                             url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json' // Asegúrate de que esta ruta sea correcta
                         }
                     });
                 }
+
 
 
             $('.formEliminar').submit(function(e) { // cuando se activa el submit se activa otra funcion
@@ -170,6 +186,38 @@
 
             })
 
+
+            /*$(document).on('submit', '.formEliminar', function(e) { // Usar .on() para delegación
+                e.preventDefault();
+                var form = $(this);
+                $.confirm({
+                    title: 'Estas Seguro?',
+                    text: "No podras Revegjgjgrtir esta acción, Se eliminara un registro",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, borrarlo!',
+                    success: function() {
+                        form.submit();
+                    },
+                    cancel: function() {
+                        // No hacer nada si se cancela
+                    }
+                })
+            })*/
+
+
+
+
+
+
         })
     </script>
+@stop
+
+@section('js')
+
+    <script></script>
+
 @stop

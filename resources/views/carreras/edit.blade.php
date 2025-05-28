@@ -42,8 +42,8 @@
                             <i class=" text-darkblue"></i>
                             <!-- @ error('codigo_carrera')
                                     <div class="error">{ { $message }}</div>
-                                    @ enderror
-                                    </div>-->
+                                    @ enderror -->
+                        </div>
                     </x-slot>
                 </x-adminlte-input>
 
@@ -123,12 +123,12 @@
     <link rel="stylesheet" href="/css/admin_custom.css">
 @stop
 
-<!-- @ section('js')
+<@section('js')
 
-    @ if (session('success'))
+    @if (session('success'))
      <script>
          $(document).ready(function() {
-             let mensaje = "{ { session ('success') }}";
+             let mensaje = "{{ session ('success') }}";
              Swal.fire({
                  title: 'Resultado',
                  text: mensaje,
@@ -136,8 +136,8 @@
              })
          })
      </script>
-    @ endif 
-@ stop -->
+    @endif 
+@stop 
 
 
 <@section('js')
