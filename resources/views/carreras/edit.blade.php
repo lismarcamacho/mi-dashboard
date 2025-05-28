@@ -17,9 +17,9 @@
 
     <p> Modifique la información de la Especialidad</p>
 
-        @if (session('success'))
+    @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+    @endif
 
     {{-- El resto de tu contenido de la vista --}}
 
@@ -27,84 +27,86 @@
 
 
         <div class="card-body">
-            <form action="{{ route('carreras.update', $carrera) }}" method="POST">
-                @csrf
+            <form action="{{ route('carreras.update', $carrera) }}" method="POST" id=FormEdit>
+                @csrf <!-- NECESARIO PARA PODER HACER EL UPDATE -->
 
 
-                @method('PUT')
+                @method('PUT') <!--NECESARIO PARA PODER HACER EL UPDATE  -->
 
 
                 {{-- With prepend slot --}}
                 <x-adminlte-input class="col-md-6" name="codigo_carrera" label="Codigo Especialidad"
-                    label-class="text-lightblue" value="{{$carrera->codigo_carrera}}">
+                    label-class="text-lightblue" value="{{ $carrera->codigo_carrera }}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
                             <!-- @ error('codigo_carrera')
-                        <div class="error">{ { $message }}</div>
-                      @ enderror -->
-                        </div>
+                                    <div class="error">{ { $message }}</div>
+                                    @ enderror
+                                    </div>-->
                     </x-slot>
                 </x-adminlte-input>
 
 
                 <x-adminlte-input class="col-md-6" name="nombre_carrera" label="Nombre Especialidad"
-                     label-class="text-lightblue" value="{{$carrera->nombre_carrera}}">
+                    label-class="text-lightblue" value="{{ $carrera->nombre_carrera }}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
                             <!-- @ error('nombre_carrera')
-                     <div class="error">{ { $message }}</div> //las dos llaves que estan abriendo deben estar juntas
-                      @ enderror -->
+                                         <div class="error">{ { $message }}</div>
+                                          @ enderror -->
                         </div>
                     </x-slot>
                 </x-adminlte-input>
-                
 
-                <div class="row">
 
-                    <x-adminlte-select name="titulo" label="Titulo a obtener:" fgroup-class="col-md-6">
-                        <option value="{{$carrera->titulo}}"></option>
-                        <option value="Asistente Contable">ASISTENTE CONTABLE</option>
-                        <option value="Tsu en Contaduria Publica">TSU EN CONTADURIA PUBLICA </option>
-                        <option value="Licenciado en Contaduria Publica">LICENCIADO EN CONTADURIA PUBLICA</option>
-                        <option value="Ingeniero en Electricidad">INGENIERO EN ELECTRICIDAD</option>
-                    </x-adminlte-select>
-                    <!-- @ error('titulo')
-                <div class="error">{ { $message }}</div>
-            @ enderror-->
-                </div>
+
+
+                <x-adminlte-input class="col-md-6" name="titulo" label="Titulo" label-class="text-lightblue"
+                    value="{{ $carrera->titulo }}">
+                    <x-slot name="prependSlot">
+                        <div class="input-group-text">
+                            <i class=" text-darkblue"></i>
+                            <!-- @ error('titulo')
+                                                <div class="error">{ { $message }}</div>
+                                                @ enderror -->
+                        </div>
+                    </x-slot>
+                </x-adminlte-input>
+
+
 
                 <!-- EL metodo old permite mantener los datos cuando se recarga el formulario por errores del usuario cuando se valida el formulario -->
                 <x-adminlte-input class="col-md-6" name="duracion_x_titulo" label="Duracion por Titulo"
-                     label-class="text-lightblue" value="{{$carrera->duracion_x_titulo}}">
+                    label-class="text-lightblue" value="{{ $carrera->duracion_x_titulo }}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
                             <!-- @ error('duracion_x_titulo')
-                         <div class="error">{ { $message }}</div>
-                          @ enderror -->
-                        </div>
-                    </x-slot>
+                                                                 <div class="error">{ { $message }}</div>
+                                                                  @ enderror -->
+                            </div>
+                        </x-slot>
                 </x-adminlte-input>
 
-                <x-adminlte-input class="col-md-6" name="descripcion" label="Descripcion" 
-                    label-class="text-lightblue" value="{{$carrera->descripcion}}">
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text">
-                            <i class=" text-darkblue"></i>
-                            <!-- @ error('descripcion')
-                          <div class="error">{ { $message }}</div>
-                          @ enderror -->
-                        </div>
-                    </x-slot>
+                <x-adminlte-input class="col-md-6" name="descripcion" label="Descripcion" label-class="text-lightblue"
+                        value="{{ $carrera->descripcion }}">
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text">
+                                <i class=" text-darkblue"></i>
+                                <!-- @ error('descripcion')
+                                                                  <div class="error">{ { $message }}</div>
+                                                                  @ enderror -->
+                            </div>
+                        </x-slot>
                 </x-adminlte-input>
 
 
 
 
 
-                <button type="submit" class="btn btn-primary">Actualizar</button>
+                <button type="submit" class="btn btn-primary" id="Edit">Actualizar</button>
                 <a href="{{ route('carreras.index') }}" class="btn btn-secondary">Cancelar</a>
 
 
@@ -120,3 +122,30 @@
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
 @stop
+
+<!-- @ section('js')
+
+    @ if (session('success'))
+     <script>
+         $(document).ready(function() {
+             let mensaje = "{ { session ('success') }}";
+             Swal.fire({
+                 title: 'Resultado',
+                 text: mensaje,
+                 icon: 'success'
+             })
+         })
+     </script>
+    @ endif 
+@ stop -->
+
+
+<@section('js')
+    <script>
+        $(document).ready(function() {
+            console.log('¡jQuery se integró correctamente!');
+        })
+    </script>
+@stop 
+
+

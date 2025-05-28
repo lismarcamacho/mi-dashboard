@@ -26,7 +26,8 @@
         <script type="text/javascript" src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
-
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     </head>
     <body class="font-sans antialiased">
@@ -53,7 +54,7 @@
         @stack('modals')
 
         @livewireScripts
-             <script src="{{ mix('js/app.js') }}" defer></script> 
- 
+             <script src="{{ mix('js/app.js') }}" defer></script>  <!-- ESTA USANDO LARAVEL MIX-->
+       @yield('scripts') <!-- agregado 27/05/25-->
     </body>
 </html>
