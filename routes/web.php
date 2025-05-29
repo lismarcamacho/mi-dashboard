@@ -3,8 +3,10 @@
 use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\RoleController;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Models\Carrera;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,7 +33,7 @@ Route::match(
     'SearchController@showNavbarSearchResults'
 );
 
-/* ruta a Controlador de notificaiones */
+/* ruta a Controlador de notificaciones */
 Route::get(
     'notifications/get',
     [App\Http\Controllers\NotificationsController::class, 'getNotificationsData']
@@ -78,7 +80,7 @@ Route::patch('/users/{user}', [UsuarioController::class, 'update'])->name('users
 // Ruta para eliminar un usuario (asumiendo un método 'destroy')
 Route::delete('/users/{user}', [UsuarioController::class, 'destroy'])->name('users.destroy');
 
-
+Route::resource('admin/users/roles', RoleController::class);
 
 }); // **************************************FIN MIDDLEWARE***************************
 
@@ -92,7 +94,7 @@ Route::resource('/carreras', CarreraController::class)->names('carreras');
 
 Route::prefix('admin')->group(function () {
     Route::get('/carreras', [CarreraController::class, 'index'])->name('carreras.index');
-    Route::get('/carreras/create', [CarreraController::class, 'create'])->name('carreras.create');
+    Route::get('/carreras/create', [CarreraController::class, 'create'])->name('carreras.create'); // administra el formulario para crear una nueva especialidad
     Route::post('/carreras', [CarreraController::class, 'store'])->name('carreras.store');
     Route::get('/carreras/{carreras}', [CarreraController::class, 'show'])->name('carreras.show');
     Route::get('/carreras/{carrera}/edit', [CarreraController::class, 'edit'])->name('carreras.edit');

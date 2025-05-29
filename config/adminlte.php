@@ -535,11 +535,11 @@ return [
                     'url' => 'users/list',
                 ],
                 [
-                    'text' => 'Agregar Usuario',
-                    'url' => 'users/add',
+                    'text' => 'Roles',
+                    'url' => 'admin/users/roles',
                 ],
                 [
-                    'text' => 'Agregar Rol',
+                    'text' => 'Permisos',
                     'url' => 'rol/add',
                   
                 ],

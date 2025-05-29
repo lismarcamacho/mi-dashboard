@@ -25,8 +25,8 @@
                 <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                         <button type="button" id="togglePasswordButton" class="focus:outline-none">
-                        <i class="fa fa-eye text-gray-600 cursor-pointer"></i>
- 
+                        <!--<i class="fa fa-eye text-gray-600 cursor-pointer"></i>-->
+                        <i class="fa-solid fa-eye"></i>
                         </button>
                     </div>
 

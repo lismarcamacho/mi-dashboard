@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     eyeIcon.classList.add('fa-eye-slash');
                 }
                 if (showPasswordLabel) {
-                    showPasswordLabel.textContent = '{{ __('Ocultar contraseña') }}';
+                    showPasswordLabel.textContent = "{{ __('Ocultar contraseña') }}";
                 }
             } else {
                 passwordInput.type = 'password';
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     eyeIcon.classList.add('fa-eye');
                 }
                 if (showPasswordLabel) {
-                    showPasswordLabel.textContent = '{{ __('Mostrar contraseña') }}';
+                    showPasswordLabel.textContent = "{{ __('Mostrar contraseña') }}";
                 }
             }
         });

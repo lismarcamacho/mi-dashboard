@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+// Controlador para las notificaciones de al lado del usuario en la barra superior
 class NotificationsController extends Controller
 {
 // On a custom NotificationsController...
