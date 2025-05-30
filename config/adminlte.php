@@ -301,11 +301,14 @@ return [
     'menu' => [
         // Navbar items:
         [
-            'type' => 'navbar-search',
-            'text' => 'Busqueda',
-            'topnav_right' => true,
-            'search'=>true,
-            'method'=>'post'
+        'type' => 'navbar-search',
+        'text' => 'Busqueda',          // Placeholder for the underlying input.
+        'topnav_right' => true,      // Or "topnav => true" to place on the left.
+        'url' => 'navbar/search',    // The url used to submit the data ('#' by default).
+        'method' => 'post',          // 'get' or 'post' ('get' by default).
+        'input_name' => 'searchVal', // Name for the underlying input ('adminlteSearch' by default).
+        'id' => 'navbarSearch'       // ID attribute for the underlying input (optional).
+
         ],
         [
             'type' => 'fullscreen-widget',
@@ -346,7 +349,7 @@ return [
         ],
         [
         'type' => 'sidebar-menu-search',
-        'text' => 'Buscar en meu',             // Placeholder for the underlying input.
+        'text' => 'Buscar en Menu',             // Placeholder for the underlying input.
         'id' => 'sidebarMenuSearch'     // ID attribute for the underlying input (optional).
         ],
         [
@@ -531,16 +534,18 @@ return [
             'url' => '#',
             'submenu' => [
                  [
-                    'text' => 'Lista de Usuario',
+                    'text' => 'Lista de Usuarios',
                     'url' => 'users/list',
                 ],
                 [
                     'text' => 'Roles',
-                    'url' => 'admin/users/roles',
+                    //'url' => 'admin/users/roles',
+                    'route' => 'roles.index',
                 ],
                 [
                     'text' => 'Permisos',
-                    'url' => 'rol/add',
+                    'url' => 'admin/users/permisos',
+                    //'route' => 'permisos.index',
                   
                 ],
                

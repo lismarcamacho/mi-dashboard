@@ -3,13 +3,13 @@
 @section('title', 'Lista de Roles')
 @section('preloader')
     <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
-    <h4 class="mt-4 text-dark">Cargando Lista de Roles..</h4>
+    <h4 class="mt-4 text-dark">Cargando Lista de Permisos..</h4>
 @stop
 
 
 @section('content_header')
     <center>
-        <h1>Lista de Roles</h1>
+        <h1>Lista de Permisos</h1>
     </center>
 @stop
 
@@ -29,14 +29,15 @@
         @endif
         <!-- *************************************NO TOCAR***************************** -->
 
-
-        <div class="car-header" >
-            <x-adminlte-button label="Agrega un Nuevo Rol Aqui" theme="primary" icon="fas fa-key" data-toggle="modal"
-                data-target="#modalPurple"  />
-        </div>
         {{-- Setup data for datatables --}}
+  
+
+        <div class="car-header">
+            <x-adminlte-button label="Agrega un nuevo Permiso Aqui" theme="primary" icon="fas fa-key" data-toggle="modal"
+                data-target="#modalPurple" />
+        </div>
         @php
-            $heads = ['ID', 'Nombre Rol', ['label' => 'Acciones', 'no-export' => true, 'width' => 10]];
+            $heads = ['ID', 'Permisos', ['label' => 'Acciones', 'no-export' => true, 'width' => 10]];
 
             $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                 <i class="fa fa-lg fa-fw fa-pen"></i>
@@ -60,15 +61,15 @@
         <x-adminlte-datatable id="table5" :heads="$heads" :config="$config" theme="light" striped hoverable>
 
 
-            @foreach ($roles as $role)
+            @foreach ($permisos as $permiso)
                 <tr>
-                    <td>{{ $role->id }}</td>
-                    <td>{{ $role->name }}</td>
-                    <td><a href="{{ route('roles.edit', $role) }}" class="btn btn-xs btn-default text-primary mx-1 shadow"
+                    <td>{{ $permiso->id }}</td>
+                    <td>{{ $permiso->name }}</td>
+                    <td><a href="{{ route('permisos.edit', $permiso) }}" class="btn btn-xs btn-default text-primary mx-1 shadow"
                             title="Edit">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </a>
-                        <form style="display: inline" action="{{ route('roles.destroy', $role) }}" method="POST"
+                        <form style="display: inline" action="{{ route('permisos.destroy', $permiso) }}" method="POST"
                             class="formEliminar">
                             @csrf
                             @method('delete') {!! $btnDelete !!}
@@ -91,23 +92,23 @@
 
 
         {{-- ESTE MODAL QUEDA OCULTO --}}
-        <x-adminlte-modal id="modalPurple" title="Nuevo Rol" theme="primary" icon="fas fa-bolt" size='lg'
+        <x-adminlte-modal id="modalPurple" title="Nuevo Permiso" theme="primary" icon="fas fa-bolt" size='lg'
             disable-animations>
-            Ingrese el Rol
+            Ingrese el Permiso
             {{-- With label, invalid feedback disabled, and form group class --}}
 
 
-            <form action="{{ route('roles.store') }}" method="POST">
+            <form action="{{ route('permisos.store') }}" method="POST">
                 @csrf
                 <div class="row">
-                    <x-adminlte-input name="nombre" label="Nombre" placeholder="Aqui su Rol" fgroup-class="col-md-6"
+                    <x-adminlte-input name="nombre" label="Nombre" placeholder="Aqui su Permiso" fgroup-class="col-md-6"
                         disable-feedback />
 
                 </div>
 
                 {{--<x-slot name="footerSlot">--}}
                     <x-adminlte-button type="submit" class="mr-auto" theme="primary" icon="fas fa-key" label="Guardar" />
-                   {{--   <x-adminlte-button theme="danger" label="Cancelar" data-dismiss="modal" />--}}
+                 {{--   <x-adminlte-button theme="danger" label="Cancelar" data-dismiss="modal" /> --}}
                  {{--</x-slot>--}}
             </form>
 
@@ -124,10 +125,10 @@
         <div style="height:800px;">
             <h2>Instrucciones</h2>
             <div style="height:400px;">
-                <p> - El boton lapiz lleva a otra interfaz llamada editar Rol<br>
+                <p> - El boton lapiz lleva a otra interfaz llamada editar Permiso<br>
                     - El boton papelera elimina, primero pregunta si desea eliminar
                     el registro, luego lo elimina y envia una notifiacion en la <b>interfaz</b>
-                    lista de Roles
+                    lista de Permisos
                     de que el registro ha sido eliminado</p>
             </div>
         </div>
@@ -149,8 +150,6 @@
         /* Estilos para el tema oscuro */
 
 
-
-    
 
         .car-header {
 
@@ -219,5 +218,3 @@
         })
     </script>
 @stop
-
-

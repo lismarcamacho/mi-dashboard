@@ -4,7 +4,9 @@ use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermisoController;
 use App\Actions\Fortify\ResetUserPassword;
+use App\Http\Controllers\SearchController;
 use App\Models\Carrera;
 
 use Illuminate\Support\Facades\Route;
@@ -32,6 +34,8 @@ Route::match(
     '/navbar/search',
     'SearchController@showNavbarSearchResults'
 );
+Route::match(['get', 'post'], '/nav-bar/search', [SearchController::class, 'showNavBarSearchResults'])->name('nav-bar-search');
+
 
 /* ruta a Controlador de notificaciones */
 Route::get(
@@ -80,7 +84,10 @@ Route::patch('/users/{user}', [UsuarioController::class, 'update'])->name('users
 // Ruta para eliminar un usuario (asumiendo un método 'destroy')
 Route::delete('/users/{user}', [UsuarioController::class, 'destroy'])->name('users.destroy');
 
+Route::resource('/carreras', CarreraController::class)->names('carreras');
 Route::resource('admin/users/roles', RoleController::class);
+Route::resource('admin/users/permisos', PermisoController::class);
+
 
 }); // **************************************FIN MIDDLEWARE***************************
 
@@ -89,9 +96,10 @@ Route::resource('admin/users/roles', RoleController::class);
 Route::post('password/reset', [ResetUserPassword::class, 'reset'])->name('password.update');
 // PENDIENTE POR RENOMBRAR TODAS LAS RUTAS, EL MODELO, LA MIGRACION A ESPECIALIDAD
 
-Route::resource('/carreras', CarreraController::class)->names('carreras');
+
 //Route::get('/carrera/crear', [CarreraController::class, 'create'])->name('carrera.create');
 
+// PENDIENTE REVISAR BIEN 
 Route::prefix('admin')->group(function () {
     Route::get('/carreras', [CarreraController::class, 'index'])->name('carreras.index');
     Route::get('/carreras/create', [CarreraController::class, 'create'])->name('carreras.create'); // administra el formulario para crear una nueva especialidad

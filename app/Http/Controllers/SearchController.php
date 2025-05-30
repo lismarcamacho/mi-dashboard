@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+
 // ESTE CONTROLADOR SE USA EN EL NAVBAR (EN EL MENU NEGRO DE LA IZQUIERDA)
 class SearchController extends Controller
 {
