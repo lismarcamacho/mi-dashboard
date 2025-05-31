@@ -59,16 +59,28 @@ class RoleController extends Controller
     public function edit(string $id)
     {
         //
-        $role = Role::find($id);
-        //return $role;  COMPROBAMOS QUE EFECTIVAMENTE EL METODO EDIT ESTA OPTENIENDO DATOS DE LA BASE DE DATOS
+        //$role = Role::find($id);
+        $role = Role::with('permissions')->findOrFail($id); //  cargando el rol antes de que la utilices en la vista
+        //return $role;  COMPROBAMOS QUE EFECTIVAMENTE EL METODO EDIT ESTA OBTENIENDO DATOS DE LA BASE DE DATOS
+        $permisos = Permission::all();
+        // dd($role);
+        return view('users.rolePermiso', compact('role','permisos'));
+        // en campact se pasan las variables
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Role $role) // aqui se asignan los roles a los permisos
     {
         //
+        $permissions = $request->input('permissions', []); // Obtiene un array de los IDs de los permisos seleccionados
+
+        // El método sync() sincroniza las relaciones muchos a muchos.
+        // Eliminará los permisos existentes del rol y adjuntará los nuevos.
+        $role->permissions()->sync($permissions);
+
+        return redirect()->route('roles.index')->with('success', 'Permisos del rol actualizados correctamente.');
     }
 
     /**

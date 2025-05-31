@@ -6,6 +6,7 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermisoController;
 use App\Actions\Fortify\ResetUserPassword;
+use App\Http\Controllers\AsignarController;
 use App\Http\Controllers\SearchController;
 use App\Models\Carrera;
 
@@ -86,8 +87,12 @@ Route::delete('/users/{user}', [UsuarioController::class, 'destroy'])->name('use
 
 Route::resource('/carreras', CarreraController::class)->names('carreras');
 Route::resource('admin/users/roles', RoleController::class);
+//Route::resource('/roles', RoleController::class)->names('roles');;
 Route::resource('admin/users/permisos', PermisoController::class);
+Route::resource('roles', RoleController::class);
+Route::resource('/users', AsignarController::class)->names('asignar');
 
+Route::put('roles/{role}/permissions', [RoleController::class, 'update'])->name('roles.update');
 
 }); // **************************************FIN MIDDLEWARE***************************
 

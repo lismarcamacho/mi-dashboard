@@ -535,7 +535,7 @@ return [
             'submenu' => [
                  [
                     'text' => 'Lista de Usuarios',
-                    'url' => 'users/list',
+                    'route' => 'asignar.index',
                 ],
                 [
                     'text' => 'Roles',
