@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use Illuminate\Validation\Rules\Can;
 //use lluminate\Http\RedirectResponse;
 
+// Gestion de carreras (crear, leer, actualizar, eliminar carreras)
 class CarreraController extends Controller
 {
     /**
@@ -115,6 +116,7 @@ class CarreraController extends Controller
         $carrera->descripcion = $request->input('descripcion');
         $carrera->save();
        // return redirect()->route('carreras.index')->width('success','Actualizado Correctamente');
+       //
         //return session()->flash('success', 'Especialidad Actualizada exitosamente');
         return back()->with('success', 'Especialidad Actualizada exitosamente');
         //return 'Actualización Exitosa';

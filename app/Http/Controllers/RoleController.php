@@ -9,6 +9,8 @@ use Spatie\Permission\Models\Role as ModelsRole;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
+//  Gestión de los roles (crear, leer, actualizar, eliminar roles)
+
 class RoleController extends Controller
 {
     /**

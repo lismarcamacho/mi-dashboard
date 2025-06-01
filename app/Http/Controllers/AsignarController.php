@@ -1,10 +1,11 @@
 <?php
-// **************************************ESTE CONTROLADOR ES PARA ASIGNAR ROLES A USUARIOS**********************
 namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+
+ // Gestión de la asignación de roles a los usuarios.
 
 class AsignarController extends Controller
 {
@@ -54,17 +55,25 @@ class AsignarController extends Controller
         $user = User::with('roles')->findOrFail($id);
         $roles = Role::all();
         // dd($user);
-        return view('users.userRole',compact('user','roles'));
+       // return view('users.userRole',compact('user','roles'));
+        return view('users.userRole')->with(['user' => $user, 'roles' => $roles]);
+
 
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
         //
+        $roles = $request->input('roles', []);
+        $user->syncRoles($roles);
+
+        return redirect()->route('asignar.index')->with('success', 'Roles del usuario actualizados correctamente.');
     }
+
+    
 
     /**
      * Remove the specified resource from storage.

@@ -7,14 +7,14 @@
 @section('title', 'Perfil de Usuario'){{-- o el layout de AdminLTE que estés usando --}}
 
 @section('content_header')
-<h1>Perfil de Usuario</h1>
+<h1>Perfil de Usuario Autenticado</h1>
 @stop
 
 @section('content')
 <div class="container" style="margin-top: 1%; background-color: #fff; box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);
     margin-bottom: 1rem;">
-    <h3 tyle="margin-top: 10%; " >Perfil de Usuario Autenticado</h3>
-    <!-- <a href="{{ route('users.create') }}" class="btn btn-primary"></a>-->
+
+    <!-- <a href="{ { route('users.create') }}" class="btn btn-primary"></a>-->
             @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
@@ -35,11 +35,12 @@
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>
-                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Editar</a>
-                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    <a href="{{ route('profile.edit', $user->id) }}" class="btn btn-warning">Editar</a>
+                    <a href="{{ route('profile.index') }}" class="btn btn-secondary">Cancelar</a>
+                    <!-- <form action="{ { route('profile.destroy', $user->id) }}" method="POST" class="d-inline">
+                        @ csrf
+                        @ method('DELETE')
+                        <button type="submit" class="btn btn-danger">Eliminar</button> -->
                     </form>
                 </td>
                 <td>
@@ -53,49 +54,7 @@
 
 
 
-<div class="container" style="background-color: #fff; box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);
-    margin-bottom: 1rem;">
-    <h3>Lista de Usuarios Registrados</h3>
-    <a href="{{ route('users.create') }}" class="btn btn-primary" >Crear Nuevo</a>
-   
-            <!--<div class="alert alert-success"></div>-->
 
-    <table class="table">
-        <thead>
-              <!--@ foreach ($users as $user)-->
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Acciones</th>
-            </tr>
-              <!--@ endforeach-->
-
-        </thead>
-        <br>
-        <tbody>
-      
-            <tr>
-                <td>{{ $user->id }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>
-                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Editar</a>
-                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                    </form>
-                </td>
-                <td>
-                    
-                </td>
-            </tr>
-       
-        </tbody>
-    </table>
-    
-</div>
 @endsection
 
 <!--<div class="max-w-7xlw mx-auto sm:px-6 lg:px-8 space-y-6">

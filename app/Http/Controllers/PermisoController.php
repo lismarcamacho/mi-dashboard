@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 
+// Gestión de los permisos (crear, leer, actualizar, eliminar permisos)
 class PermisoController extends Controller
 {
     /**

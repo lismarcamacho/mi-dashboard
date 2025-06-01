@@ -390,7 +390,7 @@ return [
             'submenu' => [
                  [
             'text' => 'Perfil',
-            'url' => 'admin/profile',
+            'url' => '/profile',
             'icon' => 'fas fa-fw fa-user',
         ],
         [

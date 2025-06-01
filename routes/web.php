@@ -53,12 +53,18 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-Route::get('/admin/profile', [PerfilController::class, 'index'])->name('profile.index');
+
 
 Route::get('/admin/password', [PerfilController::class, 'showChangePasswordForm'])->name('profile.update-password-form');
 Route::post('/profile/cambiar-clave', [PerfilController::class, 'cambiarClave'])->name('profile.cambiarClave');
 
+//Route::get('/profile', [PerfilController::class, 'index'])->name('profile.show'); 
 
+Route::get('/profile', [PerfilController::class, 'index'])->name('profile.index');
+Route::get('/profile/edit', [PerfilController::class, 'edit'])->name('profile.edit');
+//Route::get('/profile/{profile}', [CarreraController::class, 'show'])->name('profile.show');
+Route::put('/profile/{id}', [PerfilController::class, 'update'])->name('profile.update');
+Route::put('/profile', [PerfilController::class, 'update'])->name('profile.update');
 
 Route::resource('users', UsuarioController::class);
 
@@ -68,6 +74,8 @@ Route::get('/users', [UsuarioController::class, 'index'])->name('users.index');
 Route::get('/users', [PerfilController::class, 'index'])->name('users.index');
 // Ruta para mostrar el formulario de creación de un nuevo usuario (asumiendo un método 'create')
 //Route::get('/users/crear', [UsuarioController::class, 'create'])->name('users.create');
+// Si quieres que la maneje otro controlador (por ejemplo, UserController)
+Route::get('/users/create', [UsuarioController::class, 'create'])->name('users.create');
 
 // Ruta para guardar un nuevo usuario (asumiendo un método 'store')
 Route::post('/users', [UsuarioController::class, 'store'])->name('users.store');
@@ -83,16 +91,20 @@ Route::put('/users/{user}', [UsuarioController::class, 'update'])->name('users.u
 Route::patch('/users/{user}', [UsuarioController::class, 'update'])->name('users.update');
 
 // Ruta para eliminar un usuario (asumiendo un método 'destroy')
-Route::delete('/users/{user}', [UsuarioController::class, 'destroy'])->name('users.destroy');
+//Route::delete('/users/{user}', [UsuarioController::class, 'destroy'])->name('users.destroy');
 
 Route::resource('/carreras', CarreraController::class)->names('carreras');
 Route::resource('admin/users/roles', RoleController::class);
 //Route::resource('/roles', RoleController::class)->names('roles');;
 Route::resource('admin/users/permisos', PermisoController::class);
 Route::resource('roles', RoleController::class);
-Route::resource('/users', AsignarController::class)->names('asignar');
+
 
 Route::put('roles/{role}/permissions', [RoleController::class, 'update'])->name('roles.update');
+
+Route::resource('/users', AsignarController::class)->names('asignar');
+Route::get('/users/{user}/edit-roles', [AsignarController::class, 'edit'])->name('asignar.edit-roles');
+Route::put('/users/{user}/assign-roles', [AsignarController::class, 'update'])->name('asignar.assign-roles');
 
 }); // **************************************FIN MIDDLEWARE***************************
 

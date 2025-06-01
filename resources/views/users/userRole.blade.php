@@ -32,17 +32,17 @@
 
                 {{-- With prepend slot --}}
                 <div>
-                    <label class="block font-medium text-sm text-gray-700"><h2>Permisos:</h2></label>
+                    <label class="block font-medium text-sm text-gray-700"><h2>Roles:</h2></label>
                     <div class="mt-2 space-y-2">
                            {{--{{ dd($role) }}  --}}
-                           {{ dd($user->roles) }}
+                         {{--  {{ dd($user->roles) }}  --}}
                         @foreach ($roles as $role)
 
                             <div class="flex items-center">
                                 <input id="role_{{ $role->id }}" name="roles[]" type="checkbox"
                                     value="{{ $role->id }}"
                                     class="form-checkbox h-5 w-5 text-indigo-600 transition duration-150 ease-in-out"
-                                    {{ $user->$roles->hasAnyRole($role->id) ? 'checked' : '' }}>
+                                    {{ $user->roles->contains($role->id) ? 'checked' : '' }}>
                                 <label for="role_{{ $role->id }}" class="ml-2 block text-sm text-gray-900">
                                     {{ $role->name }}
                                 </label>
