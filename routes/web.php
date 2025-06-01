@@ -64,7 +64,7 @@ Route::get('/profile', [PerfilController::class, 'index'])->name('profile.index'
 Route::get('/profile/edit', [PerfilController::class, 'edit'])->name('profile.edit');
 //Route::get('/profile/{profile}', [CarreraController::class, 'show'])->name('profile.show');
 Route::put('/profile/{id}', [PerfilController::class, 'update'])->name('profile.update');
-Route::put('/profile', [PerfilController::class, 'update'])->name('profile.update');
+
 
 Route::resource('users', UsuarioController::class);
 

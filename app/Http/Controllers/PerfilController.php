@@ -27,6 +27,10 @@ class PerfilController extends Controller
 
     public function edit(User $user)
     {
+    //public function edit(string $id)
+    //{
+       // $user = User::find($id);
+        $user = Auth::user();
         // Lógica para mostrar el formulario de edición del usuario
         return view('profile.edit', compact('user')); // Ejemplo de retorno de una vista
     }
@@ -62,39 +66,50 @@ class PerfilController extends Controller
         }
     }
 
-  /*  public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
         // 1. Validar los datos del formulario
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id, // Ignora el email del usuario actual
-            'password' => 'nullable|string|min:8|confirmed', // Ejemplo para la contraseña
-            // Agrega otras reglas de validación para tus campos
-        ]);
+     //  $validator = Validator::make($request->all(), [
+     //       'name' => 'required|string|unique:Users,name|min:5|max:15', //. $id,
+     //       'email' => 'required|string|email|unique:Users,email|max:120', //. $id, // Ignora el email del usuario actual
+          // Ejemplo para la contraseña
+             //Agrega otras reglas de validación para tus campos
+    //    ]);
+    //    if ($validator->fails()) {
+     //       return redirect()->back()->withErrors($validator)->withInput();
+            
+     //   }
+        $validacion = $request->validate([
+            'name' => 'required|string|unique:Users,name|min:5|max:15', //. $id,
+            'email' => 'required|string|email|unique:Users,email|max:120', //. $id, // Ignora el email del usuario actual
+          // Ejemplo para la contraseña
+             //Agrega otras reglas de validación para tus campos
+        
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+            ]);
+   
 
         // 2. Encontrar al usuario que se va a actualizar
-        $user = User::findOrFail($id);
+        $user = User::find($id);
 
         // 3. Actualizar los datos del usuario
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-
+        
         // Actualizar la contraseña si se proporciona
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->input('password'));
-        }
-
+        //if ($request->filled('password')) {
+        //    $user->password = Hash::make($request->input('password'));
+        //}
         $user->save();
-
         // 4. Redirigir al usuario a alguna página con un mensaje de éxito
-        return redirect()->route('profile.index')->with('success', 'Usuario actualizado correctamente.');
-    } */
 
-        public function update(Request $request, string $id)
+       // return ('usuario actualizado');
+        
+        return back()->with('success', 'Usuario Actualizado exitosamente');
+        //return redirect()->route('profile.index')->with('success', 'Usuario actualizado correctamente.');
+    } 
+
+       /* public function update(Request $request, string $id)
     {
         $validacion = $request->validate([
 
@@ -112,7 +127,7 @@ class PerfilController extends Controller
         //return session()->flash('success', 'Actualizada exitosamente');
         return back()->with('success', 'Perfil de usuario Actualizado exitosamente');
         //return 'Actualización Exitosa';
-    }
+    }*/
 
 
 
