@@ -72,9 +72,13 @@
 
                     <x-adminlte-select name="titulo" label="Titulo a obtener:" fgroup-class="col-md-6">
                         <option>ASISTENTE CONTABLE</option>
-                        <option selected>TSU EN CONTADURIA PUBLICA </option>
-                        <option selected>LICENCIADO EN CONTADURIA PUBLICA</option>
+                        <option selected>TSU EN CONTADURÍA PUBLICA </option>
+                        <option selected>LICENCIADO EN CONTADURÍA PUBLICA</option>
+                        <option>ASISTENTE ADMINISTRATIVO</option>
+                        <option selected>TSU EN ADMINISTRACIÓN </option>
+                        <option selected>LICENCIADO EN ADMINISTRACIÓN</option>
                         <option selected>INGENIERO EN ELECTRICIDAD</option>
+                        <option selected>INGENIERO DE MANTENIMIENTO</option>
                     </x-adminlte-select>
                     <!-- @ error('titulo')
                 <div class="error">{ { $message }}</div>

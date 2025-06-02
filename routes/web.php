@@ -7,6 +7,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermisoController;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Http\Controllers\AsignarController;
+use App\Http\Controllers\ProgramaController;
 use App\Http\Controllers\SearchController;
 use App\Models\Carrera;
 
@@ -106,6 +107,21 @@ Route::resource('/users', AsignarController::class)->names('asignar');
 Route::get('/users/{user}/edit-roles', [AsignarController::class, 'edit'])->name('asignar.edit-roles');
 Route::put('/users/{user}/assign-roles', [AsignarController::class, 'update'])->name('asignar.assign-roles');
 
+// COMO EL CONTROLADOR PROGRAMAS FUE CREADO COMO UN RECURSO NO SE NECESITA COLOCAR TANTAS RUTAS
+Route::resource('programas', ProgramaController::class);
+
+
+Route::prefix('admin')->group(function () {
+    Route::get('/carreras', [CarreraController::class, 'index'])->name('carreras.index');
+    Route::get('/carreras/create', [CarreraController::class, 'create'])->name('carreras.create'); // administra el formulario para crear una nueva especialidad
+    Route::post('/carreras', [CarreraController::class, 'store'])->name('carreras.store');
+    Route::get('/carreras/{carreras}', [CarreraController::class, 'show'])->name('carreras.show');
+    Route::get('/carreras/{carrera}/edit', [CarreraController::class, 'edit'])->name('carreras.edit');
+    Route::put('/carreras/{carrera}', [CarreraController::class, 'update'])->name('carreras.update');
+    Route::delete('/carreras/{carrera}', [CarreraController::class, 'destroy'])->name('carreras.destroy');
+});
+
+
 }); // **************************************FIN MIDDLEWARE***************************
 
 
@@ -117,17 +133,9 @@ Route::post('password/reset', [ResetUserPassword::class, 'reset'])->name('passwo
 //Route::get('/carrera/crear', [CarreraController::class, 'create'])->name('carrera.create');
 
 // PENDIENTE REVISAR BIEN 
-Route::prefix('admin')->group(function () {
-    Route::get('/carreras', [CarreraController::class, 'index'])->name('carreras.index');
-    Route::get('/carreras/create', [CarreraController::class, 'create'])->name('carreras.create'); // administra el formulario para crear una nueva especialidad
-    Route::post('/carreras', [CarreraController::class, 'store'])->name('carreras.store');
-    Route::get('/carreras/{carreras}', [CarreraController::class, 'show'])->name('carreras.show');
-    Route::get('/carreras/{carrera}/edit', [CarreraController::class, 'edit'])->name('carreras.edit');
-    Route::put('/carreras/{carrera}', [CarreraController::class, 'update'])->name('carreras.update');
-    Route::delete('/carreras/{carrera}', [CarreraController::class, 'destroy'])->name('carreras.destroy');
-});
 
-Route::post('/admin/carreras', [CarreraController::class, 'store'])->name('admin.carreras.store')->middleware('web');
+
+//Route::post('/admin/carreras', [CarreraController::class, 'store'])->name('admin.carreras.store')->middleware('web');
 
 
 

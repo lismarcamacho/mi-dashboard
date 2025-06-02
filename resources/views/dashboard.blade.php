@@ -3,12 +3,12 @@
 
 @section('preloader')
     <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
-    <h4 class="mt-4 text-dark">Cargando Dashboard...</h4>
+    <h4 class="mt-4 text-dark">Cargando Cartelera de Inicio (Dashboard)...</h4>
 @stop
 
 @section('plugins.Sweetalert2', true)
 
-@section('title', 'Dashboard')
+@section('title', 'Cartelera de Inicio')
 
 @section('content_header')
 
@@ -105,14 +105,7 @@
     </div>
     <!-- /.card -->
 <!-- setting all icons used in buttons to have the same width using fa-fw -->
-<div>
-  <span style="display: inline-block; margin: 0.25em; border: 1px solid silver; border-radius: 0.25em; padding: .25em 0.5em"><i class="fa-solid fa-arrow-left fa-fw" title="Back"></i></span>
-  <span style="display: inline-block; margin: 0.25em; border: 1px solid silver; border-radius: 0.25em; padding: .25em 0.5em"><i class="fa-solid fa-arrow-right fa-fw" title="Forward"></i></span>
-  <span style="display: inline-block; margin: 0.25em; border: 1px solid silver; border-radius: 0.25em; padding: .25em 0.5em"><i class="fa-solid fa-arrows-rotate fa-fw" title="Refresh"></i></span>
-  <span style="display: inline-block; margin: 0.25em; border: 1px solid silver; border-radius: 0.25em; padding: .25em 0.5em"><i class="fa-solid fa-house fa-fw" title="Home"></i></span>
-  <span style="display: inline-block; margin: 0.25em; border: 1px solid silver; border-radius: 0.25em; padding: .25em 0.5em"><i class="fa-solid fa-info fa-fw" title="Info"></i></span>
-  <span style="display: inline-block; margin: 0.25em; border: 1px solid silver; border-radius: 0.25em; padding: .25em 0.5em"><i class="fa-solid fa-download fa-fw" title="Download"></i></span>
-</div>
+
 
     <!-- Main node for this component -->
 

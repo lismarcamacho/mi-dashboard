@@ -96,10 +96,7 @@ class PerfilController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         
-        // Actualizar la contraseña si se proporciona
-        //if ($request->filled('password')) {
-        //    $user->password = Hash::make($request->input('password'));
-        //}
+ 
         $user->save();
         // 4. Redirigir al usuario a alguna página con un mensaje de éxito
 
@@ -109,25 +106,7 @@ class PerfilController extends Controller
         //return redirect()->route('profile.index')->with('success', 'Usuario actualizado correctamente.');
     } 
 
-       /* public function update(Request $request, string $id)
-    {
-        $validacion = $request->validate([
-
-            'name' => 'required|string|unique:User,name,'.$id.'|max:15',
-            'email' => 'required|string|unique:User,email,'.$id.'|max:25',
-
-        ]);
-        $user = User::find($id);
-        $user->name = $request->input('name'); //
-        $user->email = $request->input('email');
-     
-        $user->save();
-       // 
-       //
-        //return session()->flash('success', 'Actualizada exitosamente');
-        return back()->with('success', 'Perfil de usuario Actualizado exitosamente');
-        //return 'Actualización Exitosa';
-    }*/
+ 
 
 
 

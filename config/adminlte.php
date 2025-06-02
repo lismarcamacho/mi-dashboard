@@ -354,7 +354,7 @@ return [
         ],
         [
 
-            'text'=>'Dashboard',
+            'text'=>'Inicio',
             'url'=>'dashboard', // puede ir route tambien
             'icon'=>'fas fa-fw fa-home',
             'label' =>'Nuevo',
@@ -374,13 +374,13 @@ return [
             'url' => 'admin/blog',
             'can' => 'manage-blog',
         ],
-        [
-            'text' => 'Paginas',
-            'url' => 'admin/pages',
-            'icon' => 'far fa-fw fa-file',
-            'label' => 4,
-            'label_color' => 'success',
-        ],
+     //   [
+     //       'text' => 'Paginas',
+     //       'url' => 'admin/pages',
+     //       'icon' => 'far fa-fw fa-file',
+     //       'label' => 4,
+     //       'label_color' => 'success',
+     //   ],
     //    ['header' => 'CONFIGURACIÓN DE CUENTA'],
         [
 
@@ -412,29 +412,60 @@ return [
   //          'icon' => 'fas fa-fw fa-file',
   //      ],
 
-  
-                [
-            'text' => 'Gestión de Programas',
-            'icon' => 'fas fa-fw fa-file',
+      [
+            'text' => 'Matricula',
+            'icon' => 'fas fa-fw  fa-graduation-cap',
             'url' => '#',
             'submenu' => [
                  [
-                    'text' => 'Lista de Programas',
+                    'text' => 'Inscripciones PIU',
                   // 'route' => 'programas.index',
                     'url' => 'admin/programas/create',
 
                 ],
                 [
-                    'text' => 'Agregar Programa',
+                    'text' => 'Inscripciones PNF',
+                    'url' => 'admin/programas/create',
+                ],
+                                [
+                    'text' => 'Inscripciones PER',
+                    'url' => 'admin/programas/create',
+                ],
+                 [
+                    'text' => 'Profesores',
+                    'url' => 'admin/programas/create',
+                ],
+                 [
+                    'text' => 'Analistas',
                     'url' => 'admin/programas/create',
                 ],
                
             ],
         ],
 
+        ['header' => 'GESTIÓN ADMINISTRATIVA'],
+                [
+            'text' => 'Programas',
+            'icon' => 'fas fa-fw fa-university',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Lista de Programas',
+                  // 'route' => 'programas.index',
+                   'route' => 'programas.index',
+
+                ],
+                [
+                    'text' => 'Agregar Programa',
+                    'route' => 'programas.create',
+                ],
+               
+            ],
+        ],
+
                         [
-            'text' => 'Gestión de Areas administrativas',
-            'icon' => 'fas fa-fw fa-file',
+            'text' => 'Areas administrativas',
+            'icon' => 'fas fa-fw  fa-building',
             'url' => '#',
             'submenu' => [
                  [
@@ -453,8 +484,8 @@ return [
         ],
 
         [
-            'text' => 'Gestión de mallas',
-            'icon' => 'fas fa-fw fa-file',
+            'text' => 'Mallas',
+            'icon' => 'fas fa-fw fa-book',
             'url' => '#',
             'submenu' => [
                  [
@@ -473,8 +504,8 @@ return [
         ],
 
         [
-            'text' => 'Gestión de Trayectos',
-            'icon' => 'fas fa-fw fa-file',
+            'text' => 'Trayectos',
+            'icon' => 'fas fa-fw  fa-flag',
             'url' => '#',
             'submenu' => [
                  [
@@ -492,8 +523,8 @@ return [
         ],
 
                                         [
-            'text' => 'Gestión de Fases',
-            'icon' => 'fas fa-fw fa-file',
+            'text' => 'Fases',
+            'icon' => 'fas fa-fw fa-hourglass',
             'url' => '#',
             'submenu' => [
                  [
@@ -511,8 +542,8 @@ return [
         ],
 
                 [
-            'text' => 'Gestión Especialidades',
-            'icon' => 'fas fa-fw fa-file',
+            'text' => 'Especialidades',
+            'icon' => 'fas fa-fw fa-trophy',
             'url' => '#',
             'submenu' => [
                  [
@@ -526,11 +557,238 @@ return [
                
             ],
         ],
-             
-        //['header' => 'ADMINISTRACIÓN DE USUARIOS'],
+
+                [
+            'text' => 'Unidad Curricular',
+            'icon' => 'fas fa-fw fa-folder-open',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Lista de Unidades',
+                   'url' => 'admin/trayectos/create',
+                ],
+                [
+                    'text' => 'Agregar',
+                    'url' => 'admin/trayectos/create',
+                ],
+               
+            ],
+        ],
+
+                        [
+            'text' => 'Prelaciones',
+            'icon' => 'fas fa-fw  fa-backward',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Lista de Prelaciones',
+                   'url' => 'admin/trayectos/create',
+                ],
+                [
+                    'text' => 'Agregar',
+                    'url' => 'admin/trayectos/create',
+                ],
+               
+            ],
+        ],
+
+            [
+            'text' => 'Horarios',
+            'icon' => 'fas fa-fw fa-calendar',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Lista de Horarios',
+                   'url' => 'admin/trayectos/create',
+                ],
+                [
+                    'text' => 'Agregar Horario',
+                    'url' => 'admin/trayectos/create',
+                ],
+               
+            ],
+        ],
+
+    
+
+                [
+            'text' => 'EVALUACIONES',
+            'icon' => 'fas fa-fw fa-university',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Evaluaciones PIU',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/evaluaciones/create',
+
+                ],
+                [
+                    'text' => 'Evaluaciones PNF',
+                    'url' => 'admin/evaluaciones/create',
+                ],
+               
+            ],
+        ],
+
+            ['header' => 'DOCUMENTOS ADMINISTRATIVOS'],
+                [
+            'text' => 'Estudiantes Regulares',
+            'icon' => 'fas fa-fw  fa-university',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Historial Académico',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/evaluaciones/create',
+
+                ],
+                 [
+                    'text' => 'onstancia de Estudios',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/evaluaciones/create',
+
+                ],
+                 [
+                    'text' => 'Carga Horaria',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/evaluaciones/create',
+
+                ],
+                 [
+                    'text' => 'Credencial de Biblioteca',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/evaluaciones/create',
+
+                ],
+                 [
+                    'text' => 'Carta de Culminación',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/evaluaciones/create',
+
+                ],
+                  [
+                    'text' => 'Certificación de Códigos',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/evaluaciones/create',
+
+                ],
+                [
+                    'text' => 'Retiro Definitivo',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/evaluaciones/create',
+
+                ],
+                [
+                    'text' => 'Retiro Provisional',
+                    'url' => 'admin/evaluaciones/create',
+                ],
+                 [
+                    'text' => 'Solicitud de Reingreso',
+                    'url' => 'admin/evaluaciones/create',
+                ],
+                  [
+                    'text' => 'Solicitud de Traslado',
+                    'url' => 'admin/evaluaciones/create',
+                ],
+                 [
+                    'text' => 'Solicitud de Equivalencia',
+                    'url' => 'admin/evaluaciones/create',
+                ],
+                 [
+                    'text' => 'Proceso para TSU (Prosecución)',
+                    'url' => 'admin/evaluaciones/create',
+                ],
+                [
+                    'text' => 'Cambio de Carrera',
+                    'url' => 'admin/evaluaciones/create',
+                ],
+            ],
+        ],
+            [
+            'text' => 'Egresados',
+            'icon' => 'fas fa-fw  fa-university',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Paquete para apostillar',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/evaluaciones/create',
+
+                ],
+                 [
+                    'text' => 'Autenticación de Titulo Fondo Negro',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/evaluaciones/create',
+
+                ],
+                 [
+                    'text' => 'Autenticación de Notas Certificadas',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/evaluaciones/create',
+
+                ],
+                 [
+                    'text' => 'Credencial de Biblioteca',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/evaluaciones/create',
+
+                ],
+                 [
+                    'text' => 'Certificación de actas de Grado',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/evaluaciones/create',
+
+                ],
+                  [
+                    'text' => 'CAutenticación de Certificación de Mención Honorifica',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/evaluaciones/create',
+
+                ],
+                [
+                    'text' => 'Certificación de Pensum y Malla',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/evaluaciones/create',
+
+                ],
+                [
+                    'text' => 'Notas Ceritificadas',
+                    'url' => 'admin/evaluaciones/create',
+                ],
+                 [
+                    'text' => 'Constancia de Posición de Grado',
+                    'url' => 'admin/evaluaciones/create',
+                ],
+                  [
+                    'text' => 'Constancia de Posición y Rango',
+                    'url' => 'admin/evaluaciones/create',
+                ],
+                 [
+                    'text' => 'Solicitud de Equivalencia',
+                    'url' => 'admin/evaluaciones/create',
+                ],
+                 [
+                    'text' => 'Proceso para TSU (Prosecución)',
+                    'url' => 'admin/evaluaciones/create',
+                ],
+                [
+                    'text' => 'Cambio de Carrera',
+                    'url' => 'admin/evaluaciones/create',
+                ],
+            ],
+        ],
+
+        ['header' => 'GESTION DE GRADO'],
         [
-            'text' => 'Gestión de Usuarios',
-            'icon' => 'fas fa-fw fa-user',
+            'text' => 'Listado de Graduandos',
+            'icon' => 'fas fa-fw fa-graduation-cap',
+            'url' => '#',
+        ],
+             
+    ['header' => 'GESTIÓN DE USUARIOS'],
+        [
+            'text' => 'Usuarios',
+            'icon' => 'fas fa-fw fa-users',
             'url' => '#',
             'submenu' => [
                  [
