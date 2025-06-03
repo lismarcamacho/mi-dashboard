@@ -331,8 +331,8 @@ return [
 
         [
 
-            'text'=>'link 1',
-            'url'=>'#', // puede ir route tambien
+            'text'=>'Cambiar Clave',
+            'url'  => 'admin/password',// puede ir route tambien
             'topnav_user'=>true,
         ],
 

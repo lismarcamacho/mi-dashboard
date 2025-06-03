@@ -130,4 +130,7 @@ class PerfilController extends Controller
         // Redireccionar o devolver una respuesta
     //    return redirect()->route('welcome')->with('success', 'Usuario eliminado correctamente.');
    // }
+
+
+   
 }

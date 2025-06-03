@@ -1,7 +1,7 @@
 <!-- users/list-users.blade.php -->
 @extends('adminlte::page')
 
-@section('title', 'Lista de Usuarios y Roles')
+@section('title', 'Lista de Usuarios')
 @section('preloader')
     <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
     <h4 class="mt-4 text-dark">Cargando Lista de Usuarios...</h4>
@@ -17,6 +17,27 @@
 
 @section('content')
 
+    <x-adminlte-modal id="modalCustom" title="Instrucciones" size="lg" theme="teal" icon="fas fa-bell" v-centered
+        static-backdrop scrollable>
+        <div style="height:800px;">
+            <h2>Instrucciones</h2>
+            <div style="height:400px;">
+                <p> - Para asignar uno o mas roles, ingresa en el boton lapiz que lleva a otra interfaz. <br>
+                    - El boton papelera elimina, primero pregunta si desea eliminar
+                    el registro, luego lo elimina y envia una notifiacion en la <b>interfaz</b>
+                    Administración de Usuarios de que el registro ha sido eliminado.</p>
+            </div>
+        </div>
+
+        <x-slot name="footerSlot">
+            <x-adminlte-button class="mr-auto" theme="success" label="Aceptar" data-dismiss="modal" />
+            <x-adminlte-button theme="danger" label="Cancelar" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal>
+
+    {{-- Example button to open modal --}}
+    <x-adminlte-button label="Leer Instructivo" data-toggle="modal" data-target="#modalCustom" class="bg-teal" />
+
     <div class="container"
         style="margin-top: 3%; background-color: #fff; box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);
     margin-bottom: 1rem;">
@@ -30,20 +51,20 @@
         @endif
         <!-- *************************************NO TOCAR***************************** -->
 
-
-        <div class="car-header" >
+        @role('Administrador')
+        <div class="car-header">
             <x-adminlte-button label="Agrega un Nuevo Usuario" theme="primary" icon="fas fa-key" data-toggle="modal"
-                data-target="#modalPurple"  />
+                data-target="#modalPurple" />
         </div>
+        @endrole
         {{-- Setup data for datatables --}}
         @php
-            $heads = ['ID', 'Nombre','Email',
-             ['label' => 'Acciones', 'no-export' => true, 'width' => 10]];
+            $heads = ['ID', 'Nombre', 'Email', 'Es Admin?',['label' => 'Acciones', 'no-export' => true, 'width' => 10]];
 
             $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                 <i class="fa fa-lg fa-fw fa-pen"></i>
             </button>';
-            $btnDelete = '<button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
+            $btnDelete = '<button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Eliminar este usuario">
                   <i class="fa fa-lg fa-fw fa-trash"></i>
               </button>';
             $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
@@ -67,14 +88,23 @@
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
-                    <td><a href="{{ route('asignar.edit', $user) }}" class="btn btn-xs btn-default text-primary mx-1 shadow"
-                            title="Edit">
+                    <td>
+                        @if ($user->hasRole('Administrador'))
+                            <span class="badge badge-success">Sí</span>
+                        @else
+                            <span class="badge badge-danger">No</span>
+                        @endif
+                    </td>
+                    <td>@role('Administrador')
+                        <a href="{{ route('asignar.edit', $user) }}" class="btn btn-xs btn-default text-primary mx-1 shadow"
+                            title="Asignar Roles a este usuario">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </a>
                         <form style="display: inline" action="{{ route('asignar.destroy', $user) }}" method="POST"
-                            class="formEliminar">
+                            class="formEliminar" title="Eliminar este usuario">
                             @csrf
                             @method('delete') {!! $btnDelete !!}
+                        @endrole
 
                         </form>
 
@@ -84,11 +114,14 @@
             @endforeach
         </x-adminlte-datatable>
 
-
-
-
-
+        
     </div>
+
+
+
+
+
+    
 
     <div class="container" style="margin-top: 3%; margin-bottom: 1rem;">
 
@@ -108,10 +141,10 @@
 
                 </div>
 
-                {{--<x-slot name="footerSlot">--}}
-                    <x-adminlte-button type="submit" class="mr-auto" theme="primary" icon="fas fa-key" label="Guardar" />
-                   {{--   <x-adminlte-button theme="danger" label="Cancelar" data-dismiss="modal" />--}}
-                 {{--</x-slot>--}}
+                {{-- <x-slot name="footerSlot"> --}}
+                <x-adminlte-button type="submit" class="mr-auto" theme="primary" icon="fas fa-key" label="Guardar" />
+                {{--   <x-adminlte-button theme="danger" label="Cancelar" data-dismiss="modal" /> --}}
+                {{-- </x-slot> --}}
             </form>
 
 
@@ -122,26 +155,7 @@
 
     </div>
 
-    <x-adminlte-modal id="modalCustom" title="Instrucciones" size="lg" theme="teal" icon="fas fa-bell" v-centered
-        static-backdrop scrollable>
-        <div style="height:800px;">
-            <h2>Instrucciones</h2>
-            <div style="height:400px;">
-                <p> - Para asignar un rol, ingresa en el boton lapiz lleva a otra interfaz. <br>
-                    - El boton papelera elimina, primero pregunta si desea eliminar
-                    el registro, luego lo elimina y envia una notifiacion en la <b>interfaz</b>
-                    lista de Usuarios de que el registro ha sido eliminado.</p>
-            </div>
-        </div>
 
-        <x-slot name="footerSlot">
-            <x-adminlte-button class="mr-auto" theme="success" label="Aceptar" data-dismiss="modal" />
-            <x-adminlte-button theme="danger" label="Cancelar" data-dismiss="modal" />
-        </x-slot>
-    </x-adminlte-modal>
-
-    {{-- Example button to open modal --}}
-    <x-adminlte-button label="Leer Instructivo" data-toggle="modal" data-target="#modalCustom" class="bg-teal" />
 
 @endsection
 
@@ -152,7 +166,7 @@
 
 
 
-    
+
 
         .car-header {
 

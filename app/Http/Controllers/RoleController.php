@@ -53,6 +53,8 @@ class RoleController extends Controller
     public function show(string $id)
     {
         //
+
+        
     }
 
     /**
@@ -70,12 +72,37 @@ class RoleController extends Controller
         // en campact se pasan las variables
     }
 
+
     /**
      * Update the specified resource in storage.
+     * 
+     * Se actualiza el NOMBRE del ROL
      */
-    public function update(Request $request, Role $role) // aqui se asignan los roles a los permisos
+
+       // $carrera = Carrera::find($id);
+        //return $carrera; // comprobando que el registro se obtiene correctamente
+       // return view('carreras.edit', compact('carrera'));
+
+
+  /*  public function update(Request $request, string $id)
     {
         //
+        $role = Role::find($id);
+        $role->name= $request->input('name');
+        $role->save();
+       //
+        return back()->with('success', 'Nombre del Rol Actualizado exitosamente');
+        //return 'Actualización Exitosa';
+    }*/
+
+
+// aqui se asignan permisos a un rol
+    public function update(Request $request, Role $role) 
+    {
+        //
+
+
+        
         $permissions = $request->input('permissions', []); // Obtiene un array de los IDs de los permisos seleccionados
 
         // El método sync() sincroniza las relaciones muchos a muchos.
@@ -86,10 +113,17 @@ class RoleController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource from storage. SE ELIMINA EL ROL
      */
     public function destroy(string $id)
     {
         //
+        
+        $role = Role::find($id);
+        $role->delete();
+        //return back();
+
+        return redirect()->route('roles.index')->with('success', 'Rol eliminado exitosamente');
+        
     }
 }

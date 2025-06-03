@@ -57,8 +57,16 @@ class PermisoController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
+
     {
         //
+        $permission = Permission::find($id);
+        $permission->name = $request->input('name');
+
+        $permission->save();
+       //
+        return back()->with('success', 'Permiso Actualizado exitosamente');
+
     }
 
     /**
@@ -67,5 +75,13 @@ class PermisoController extends Controller
     public function destroy(string $id)
     {
         //
+        $permission = Permission::find($id);
+        $permission->delete();
+        //return back();
+
+        return back()->with('success', 'Permiso eliminado exitosamente');
+        
+
+
     }
 }

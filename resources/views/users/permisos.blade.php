@@ -31,18 +31,19 @@
 
         {{-- Setup data for datatables --}}
   
-
+        @role('Administrador')
         <div class="car-header">
             <x-adminlte-button label="Agrega un nuevo Permiso Aqui" theme="primary" icon="fas fa-key" data-toggle="modal"
                 data-target="#modalPurple" />
         </div>
+        @endrole
         @php
             $heads = ['ID', 'Permisos', ['label' => 'Acciones', 'no-export' => true, 'width' => 10]];
 
             $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                 <i class="fa fa-lg fa-fw fa-pen"></i>
             </button>';
-            $btnDelete = '<button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
+            $btnDelete = '<button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Eliminar este permiso">
                   <i class="fa fa-lg fa-fw fa-trash"></i>
               </button>';
             $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
@@ -60,26 +61,29 @@
         {{-- Minimal example / fill data using the component slot :config="$config" --}}
         <x-adminlte-datatable id="table5" :heads="$heads" :config="$config" theme="light" striped hoverable>
 
-
+            
             @foreach ($permisos as $permiso)
                 <tr>
                     <td>{{ $permiso->id }}</td>
                     <td>{{ $permiso->name }}</td>
-                    <td><a href="{{ route('permisos.edit', $permiso) }}" class="btn btn-xs btn-default text-primary mx-1 shadow"
-                            title="Edit">
+                    <td>@role('Administrador')
+                        <a href="{{ route('permisos.edit', $permiso) }}" class="btn btn-xs btn-default text-primary mx-1 shadow"
+                            title="Editar Este permiso">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </a>
                         <form style="display: inline" action="{{ route('permisos.destroy', $permiso) }}" method="POST"
                             class="formEliminar">
                             @csrf
                             @method('delete') {!! $btnDelete !!}
-
+                            @endrole
                         </form>
 
                     </td>
 
                 </tr>
             @endforeach
+            
+
         </x-adminlte-datatable>
 
 
@@ -91,7 +95,7 @@
     <div class="container" style="margin-top: 3%; margin-bottom: 1rem;">
 
 
-        {{-- ESTE MODAL QUEDA OCULTO --}}
+        {{-- MODAL NUEVO PERMISO QUEDA OCULTO --}}
         <x-adminlte-modal id="modalPurple" title="Nuevo Permiso" theme="primary" icon="fas fa-bolt" size='lg'
             disable-animations>
             Ingrese el Permiso
@@ -117,6 +121,8 @@
 
         </x-adminlte-modal>
         {{-- Example button to open modal --}}
+
+
 
     </div>
 

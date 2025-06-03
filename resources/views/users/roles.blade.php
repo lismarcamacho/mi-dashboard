@@ -29,19 +29,20 @@
         @endif
         <!-- *************************************NO TOCAR***************************** -->
 
-
-        <div class="car-header" >
-            <x-adminlte-button label="Agrega un Nuevo Rol Aqui" theme="primary" icon="fas fa-key" data-toggle="modal"
+        @role('Administrador')
+        <div class="car-header mt-3" >
+            <x-adminlte-button label="Agrega un Nuevo Usuario" theme="primary" icon="fas fa-key" data-toggle="modal"
                 data-target="#modalPurple"  />
         </div>
+        @endrole
         {{-- Setup data for datatables --}}
         @php
-            $heads = ['ID', 'Nombre Rol', ['label' => 'Acciones', 'no-export' => true, 'width' => 10]];
+            $heads = ['ID', 'Nombre Rol', ['label' => 'Acciones', 'no-export' => true, 'width' => 20]];
 
             $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                 <i class="fa fa-lg fa-fw fa-pen"></i>
             </button>';
-            $btnDelete = '<button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
+            $btnDelete = '<button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Eliminar este Rol">
                   <i class="fa fa-lg fa-fw fa-trash"></i>
               </button>';
             $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
@@ -64,14 +65,20 @@
                 <tr>
                     <td>{{ $role->id }}</td>
                     <td>{{ $role->name }}</td>
-                    <td><a href="{{ route('roles.edit', $role) }}" class="btn btn-xs btn-default text-primary mx-1 shadow"
-                            title="Edit">
+                    <td>@role('Administrador')
+                        <a href="{{ route('roles.edit', $role) }}" class="btn btn-xs btn-default text-primary mx-1 shadow"
+                            title="Editar permisos de este rol">
+                            <i class="fa fa-lg fa-fw fa-eye"></i>
+                        </a>
+                        <a href="{ { route('roles.editRole', $role) }}" class="btn btn-xs btn-default text-primary mx-1 shadow"
+                            title="Editar el NOMBRE del rol">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </a>
                         <form style="display: inline" action="{{ route('roles.destroy', $role) }}" method="POST"
                             class="formEliminar">
                             @csrf
                             @method('delete') {!! $btnDelete !!}
+                            @endrole
 
                         </form>
 

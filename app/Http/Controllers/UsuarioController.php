@@ -16,7 +16,7 @@ class UsuarioController extends Controller
     {
         $users = User::all();
         $users = User::paginate(15); 
-        dd($users);
+        //dd($users);
         return view('users.index', compact('users'));
         //return view('users.index', ['users' => $users]);
     }

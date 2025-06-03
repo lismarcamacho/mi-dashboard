@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
- // Gestión de la asignación de roles a los usuarios.
+// Gestión de la asignación de roles a los usuarios.
 
 class AsignarController extends Controller
 {
@@ -17,7 +18,7 @@ class AsignarController extends Controller
         //
         $users = User::all();
         //dd('Estoy aquí antes de la vista'); // Agrega esta línea
-
+        $users = User::with('roles')->paginate(10); // Carga las relaciones de roles con cada usuario
         return view('users.listUser', compact('users'));
         //return view('users.prueba', compact('users'));
     }
@@ -55,10 +56,8 @@ class AsignarController extends Controller
         $user = User::with('roles')->findOrFail($id);
         $roles = Role::all();
         // dd($user);
-       // return view('users.userRole',compact('user','roles'));
+        // return view('users.userRole',compact('user','roles'));
         return view('users.userRole')->with(['user' => $user, 'roles' => $roles]);
-
-
     }
 
     /**
@@ -67,13 +66,16 @@ class AsignarController extends Controller
     public function update(Request $request, User $user)
     {
         //
-        $roles = $request->input('roles', []);
-        $user->syncRoles($roles);
-
+        $request->validate([
+            'roles' => 'nullable|array',
+            'roles.*' => 'exists:roles,name', // Asegura que los roles existan
+        ]);
+        $user->syncRoles($request->input('roles', [])); // Asigna los roles seleccionados (elimina los anteriores)
         return redirect()->route('asignar.index')->with('success', 'Roles del usuario actualizados correctamente.');
     }
 
-    
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -82,4 +84,6 @@ class AsignarController extends Controller
     {
         //
     }
+
+
 }

@@ -7,50 +7,94 @@
 @section('title', 'Perfil de Usuario'){{-- o el layout de AdminLTE que estés usando --}}
 
 @section('content_header')
-<h1>Perfil de Usuario Autenticado</h1>
+    <h1>Perfil de Usuario Autenticado</h1>
 @stop
 
 @section('content')
-<div class="container" style="margin-top: 1%; background-color: #fff; box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);
+    <div class="container"
+        style="margin-top: 1%; background-color: #fff; box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);
     margin-bottom: 1rem;">
 
-    <!-- <a href="{ { route('users.create') }}" class="btn btn-primary"></a>-->
-            @if (session('success'))
+        <!-- <a href="{ { route('users.create') }}" class="btn btn-primary"></a>-->
+        @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
-    <table class="table">
-        
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Acciones</th>
-            </tr>
-        
-        <br>
-        <tbody>
-      
-            <tr>
-                <td>{{ $user->id }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>
-                    <a href="{{ route('profile.edit', $user->id) }}" class="btn btn-warning">Editar</a>
-                    <a href="{{ route('profile.index') }}" class="btn btn-secondary">Cancelar</a>
-                    <!-- <form action="{ { route('profile.destroy', $user->id) }}" method="POST" class="d-inline">
-                        @ csrf
-                        @ method('DELETE')
-                        <button type="submit" class="btn btn-danger">Eliminar</button> -->
-                    </form>
-                </td>
-                <td>
-                    
-                </td>
-            </tr>
-       
-        </tbody>
-    </table>
-</div>
+        @auth
+
+            {{-- <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+             
+                    <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
+                    @if (Auth::user()->getRoleNames()->isNotEmpty())
+                        <span class="badge badge-info ml-2">
+                            @foreach (Auth::user()->getRoleNames() as $role)
+                                {{ $role }}{{ $loop->last ? '' : ', ' }}
+                            @endforeach
+                        </span>
+                    @endif
+                </a> --}}
+
+
+             {{-- @if (Auth::user()->getRoleNames()->isNotEmpty())
+                Roles:<span class="badge badge-success"> {{ Auth::user()->getRoleNames()->implode(', ') }}</span>
+            @endif --}}
+            @if (Auth::user()->hasRole('Administrador'))
+                <span class="badge badge-danger">Es Administrador del Sistema</span>
+            @else
+                @if (Auth::user()->getRoleNames()->isNotEmpty())
+                    Roles:<span class="badge badge-info ml-2">
+                        @foreach (Auth::user()->getRoleNames() as $role)
+                            {{ $role }}{{ $loop->last ? '' : ', ' }}
+                        @endforeach
+                    </span>
+                @endif
+            @endif
+            <br>
+            Registrado desde <span class="badge badge-success">{{ Auth::user()->created_at->format('d/m/Y H:i:s') }}</span>
+
+
+
+
+
+
+
+
+
+
+        @endauth
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <br>
+            <tbody>
+
+                <tr>
+                    <td>{{ $user->id }}</td>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>
+                        <a href="{{ route('profile.edit', $user->id) }}" class="btn btn-warning">Editar</a>
+                        <a href="{{ route('profile.index') }}" class="btn btn-secondary">Cancelar</a>
+                        <!-- <form action="{ { route('profile.destroy', $user->id) }}" method="POST" class="d-inline">
+                                            @ csrf
+                                            @ method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Eliminar</button> -->
+                        </form>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
 
 
 
@@ -81,16 +125,16 @@
 
 @section('css')
     {{-- Tus estilos CSS opcionales --}}
-        <style>
+    <style>
         .btn-primary {
             color: #fff;
             background-color: #007bff;
             border-color: #007bff;
             margin-left: 65%;
-            margin-top:-5%;
+            margin-top: -5%;
 
         }
-        </style>
+    </style>
 @stop
 
 @section('js')
