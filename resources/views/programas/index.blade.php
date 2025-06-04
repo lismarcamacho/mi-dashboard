@@ -36,7 +36,9 @@
         @php
             $heads = [
                 'ID',
+                'Código Programa',
                 'Nombre Programa',
+                'Fecha Programa',
                 'Descripción',
                 ['label' => 'Acciones', 'no-export' => true, 'width' => 10],
             ];
@@ -66,7 +68,9 @@
             @foreach ($programas as $programa)
                 <tr>
                     <td>{{ $programa->id }}</td>
+                    <td>{{ $programa->codigo_programa }}</td>
                     <td>{{ $programa->nombre_programa }}</td>
+                    <td>{{ \Carbon\Carbon::parse($programa->fecha_programa)->format('d/m/Y') }}</td>
                     <td>{{ $programa->descripcion }}</td>
                     <td><a href="{{ route('programas.edit', $programa) }}"
                             class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">

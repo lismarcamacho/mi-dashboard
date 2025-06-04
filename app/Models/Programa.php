@@ -9,7 +9,9 @@ class Programa extends Model
     //
 
         protected $fillable = [
+        'codigo_programa',
         'nombre_programa',
+        'fecha',
         'descripcion',
     ];
 

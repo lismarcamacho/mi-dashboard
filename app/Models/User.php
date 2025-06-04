@@ -78,7 +78,18 @@ class User extends Authenticatable
     {
 
             
-        return $this->hasRole('admin');
+           // Verifica si tiene el rol de 'Administrador'
+        if ($this->hasRole('Administrador')) {
+            return 'Administrador';
+        }
+
+        // Si no es Administrador, obtén el nombre de su primer rol (o el que quieras mostrar)
+        // getRoleNames() devuelve una colección de nombres de roles.
+        // first() tomará el primer rol de esa colección.
+        $roleName = $this->getRoleNames()->first();
+
+        // Si tiene algún rol, devuelve ese nombre. De lo contrario, puedes devolver un valor por defecto.
+        return $roleName ? $roleName : 'Sin Rol Asignado';
 
         
     }
@@ -90,7 +101,7 @@ class User extends Authenticatable
 
        public function isAdmin()
     {
-        return $this->hasRole('admin'); // Utiliza el método hasRole() proporcionado por Spatie
+        return $this->hasRole('Administrador'); // Utiliza el método hasRole() proporcionado por Spatie
     }
 
     

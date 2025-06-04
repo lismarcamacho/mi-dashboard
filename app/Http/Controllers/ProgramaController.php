@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Programa;
 use Illuminate\Http\Request;
+use Carbon\Carbon; // ¡Añade esta línea!
 
 class ProgramaController extends Controller
 {
@@ -36,6 +37,8 @@ class ProgramaController extends Controller
             $validacion = $request->validate([
 
             'nombre_programa' => 'required|string|unique:Programas,nombre_programa|max:105',
+            'codigo_programa' => 'required|string|unique:Programas,codigo_programa|max:105',
+            'fecha_programa' => 'required|date_format:d/m/Y',
             'descripcion' => 'required|string|max:255',
 
         ]);
@@ -43,6 +46,10 @@ class ProgramaController extends Controller
 
         $programa = new Programa();
         $programa->nombre_programa = $request->input('nombre_programa');
+        $programa->codigo_programa = $request->input('codigo_programa');
+        $programa->fecha_programa = $request->input('fecha_programa');
+         // Convertir la fecha de 'dd/mm/aaaa' a 'YYYY-MM-DD' para la base de datos
+        $programa->fecha_programa = Carbon::createFromFormat('d/m/Y', $request->input('fecha_programa'))->format('Y-m-d');
         $programa->descripcion = $request->input('descripcion');
         $programa->save();
         //dd('Guardado intentado');
@@ -78,6 +85,9 @@ class ProgramaController extends Controller
         //
         $programa = Programa::find($id);
         $programa->nombre_programa = $request->input('nombre_programa');
+        $programa->codigo_programa = $request->input('codigo_programa');
+        $programa->fecha_programa = $request->input('fecha_programa');
+        $programa->fecha_programa = Carbon::createFromFormat('d/m/Y', $request->input('fecha_programa'))->format('Y-m-d');
         $programa->descripcion = $request->input('descripcion');
         $programa->save();
        //

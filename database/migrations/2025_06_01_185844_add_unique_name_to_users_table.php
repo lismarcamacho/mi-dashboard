@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            //$table->unique('name'); tuve que deshabilitarlo porque se me olvido hacer php artisan migrate luego de crear este archivo
+          //  $table->unique('name');
+            // tuve que deshabilitarlo porque se me olvido hacer php artisan migrate luego de crear este archivo
         });
     }
 

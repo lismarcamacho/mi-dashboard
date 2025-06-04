@@ -12,9 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('programas', function (Blueprint $table) {
-            $table->id();           
+            $table->id();  
+            $table->string('codigo_programa');         
             $table->string('nombre_programa'); // Columna para el nombre del programa
+            $table->date('fecha_programa')->nullable();
             $table->string('descripcion',75);
+            
             $table->timestamps(); // Columnas para created_at y updated_at
         });
     }
