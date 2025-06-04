@@ -27,7 +27,7 @@
 
 
         <div class="card-body">
-            <form action="{{ route('carreras.update', $carrera) }}" method="POST" id=FormEdit>
+            <form action="{{ route('especialidades.update', $especialidad) }}" method="POST" id=FormEdit>
                 @csrf <!-- NECESARIO PARA PODER HACER EL UPDATE -->
 
 
@@ -35,8 +35,8 @@
 
 
                 {{-- With prepend slot --}}
-                <x-adminlte-input class="col-md-6" name="codigo_carrera" label="Codigo Especialidad"
-                    label-class="text-lightblue" value="{{ $carrera->codigo_carrera }}">
+                <x-adminlte-input class="col-md-6" name="codigo_especialidad" label="Codigo Especialidad"
+                    label-class="text-lightblue" value="{{ $especialidad->codigo_especialidad }}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
@@ -48,8 +48,8 @@
                 </x-adminlte-input>
 
 
-                <x-adminlte-input class="col-md-6" name="nombre_carrera" label="Nombre Especialidad"
-                    label-class="text-lightblue" value="{{ $carrera->nombre_carrera }}">
+                <x-adminlte-input class="col-md-6" name="nombre_especialidad" label="Nombre Especialidad"
+                    label-class="text-lightblue" value="{{ $especialidad->nombre_especialidad }}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
@@ -64,7 +64,7 @@
 
 
                 <x-adminlte-input class="col-md-6" name="titulo" label="Titulo" label-class="text-lightblue"
-                    value="{{ $carrera->titulo }}">
+                    value="{{ $especialidad->titulo }}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
@@ -79,7 +79,7 @@
 
                 <!-- EL metodo old permite mantener los datos cuando se recarga el formulario por errores del usuario cuando se valida el formulario -->
                 <x-adminlte-input class="col-md-6" name="duracion_x_titulo" label="Duracion por Titulo"
-                    label-class="text-lightblue" value="{{ $carrera->duracion_x_titulo }}">
+                    label-class="text-lightblue" value="{{ $especialidad->duracion_x_titulo }}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
@@ -91,7 +91,7 @@
                 </x-adminlte-input>
 
                 <x-adminlte-input class="col-md-6" name="descripcion" label="Descripcion" label-class="text-lightblue"
-                        value="{{ $carrera->descripcion }}">
+                        value="{{ $especialidad->descripcion }}">
                         <x-slot name="prependSlot">
                             <div class="input-group-text">
                                 <i class=" text-darkblue"></i>
@@ -107,7 +107,7 @@
 
 
                 <button type="submit" class="btn btn-primary" id="Edit">Actualizar</button>
-                <a href="{{ route('carreras.index') }}" class="btn btn-secondary">Cancelar</a>
+                <a href="{{ route('especialidades.index') }}" class="btn btn-secondary">Cancelar</a>
 
 
 

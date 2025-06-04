@@ -18,16 +18,16 @@
     <p> Ingrese la información de la Especialidad</p>
 
     <!--@ php// ESTE CODIGO ES OTRA MANERA DE ENVIAR LA NOTIFICACION AL USUARIO PERO SE QUEDA EN EL FORMULARIO
-        if (session()) {
-            if (session('message') == 'ok') {
-                # code...
-                echo '<x-adminlte-alert class="bg-teal text-uppercase" icon="fa fa-lg fa-thumbs-up" title="Done" dismissable>
-                Especialidad Creada exitosamente!
-                </x-adminlte-alert>';
+            if (session()) {
+                if (session('message') == 'ok') {
+                    # code...
+                    echo '<x-adminlte-alert class="bg-teal text-uppercase" icon="fa fa-lg fa-thumbs-up" title="Done" dismissable>
+                    Especialidad Creada exitosamente!
+                    </x-adminlte-alert>';
+                }
             }
-        }
 
-    @ endphp -->
+        @ endphp -->
 
     {{-- El resto de tu contenido de la vista --}}
 
@@ -36,33 +36,33 @@
 
 
         <div class="card-body">
-            <form action="{{ route('carreras.store') }}" method="POST">
+            <form action="{{ route('especialidades.store') }}" method="POST">
                 @csrf
 
 
 
                 {{-- With prepend slot --}}
-                <x-adminlte-input class="col-md-6" name="codigo_carrera" label="Codigo Especialidad"
-                    placeholder="codigo carrera" label-class="text-lightblue" value="{{ old('codigo_carrera') }}">
+                <x-adminlte-input class="col-md-6" name="codigo_especialidad" label="Codigo Especialidad"
+                    placeholder="codigo especialidad" label-class="text-lightblue" value="{{ old('codigo_especialidad') }}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
                             <!-- @ error('codigo_carrera')
-                        <div class="error">{ { $message }}</div>
-                      @ enderror -->
+                            <div class="error">{ { $message }}</div>
+                          @ enderror -->
                         </div>
                     </x-slot>
                 </x-adminlte-input>
 
 
-                <x-adminlte-input class="col-md-6" name="nombre_carrera" label="Nombre Especialidad"
-                    placeholder="nombre carrera" label-class="text-lightblue" value="{{ old('nombre_carrera') }}">
+                <x-adminlte-input class="col-md-6" name="nombre_especialidad" label="Nombre Especialidad"
+                    placeholder="nombre especialidad" label-class="text-lightblue" value="{{ old('nombre_especialidad') }}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
                             <!-- @ error('nombre_carrera')
-                     <div class="error">{ { $message }}</div> //las dos llaves que estan abriendo deben estar juntas
-                      @ enderror -->
+                         <div class="error">{ { $message }}</div> //las dos llaves que estan abriendo deben estar juntas
+                          @ enderror -->
                         </div>
                     </x-slot>
                 </x-adminlte-input>
@@ -81,8 +81,8 @@
                         <option selected>INGENIERO DE MANTENIMIENTO</option>
                     </x-adminlte-select>
                     <!-- @ error('titulo')
-                <div class="error">{ { $message }}</div>
-            @ enderror-->
+                    <div class="error">{ { $message }}</div>
+                @ enderror-->
                 </div>
 
                 <!-- EL metodo old permite mantener los datos cuando se recarga el formulario por errores del usuario cuando se valida el formulario -->
@@ -92,8 +92,8 @@
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
                             <!-- @ error('duracion_x_titulo')
-                         <div class="error">{ { $message }}</div>
-                          @ enderror -->
+                             <div class="error">{ { $message }}</div>
+                              @ enderror -->
                         </div>
                     </x-slot>
                 </x-adminlte-input>
@@ -104,8 +104,8 @@
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
                             <!-- @ error('descripcion')
-                          <div class="error">{ { $message }}</div>
-                          @ enderror -->
+                              <div class="error">{ { $message }}</div>
+                              @ enderror -->
                         </div>
                     </x-slot>
                 </x-adminlte-input>
@@ -117,7 +117,7 @@
 
 
                 <button type="submit" class="btn btn-primary">Guardar</button>
-                <a href="{{ route('carreras.index') }}" class="btn btn-secondary">Cancelar</a>
+                <a href="{{ route('especialidades.index') }}" class="btn btn-secondary">Cancelar</a>
 
 
 
@@ -125,7 +125,28 @@
             </form>
 
         </div>
+
+
     </div>
+
+    {{-- Custom --}}
+    <x-adminlte-modal id="modalCustom" title="Instrucciones" size="lg" theme="teal" icon="fas fa-bell" v-centered
+        static-backdrop scrollable>
+        <div style="height:800px;">
+            <h2>Instrucciones</h2>
+            <div style="height:400px;">
+                <p> - El boton lapiz lleva a otra interfaz llamada editar especialidad<br>
+                    - El boton papelera elimina, primero pregunta si desea eliminar
+                    el registro, luego lo elimina y envia una notifiacion en la <b>interfaz</b>
+                    lista de especialidades
+                    de que el registro ha sido eliminado</p>
+            </div>
+        </div>
+
+        <x-slot name="footerSlot">
+            <x-adminlte-button class="mr-auto" theme="success" label="Accept" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal>
 
 @stop
 
@@ -134,7 +155,5 @@
 @stop
 
 @section('js')
-    <script>
- 
-    </script>
+    <script></script>
 @stop

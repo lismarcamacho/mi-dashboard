@@ -548,7 +548,7 @@ return [
             'submenu' => [
                  [
                     'text' => 'Lista de Especialidades',
-                   'route' => 'carreras.index',
+                   'route' => 'especialidades.index',
                 ],
                 [
                     'text' => 'Agregar Especialidad',

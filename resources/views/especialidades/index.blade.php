@@ -31,7 +31,7 @@
 
         {{-- Setup data for datatables --}}
         <div class="botones">
-            <a href="{{ route('carreras.create') }}" class="btn btn-primary ml-2"> Agrega aqui una nueva especialidad</a>
+            <a href="{{ route('especialidades.create') }}" class="btn btn-primary ml-2"> Agrega aqui una nueva especialidad</a>
         </div>
         @php
             $heads = [
@@ -66,19 +66,19 @@
         <x-adminlte-datatable id="table5" :heads="$heads"  :config="$config" theme="light" striped hoverable>
 
         
-            @foreach ($carreras as $carrera)
+            @foreach ($especialidades as $especialidad)
                 <tr>
-                    <td>{{ $carrera->id }}</td>
-                    <td>{{ $carrera->codigo_carrera }}</td>
-                    <td>{{ $carrera->nombre_carrera }}</td>
-                    <td>{{ $carrera->titulo }}</td>
-                    <td>{{ $carrera->duracion_x_titulo }}</td>
-                    <td>{{ $carrera->descripcion }}</td>
-                    <td><a href="{{ route('carreras.edit', $carrera) }}"
+                    <td>{{ $especialidad->id }}</td>
+                    <td>{{ $especialidad->codigo_especialidad }}</td>
+                    <td>{{ $especialidad->nombre_especialidad }}</td>
+                    <td>{{ $especialidad->titulo }}</td>
+                    <td>{{ $especialidad->duracion_x_titulo }}</td>
+                    <td>{{ $especialidad->descripcion }}</td>
+                    <td><a href="{{ route('especialidades.edit', $especialidad) }}"
                             class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </a>
-                        <form style="display: inline" action="{{ route('carreras.destroy', $carrera) }}" method="POST"
+                        <form style="display: inline" action="{{ route('especialidades.destroy', $especialidad) }}" method="POST"
                             class="formEliminar">
                             @csrf
                             @method('delete') {!! $btnDelete !!}
@@ -104,13 +104,19 @@
             <p> - El boton lapiz lleva a otra interfaz llamada editar especialidad<br>
                 - El boton papelera elimina, primero pregunta si desea eliminar
                  el registro, luego lo elimina y envia una notifiacion en la <b>interfaz</b>
-                 lista de especialidades
-                 de que el registro ha sido eliminado</p></div>
+                 lista de especialidades de que el registro ha sido eliminado.<br><br>
+                - <b>Duración por Titulo:</b><br>
+                -Trayecto I- Certificado de Asistente Contable<br>
+                -Trayecto II - TSU en Contaduria Pública<br>
+                -Trayecto IV - Licenciado en Contaduria Publica<br>
+                -Trayecto IV - Ingeniero en Electricidad<br>
+                -Trayecto IV - Ingeniero en Mantenimiento<br>
+                -Trayecto IV - Licenciado en Administración<br>
+                </p></div>
     </div>
 
     <x-slot name="footerSlot">
-        <x-adminlte-button class="mr-auto" theme="success" label="Accept"/>
-        <x-adminlte-button theme="danger" label="Dismiss" data-dismiss="modal"/>
+        <x-adminlte-button class="mr-auto" theme="success" label="Accept" data-dismiss="modal"/>
     </x-slot>
 </x-adminlte-modal>
 {{-- Example button to open modal --}}

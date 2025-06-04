@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\CarreraController;
+
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermisoController;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Http\Controllers\AsignarController;
+use App\Http\Controllers\EspecialidadController;
 use App\Http\Controllers\ProgramaController;
 use App\Http\Controllers\SearchController;
 use App\Models\Carrera;
@@ -127,15 +128,15 @@ Route::resource('programas', ProgramaController::class);
 
 //----------------------------------------------------------------------------------------------------------//
 
-Route::resource('/carreras', CarreraController::class)->names('carreras');
+Route::resource('/especialidades', EspecialidadController::class)->names('especialidades');
 Route::prefix('admin')->group(function () {
-    Route::get('/carreras', [CarreraController::class, 'index'])->name('carreras.index');
-    Route::get('/carreras/create', [CarreraController::class, 'create'])->name('carreras.create'); // administra el formulario para crear una nueva especialidad
-    Route::post('/carreras', [CarreraController::class, 'store'])->name('carreras.store');
-    Route::get('/carreras/{carreras}', [CarreraController::class, 'show'])->name('carreras.show');
-    Route::get('/carreras/{carrera}/edit', [CarreraController::class, 'edit'])->name('carreras.edit');
-    Route::put('/carreras/{carrera}', [CarreraController::class, 'update'])->name('carreras.update');
-    Route::delete('/carreras/{carrera}', [CarreraController::class, 'destroy'])->name('carreras.destroy');
+    Route::get('/especialidades', [EspecialidadController::class, 'index'])->name('especialidades.index');
+    Route::get('/especialidades/create', [EspecialidadController::class, 'create'])->name('especialidades.create'); // administra el formulario para crear una nueva especialidad
+    Route::post('/especialidades', [EspecialidadController::class, 'store'])->name('especialidades.store');
+    Route::get('/especialidades/{especialidad}', [EspecialidadController::class, 'show'])->name('especialidades.show');
+    Route::get('/especialidades/{especialidad}/edit', [EspecialidadController::class, 'edit'])->name('especialidades.edit');
+    Route::put('/especialidades/{especialidad}', [EspecialidadController::class, 'update'])->name('especialidades.update');
+    Route::delete('/especialidades/{especialidad}', [EspecialidadController::class, 'destroy'])->name('especialidades.destroy');
 });
 
 
