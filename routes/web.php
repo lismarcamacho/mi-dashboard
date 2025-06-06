@@ -10,6 +10,8 @@ use App\Http\Controllers\AsignarController;
 use App\Http\Controllers\EspecialidadController;
 use App\Http\Controllers\ProgramaController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\TituloController;
+use App\Http\Controllers\TrayectoController;
 use App\Models\Carrera;
 
 use Illuminate\Support\Facades\Route;
@@ -69,7 +71,7 @@ Route::put('/profile/{id}', [PerfilController::class, 'update'])->name('profile.
 //----------------------------------------------------------------------------------------------------------//
 Route::resource('users', UsuarioController::class);
 // Ruta para mostrar una lista de usuarios (asumiendo un método 'index' en el controlador)
-Route::get('/users', [UsuarioController::class, 'index'])->name('users.index');
+Route::get('/users', [UsuarioController::class, 'index'])->name('users.listUser');
 
 Route::get('/users', [PerfilController::class, 'index'])->name('users.index');
 // Ruta para mostrar el formulario de creación de un nuevo usuario (asumiendo un método 'create')
@@ -138,6 +140,29 @@ Route::prefix('admin')->group(function () {
     Route::put('/especialidades/{especialidad}', [EspecialidadController::class, 'update'])->name('especialidades.update');
     Route::delete('/especialidades/{especialidad}', [EspecialidadController::class, 'destroy'])->name('especialidades.destroy');
 });
+
+Route::resource('/titulos', TituloController::class)->names('titulos');; // Esto crea varias rutas: index, create, store, show, edit, update, destroy
+Route::prefix('admin')->group(function () {
+    Route::get('/titulos', [TituloController::class, 'index'])->name('titulos.index');
+    Route::get('/titulos/create', [TituloController::class, 'create'])->name('titulos.create'); // administra el formulario para crear una nueva especialidad
+    Route::post('/titulos', [TituloController::class, 'store'])->name('titulos.store');
+    Route::get('/titulos/{titulo}', [TituloController::class, 'show'])->name('titulos.show');
+    Route::get('/titulos/{titulo}/edit', [TituloController::class, 'edit'])->name('titulos.edit');
+    Route::put('/titulos/{titulo}', [TituloController::class, 'update'])->name('titulos.update');
+    Route::delete('/titulos/{titulo}', [TituloController::class, 'destroy'])->name('titulos.destroy');
+});
+
+Route::resource('trayectos', TrayectoController::class)->names('trayectos');
+Route::prefix('admin')->group(function () {
+    Route::get('/trayectos', [TrayectoController::class, 'index'])->name('trayectos.index');
+    Route::get('/trayectos/create', [TrayectoController::class, 'create'])->name('trayectos.create'); // administra el formulario para crear una nueva especialidad
+    Route::post('/trayectos', [TrayectoController::class, 'store'])->name('trayectos.store');
+    Route::get('/trayectos/{trayecto}', [TrayectoController::class, 'show'])->name('trayectos.show');
+    Route::get('/trayectos/{trayecto}/edit', [TrayectoController::class, 'edit'])->name('trayectos.edit');
+    Route::put('/trayectos/{trayecto}', [TrayectoController::class, 'update'])->name('trayectos.update');
+    Route::delete('/trayectos/{trayecto}', [TrayectoController::class, 'destroy'])->name('trayectos.destroy');
+});
+
 
 
 }); // **************************************FIN MIDDLEWARE***************************

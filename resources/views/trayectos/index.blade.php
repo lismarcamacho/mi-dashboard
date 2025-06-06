@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Lista de Programas')
+@section('title', 'Lista de Titulos')
 @section('preloader')
     <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
-    <h4 class="mt-4 text-dark">Cargando Lista de Programas..</h4>
+    <h4 class="mt-4 text-dark">Cargando Lista de Trayectos..</h4>
 @stop
 
 
 @section('content_header')
     <center>
-        <h1>Lista de Programas</h1>
+        <h1>Lista de Trayectos</h1>
     </center>
 @stop
 
@@ -31,15 +31,14 @@
 
         {{-- Setup data for datatables --}}
         <div class="botones">
-            <a href="{{ route('programas.create') }}" class="btn btn-primary ml-2"> Agrega aqui un  nuevo Programa</a>
+            <a href="{{ route('trayectos.create') }}" class="btn btn-primary ml-2"> Agrega aqui un  nuevo Trayecto</a>
         </div>
         @php
             $heads = [
                 'ID',
-                'Código Programa',
-                'Nombre Programa',
-                'Fecha Programa',
-                'Descripción',
+                'Nombre del Trayecto',
+                'Descripcion',
+              
                 ['label' => 'Acciones', 'no-export' => true, 'width' => 10],
             ];
 
@@ -56,7 +55,6 @@
             $config = [
                 'language' => [
                     'url' => 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json',
-                    'scrollCollapse'=> true,
                 ],
             ];
 
@@ -66,18 +64,17 @@
         <x-adminlte-datatable id="table5" :heads="$heads"  :config="$config" theme="light" striped hoverable>
 
         
-            @foreach ($programas as $programa)
+            @foreach ($trayectos as $trayecto)
                 <tr>
-                    <td>{{ $programa->id }}</td>
-                    <td>{{ $programa->codigo_programa }}</td>
-                    <td>{{ $programa->nombre_programa }}</td>
-                    <td>{{ \Carbon\Carbon::parse($programa->fecha_programa)->format('d/m/Y') }}</td>
-                    <td>{{ $programa->descripcion }}</td>
-                    <td><a href="{{ route('programas.edit', $programa) }}"
+                    <td>{{ $trayecto->id }}</td>
+                    <td>{{ $trayecto->nombre_trayecto }}</td>
+                    <td>{{ $trayecto->descripcion }}</td>
+
+                    <td><a href="{{ route('trayectos.edit', $trayecto) }}"
                             class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </a>
-                        <form style="display: inline" action="{{ route('programas.destroy', $programa) }}" method="POST"
+                        <form style="display: inline" action="{{ route('trayectos.destroy', $trayecto) }}" method="POST"
                             class="formEliminar">
                             @csrf
                             @method('delete') {!! $btnDelete !!}
@@ -100,16 +97,16 @@
     icon="fas fa-bell" v-centered static-backdrop scrollable>
     <div style="height:800px;"><h2>Instrucciones</h2>
         <div style="height:400px;">
-            <p> - El boton lapiz lleva a otra interfaz llamada editar programa<br>
+            <p> - El boton lapiz lleva a otra interfaz llamada editar trayecto<br>
                 - El boton papelera elimina, primero pregunta si desea eliminar
                  el registro, luego lo elimina y envia una notifiacion en la <b>interfaz</b>
-                 lista de programas
+                 lista de trayectos
                  de que el registro ha sido eliminado</p></div>
     </div>
 
     <x-slot name="footerSlot">
-        <x-adminlte-button class="mr-auto" theme="success" label="Accept"/>
-        <x-adminlte-button theme="danger" label="Dismiss" data-dismiss="modal"/>
+        <x-adminlte-button class="mr-auto" theme="success" label="Accept" data-dismiss="modal"/>
+        
     </x-slot>
 </x-adminlte-modal>
 {{-- Example button to open modal --}}

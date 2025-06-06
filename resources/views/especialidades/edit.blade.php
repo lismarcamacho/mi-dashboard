@@ -63,23 +63,21 @@
 
 
 
-                <x-adminlte-input class="col-md-6" name="titulo" label="Titulo" label-class="text-lightblue"
-                    value="{{ $especialidad->titulo }}">
+             <!--    <x-adminlte-input class="col-md-6" name="titulo" label="Titulo" label-class="text-lightblue"
+                    value="{ { $especialidad->titulo }}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
-                            <!-- @ error('titulo')
-                                                <div class="error">{ { $message }}</div>
-                                                @ enderror -->
+                           
                         </div>
                     </x-slot>
-                </x-adminlte-input>
+                </x-adminlte-input>   -->
 
 
 
                 <!-- EL metodo old permite mantener los datos cuando se recarga el formulario por errores del usuario cuando se valida el formulario -->
-                <x-adminlte-input class="col-md-6" name="duracion_x_titulo" label="Duracion por Titulo"
-                    label-class="text-lightblue" value="{{ $especialidad->duracion_x_titulo }}">
+                <x-adminlte-input class="col-md-6" name="duracion" label="Duracion "
+                    label-class="text-lightblue" value="{{ $especialidad->duracion }}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
@@ -89,6 +87,8 @@
                             </div>
                         </x-slot>
                 </x-adminlte-input>
+
+                
 
                 <x-adminlte-input class="col-md-6" name="descripcion" label="Descripcion" label-class="text-lightblue"
                         value="{{ $especialidad->descripcion }}">

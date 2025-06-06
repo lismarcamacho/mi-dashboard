@@ -29,12 +29,12 @@
         @endif
         <!-- *************************************NO TOCAR***************************** -->
 
-        @role('Administrador')
+        @ role('Administrador')
         <div class="car-header mt-3" >
-            <x-adminlte-button label="Agrega un Nuevo Usuario" theme="primary" icon="fas fa-key" data-toggle="modal"
+            <x-adminlte-button label="Agrega un Nuevo Rol" theme="primary" icon="fas fa-key" data-toggle="modal"
                 data-target="#modalPurple"  />
         </div>
-        @endrole
+        @ endrole
         {{-- Setup data for datatables --}}
         @php
             $heads = ['ID', 'Nombre Rol', ['label' => 'Acciones', 'no-export' => true, 'width' => 20]];
@@ -65,7 +65,7 @@
                 <tr>
                     <td>{{ $role->id }}</td>
                     <td>{{ $role->name }}</td>
-                    <td>@role('Administrador')
+                    <td>@ role('Administrador')
                         <a href="{{ route('roles.edit', $role) }}" class="btn btn-xs btn-default text-primary mx-1 shadow"
                             title="Editar permisos de este rol">
                             <i class="fa fa-lg fa-fw fa-eye"></i>
@@ -78,7 +78,7 @@
                             class="formEliminar">
                             @csrf
                             @method('delete') {!! $btnDelete !!}
-                            @endrole
+                            @ endrole
 
                         </form>
 

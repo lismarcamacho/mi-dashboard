@@ -21,8 +21,8 @@ class UnidadCurricular extends Model
     protected $keyType = 'int';
     // Para habilitar la asignación masiva (llenar atributos con un array):
     protected $fillable = [
-    'codigo',
-    'nombre',
+    'codigo_unidad_curricular',
+    'nombre_unidad_curricular',
     'prelacion',
     'uc',
     'hrs_sem',
@@ -30,7 +30,8 @@ class UnidadCurricular extends Model
     'hti',
     'hte',
     'dist',
-    'eje'
+    'eje',
+    'mininmo_aprobatorio'
     ];
 
     // Para evitar la asignación masiva de ciertos campos:

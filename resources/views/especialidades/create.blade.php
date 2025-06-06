@@ -18,16 +18,16 @@
     <p> Ingrese la información de la Especialidad</p>
 
     <!--@ php// ESTE CODIGO ES OTRA MANERA DE ENVIAR LA NOTIFICACION AL USUARIO PERO SE QUEDA EN EL FORMULARIO
-            if (session()) {
-                if (session('message') == 'ok') {
-                    # code...
-                    echo '<x-adminlte-alert class="bg-teal text-uppercase" icon="fa fa-lg fa-thumbs-up" title="Done" dismissable>
-                    Especialidad Creada exitosamente!
-                    </x-adminlte-alert>';
+                if (session()) {
+                    if (session('message') == 'ok') {
+                        # code...
+                        echo '<x-adminlte-alert class="bg-teal text-uppercase" icon="fa fa-lg fa-thumbs-up" title="Done" dismissable>
+                        Especialidad Creada exitosamente!
+                        </x-adminlte-alert>';
+                    }
                 }
-            }
 
-        @ endphp -->
+            @ endphp -->
 
     {{-- El resto de tu contenido de la vista --}}
 
@@ -48,8 +48,8 @@
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
                             <!-- @ error('codigo_carrera')
-                            <div class="error">{ { $message }}</div>
-                          @ enderror -->
+                                <div class="error">{ { $message }}</div>
+                              @ enderror -->
                         </div>
                     </x-slot>
                 </x-adminlte-input>
@@ -61,39 +61,64 @@
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
                             <!-- @ error('nombre_carrera')
-                         <div class="error">{ { $message }}</div> //las dos llaves que estan abriendo deben estar juntas
-                          @ enderror -->
+                             <div class="error">{ { $message }}</div> //las dos llaves que estan abriendo deben estar juntas
+                              @ enderror -->
                         </div>
                     </x-slot>
                 </x-adminlte-input>
 
 
-                <div class="row">
+                <!-- <div class="row">
 
-                    <x-adminlte-select name="titulo" label="Titulo a obtener:" fgroup-class="col-md-6">
-                        <option>ASISTENTE CONTABLE</option>
-                        <option selected>TSU EN CONTADURÍA PUBLICA </option>
-                        <option selected>LICENCIADO EN CONTADURÍA PUBLICA</option>
-                        <option>ASISTENTE ADMINISTRATIVO</option>
-                        <option selected>TSU EN ADMINISTRACIÓN </option>
-                        <option selected>LICENCIADO EN ADMINISTRACIÓN</option>
-                        <option selected>INGENIERO EN ELECTRICIDAD</option>
-                        <option selected>INGENIERO DE MANTENIMIENTO</option>
+                        <x-adminlte-select name="titulo" label="Titulo a obtener:" fgroup-class="col-md-6">
+                            <option>ASISTENTE CONTABLE</option>
+                            <option selected>TSU EN CONTADURÍA PUBLICA </option>
+                            <option selected>LICENCIADO EN CONTADURÍA PUBLICA</option>
+                            <option>ASISTENTE ADMINISTRATIVO</option>
+                            <option selected>TSU EN ADMINISTRACIÓN </option>
+                            <option selected>LICENCIADO EN ADMINISTRACIÓN</option>
+                            <option selected>INGENIERO EN ELECTRICIDAD</option>
+                            <option selected>INGENIERO DE MANTENIMIENTO</option>
+                        </x-adminlte-select>
+                   
+                    </div> -->
+
+                <!-- <div class="row">
+
+                    <x-adminlte-select name="titulo" label="Programa:" fgroup-class="col-md-6">
+                        @ foreach ($programas as $programa)
+                            <option> { { $programa->nombre_programa }}</option>
+                        @ endforeach
                     </x-adminlte-select>
-                    <!-- @ error('titulo')
-                    <div class="error">{ { $message }}</div>
-                @ enderror-->
-                </div>
+
+                </div> -->
+
+               <!-- <div class="mb-3">
+                    <label for="programa_id" class="form-label">Asignar a Programa:</label>
+                    <select class="form-select" id="programa_id" name="programa_id" required>
+                        <option value="{ { $programa->id }}">Selecciona un Programa</option>
+                        @ foreach ($programas as $programa)
+                            
+                            <option value="{ { $programa->id }}">
+                                { { $programa->nombre_programa }}
+                            </option>
+                        @ endforeach
+                    </select>
+                    @ error('programa_id')
+                        <div class="text-danger">{ { $message }}</div>
+                    @ enderror
+                </div> -->
+
 
                 <!-- EL metodo old permite mantener los datos cuando se recarga el formulario por errores del usuario cuando se valida el formulario -->
-                <x-adminlte-input class="col-md-6" name="duracion_x_titulo" label="Duracion por Titulo"
-                    placeholder="Duracion por Titulo" label-class="text-lightblue" value="{{ old('duracion_x_titulo') }}">
+                <x-adminlte-input class="col-md-6" name="duracion" label="Duracion" placeholder="Duracion"
+                    label-class="text-lightblue" value="{{ old('duracion') }}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
                             <!-- @ error('duracion_x_titulo')
-                             <div class="error">{ { $message }}</div>
-                              @ enderror -->
+                                 <div class="error">{ { $message }}</div>
+                                  @ enderror -->
                         </div>
                     </x-slot>
                 </x-adminlte-input>
@@ -104,8 +129,8 @@
                         <div class="input-group-text">
                             <i class=" text-darkblue"></i>
                             <!-- @ error('descripcion')
-                              <div class="error">{ { $message }}</div>
-                              @ enderror -->
+                                  <div class="error">{ { $message }}</div>
+                                  @ enderror -->
                         </div>
                     </x-slot>
                 </x-adminlte-input>

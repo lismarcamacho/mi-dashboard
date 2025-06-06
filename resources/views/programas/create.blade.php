@@ -17,6 +17,10 @@
 
     <p> Ingrese la información del Programa</p>
 
+    @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
     <!--@ php// ESTE CODIGO ES OTRA MANERA DE ENVIAR LA NOTIFICACION AL USUARIO PERO SE QUEDA EN EL FORMULARIO
                                 if (session()) {
                                     if (session('message') == 'ok') {
@@ -42,6 +46,19 @@
 
 
                 {{-- With prepend slot --}}
+                <div class="col-md-12">
+                    <x-adminlte-input class="col-md-6" name="codigo_programa" label="Codigo Programa"
+                        placeholder="Codigo programa" label-class="text-lightblue" value="{{ old('codigo_programa') }}">
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text">
+                                <i class=" text-darkblue"></i>
+                                <!-- @ error('nombre_carrera')
+                                             <div class="error">{ { $message }}</div> //las dos llaves que estan abriendo deben estar juntas
+                                              @ enderror -->
+                            </div>
+                        </x-slot>
+                    </x-adminlte-input>
+                </div>
 
                 <div class="col-md-12">
 
@@ -58,19 +75,7 @@
                     </x-adminlte-input>
                 </div>
 
-                <div class="col-md-12">
-                    <x-adminlte-input class="col-md-6" name="codigo_programa" label="Codigo Programa"
-                        placeholder="Codigo programa" label-class="text-lightblue" value="{{ old('codigo_programa') }}">
-                        <x-slot name="prependSlot">
-                            <div class="input-group-text">
-                                <i class=" text-darkblue"></i>
-                                <!-- @ error('nombre_carrera')
-                                             <div class="error">{ { $message }}</div> //las dos llaves que estan abriendo deben estar juntas
-                                              @ enderror -->
-                            </div>
-                        </x-slot>
-                    </x-adminlte-input>
-                </div>
+
 
                 <div class="col-md-12">
                     <x-adminlte-input class="col-md-6" name="fecha_programa" label="Fecha Programa" placeholder="DD/MM/AAAA"

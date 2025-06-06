@@ -51,12 +51,12 @@
         @endif
         <!-- *************************************NO TOCAR***************************** -->
 
-        @role('Administrador')
+        @ role('Administrador')
         <div class="car-header">
             <x-adminlte-button label="Agrega un Nuevo Usuario" theme="primary" icon="fas fa-key" data-toggle="modal"
                 data-target="#modalPurple" />
         </div>
-        @endrole
+        @ endrole
         {{-- Setup data for datatables --}}
         @php
             $heads = ['ID', 'Nombre', 'Email', 'Es Admin?',['label' => 'Acciones', 'no-export' => true, 'width' => 10]];
@@ -95,7 +95,7 @@
                             <span class="badge badge-danger">No</span>
                         @endif
                     </td>
-                    <td>@role('Administrador')
+                    <td>@ role('Administrador')
                         <a href="{{ route('asignar.edit', $user) }}" class="btn btn-xs btn-default text-primary mx-1 shadow"
                             title="Asignar Roles a este usuario">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
@@ -104,7 +104,7 @@
                             class="formEliminar" title="Eliminar este usuario">
                             @csrf
                             @method('delete') {!! $btnDelete !!}
-                        @endrole
+                        @ endrole
 
                         </form>
 
@@ -127,9 +127,9 @@
 
 
         {{-- ESTE MODAL QUEDA OCULTO --}}
-        <x-adminlte-modal id="modalPurple" title="Nuevo Rol" theme="primary" icon="fas fa-bolt" size='lg'
+        <x-adminlte-modal id="modalPurple" title="Nuevo Usuario" theme="primary" icon="fas fa-bolt" size='lg'
             disable-animations>
-            Ingrese el Rol
+            Ingrese el  Usuario
             {{-- With label, invalid feedback disabled, and form group class --}}
 
 

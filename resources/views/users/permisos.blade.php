@@ -31,12 +31,12 @@
 
         {{-- Setup data for datatables --}}
   
-        @role('Administrador')
+        @ role('Administrador')
         <div class="car-header">
             <x-adminlte-button label="Agrega un nuevo Permiso Aqui" theme="primary" icon="fas fa-key" data-toggle="modal"
                 data-target="#modalPurple" />
         </div>
-        @endrole
+        @ endrole
         @php
             $heads = ['ID', 'Permisos', ['label' => 'Acciones', 'no-export' => true, 'width' => 10]];
 
@@ -66,7 +66,7 @@
                 <tr>
                     <td>{{ $permiso->id }}</td>
                     <td>{{ $permiso->name }}</td>
-                    <td>@role('Administrador')
+                    <td>@ role('Administrador')
                         <a href="{{ route('permisos.edit', $permiso) }}" class="btn btn-xs btn-default text-primary mx-1 shadow"
                             title="Editar Este permiso">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
@@ -75,7 +75,7 @@
                             class="formEliminar">
                             @csrf
                             @method('delete') {!! $btnDelete !!}
-                            @endrole
+                            @ endrole
                         </form>
 
                     </td>

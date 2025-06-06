@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash; // Importa la clase Hash
 use Illuminate\Support\Facades\Auth; // Importa la clase Auth
 use Illuminate\Support\Facades\Validator; // Para validar los datos
 use Illuminate\Validation\Rules\Password;
-
+use Illuminate\Support\Facades\Log; 
 
 class UsuarioController extends Controller
 {
@@ -15,9 +15,10 @@ class UsuarioController extends Controller
     public function index()
     {
         $users = User::all();
-        $users = User::paginate(15); 
-        //dd($users);
-        return view('users.index', compact('users'));
+        //$users = User::paginate(15); 
+        dd($users);
+        Log::info('Cargando usuarios para la vista:', ['count' => $users->count(), 'first_user_email' => $users->first() ? $users->first()->email : 'N/A']);
+        return view('users.listUser', compact('users')); 
         //return view('users.index', ['users' => $users]);
     }
 

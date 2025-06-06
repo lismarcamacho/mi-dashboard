@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Especialidad;
+use App\Models\Programa;
 use GuzzleHttp\Client;
 use Illuminate\Validation\Rules\Can;
 //use lluminate\Http\RedirectResponse;
-use Illuminate\Database\Eloquent\Factories\HasFactory; // <--- ADD THIS LINE!
+
 
 // Gestion de especialidades (crear, leer, actualizar, eliminar carreras)
 class EspecialidadController extends Controller
@@ -18,11 +19,14 @@ class EspecialidadController extends Controller
     public function index()
     {
         //return ("lista de carreras");
-        // $carrera = Can::all();
+        
         $especialidades = Especialidad::all();
+        //$especialidades = Especialidad::paginate(15);
+   
+        $especialidades = Especialidad::with('titulos')->get();
 
         // Or, if you want to paginate the results:
-        //$carreras = Carrera::paginate(15); // Show 10 carreras per page
+       // $carreras = Carrera::paginate(15); // Show 10 carreras per page
 
         // Fetch all carreras from the database
 
@@ -38,6 +42,7 @@ class EspecialidadController extends Controller
     public function create()
     {
         // return("Nueva carrera");
+        $programas = Programa::all();
         return view('especialidades.create');
     }
 
@@ -53,8 +58,7 @@ class EspecialidadController extends Controller
 
             'codigo_especialidad' => 'required|string|unique:Especialidades,codigo_especialidad|min:5|max:15',
             'nombre_especialidad' => 'required|string|unique:Especialidades,nombre_especialidad|max:105',
-            'titulo' => 'required|string|max:105',
-            'duracion_x_titulo' => 'required|string|max:75',
+            'duracion' => 'required|string|max:75',
             'descripcion' => 'required|string|max:255',
 
         ]);
@@ -63,8 +67,9 @@ class EspecialidadController extends Controller
         $especialidad = new Especialidad();
         $especialidad->codigo_especialidad = $request->input('codigo_especialidad'); // Asegúrate de que 'codigo_carrera' esté aquí
         $especialidad->nombre_especialidad = $request->input('nombre_especialidad');
-        $especialidad->titulo = $request->input('titulo');
-        $especialidad->duracion_x_titulo = $request->input('duracion_x_titulo');
+        //$especialidad->titulo = $request->input('titulo');
+       // $especialidad->duracion_x_titulo = $request->input('duracion_x_titulo');
+        $especialidad->duracion = $request->input('duracion');
         $especialidad->descripcion = $request->input('descripcion');
         $especialidad->save();
         //dd('Guardado intentado');
@@ -86,9 +91,12 @@ class EspecialidadController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Especialidad $especialidad)
     {
-        //
+    // Carga ansiosamente los trayectos para esta especialidad
+    $especialidad->load('titulos','trayectos');
+
+    return view('especialidades.show', compact('especialidad'));
     }
 
     /**
@@ -111,9 +119,10 @@ class EspecialidadController extends Controller
         //vaariable $cliente accede al modelo Cliente y al metodo find
         $especialidad = Especialidad::find($id);
         $especialidad->codigo_especialidad = $request->input('codigo_especialidad'); // Asegúrate de que 'codigo_carrera' esté aquí
-        $especialidad->nombre_carrera = $request->input('nombre_especialidad');
-        $especialidad->titulo = $request->input('titulo');
-        $especialidad->duracion_x_titulo = $request->input('duracion_x_titulo');
+        $especialidad->nombre_especialidad = $request->input('nombre_especialidad');
+       // $especialidad->titulo = $request->input('titulo');
+       // $especialidad->duracion_x_titulo = $request->input('duracion_x_titulo');
+        $especialidad->duracion = $request->input('duracion');
         $especialidad->descripcion = $request->input('descripcion');
         $especialidad->save();
        // return redirect()->route('carreras.index')->width('success','Actualizado Correctamente');

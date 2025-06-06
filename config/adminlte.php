@@ -511,7 +511,7 @@ return [
                  [
                     'text' => 'Lista',
                   // 'route' => 'programas.index',
-                    'url' => 'admin/trayectos/create',
+                    'route' => 'trayectos.index',
 
                 ],
                 [
@@ -552,7 +552,25 @@ return [
                 ],
                 [
                     'text' => 'Agregar Especialidad',
-                    'url' => 'admin/carreras/create',
+                    'url' => 'admin/especialidades/create',
+                ],
+              
+               
+            ],
+        ],
+
+                [
+            'text' => 'Titulos',
+            'icon' => 'fas fa-fw fa-trophy',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Lista de Titulos',
+                   'route' => 'titulos.index',
+                ],
+                [
+                    'text' => 'Agregar titulos',
+                    'url' => 'admin/titulos/create',
                 ],
                
             ],

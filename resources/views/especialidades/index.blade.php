@@ -31,23 +31,24 @@
 
         {{-- Setup data for datatables --}}
         <div class="botones">
-            <a href="{{ route('especialidades.create') }}" class="btn btn-primary ml-2"> Agrega aqui una nueva especialidad</a>
+            <a href="{{ route('especialidades.create') }}" class="btn btn-primary ml-2"> Agrega aqui una nueva
+                especialidad</a>
         </div>
         @php
             $heads = [
                 'ID',
-                'Nombre Especialidad',
                 'Codigo Especialidad',
+                'Nombre Especialidad',
+                'Duracion',
                 'Titulo',
-                'Duración por titulo',
-                'Descripción',
-                ['label' => 'Acciones', 'no-export' => true, 'width' => 10],
+           
+                ['label' => 'Acciones', 'no-export' => true, 'width' => 20],
             ];
 
             $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                 <i class="fa fa-lg fa-fw fa-pen"></i>
             </button>';
-            $btnDelete = '<button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
+            $btnDelete = '<button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Eliminar esta especialidad">
                   <i class="fa fa-lg fa-fw fa-trash"></i>
               </button>';
             $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
@@ -63,23 +64,41 @@
         @endphp
 
         {{-- Minimal example / fill data using the component slot :config="$config" --}}
-        <x-adminlte-datatable id="table5" :heads="$heads"  :config="$config" theme="light" striped hoverable>
+        <x-adminlte-datatable id="table5" :heads="$heads" :config="$config" theme="light" striped hoverable>
 
-        
+
             @foreach ($especialidades as $especialidad)
                 <tr>
                     <td>{{ $especialidad->id }}</td>
                     <td>{{ $especialidad->codigo_especialidad }}</td>
                     <td>{{ $especialidad->nombre_especialidad }}</td>
-                    <td>{{ $especialidad->titulo }}</td>
-                    <td>{{ $especialidad->duracion_x_titulo }}</td>
-                    <td>{{ $especialidad->descripcion }}</td>
+                    <!--  <td>{ { $especialidad->titulo }}</td> -->
+                    {{-- Este @forelse es seguro porque maneja el caso de colección vacía --}}
+                    <td>{{ $especialidad->duracion }}</td>
+     {{-- INICIO DEL BLOQUE CORREGIDO PARA MOSTRAR LOS TÍTULOS --}}
+                    <td>
+                        @if($especialidad->titulos->isNotEmpty())
+                            <ul> {{-- Usamos una lista no ordenada para listar los títulos --}}
+                                @foreach($especialidad->titulos as $titulo)
+                                    <li>{{ $titulo->nombre }} ({{ $titulo->duracion }} )</li>
+                                @endforeach
+                            </ul>
+                        @else
+                            No hay títulos asociados
+                        @endif
+                    </td>
+                    
+                     <!--<td>{ { $especialidad->descripcion }}</td>-->
                     <td><a href="{{ route('especialidades.edit', $especialidad) }}"
-                            class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
+                            class="btn btn-xs btn-default text-primary mx-1 shadow" title="Editar esta especialidad">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </a>
-                        <form style="display: inline" action="{{ route('especialidades.destroy', $especialidad) }}" method="POST"
-                            class="formEliminar">
+                        <a href="{{ route('especialidades.show', $especialidad) }}"
+                            class="btn btn-xs btn-default text-primary mx-1 shadow" title="Ver detalles de la especialidad">
+                            <i class="fa fa-lg fa-fw fa-eye"></i>
+                        </a>
+                        <form style="display: inline" action="{{ route('especialidades.destroy', $especialidad) }}"
+                            method="POST" class="formEliminar">
                             @csrf
                             @method('delete') {!! $btnDelete !!}
 
@@ -96,31 +115,33 @@
 
 
     </div>
-{{-- Custom --}}
-<x-adminlte-modal id="modalCustom" title="Instrucciones" size="lg" theme="teal"
-    icon="fas fa-bell" v-centered static-backdrop scrollable>
-    <div style="height:800px;"><h2>Instrucciones</h2>
-        <div style="height:400px;">
-            <p> - El boton lapiz lleva a otra interfaz llamada editar especialidad<br>
-                - El boton papelera elimina, primero pregunta si desea eliminar
-                 el registro, luego lo elimina y envia una notifiacion en la <b>interfaz</b>
-                 lista de especialidades de que el registro ha sido eliminado.<br><br>
-                - <b>Duración por Titulo:</b><br>
-                -Trayecto I- Certificado de Asistente Contable<br>
-                -Trayecto II - TSU en Contaduria Pública<br>
-                -Trayecto IV - Licenciado en Contaduria Publica<br>
-                -Trayecto IV - Ingeniero en Electricidad<br>
-                -Trayecto IV - Ingeniero en Mantenimiento<br>
-                -Trayecto IV - Licenciado en Administración<br>
-                </p></div>
-    </div>
+    {{-- Custom --}}
+    <x-adminlte-modal id="modalCustom" title="Instrucciones" size="lg" theme="teal" icon="fas fa-bell" v-centered
+        static-backdrop scrollable>
+        <div style="height:800px;">
+            <h2>Instrucciones</h2>
+            <div style="height:400px;">
+                <p> - El boton lapiz lleva a otra interfaz llamada editar especialidad<br>
+                    - El boton papelera elimina, primero pregunta si desea eliminar
+                    el registro, luego lo elimina y envia una notifiacion en la <b>interfaz</b>
+                    lista de especialidades de que el registro ha sido eliminado.<br><br>
+                    - <b>Duración por Titulo:</b><br>
+                    -Trayecto I- Certificado de Asistente Contable<br>
+                    -Trayecto II - TSU en Contaduria Pública<br>
+                    -Trayecto IV - Licenciado en Contaduria Publica<br>
+                    -Trayecto IV - Ingeniero en Electricidad<br>
+                    -Trayecto IV - Ingeniero en Mantenimiento<br>
+                    -Trayecto IV - Licenciado en Administración<br>
+                </p>
+            </div>
+        </div>
 
-    <x-slot name="footerSlot">
-        <x-adminlte-button class="mr-auto" theme="success" label="Accept" data-dismiss="modal"/>
-    </x-slot>
-</x-adminlte-modal>
-{{-- Example button to open modal --}}
-<x-adminlte-button label="Leer Instructivo" data-toggle="modal" data-target="#modalCustom" class="bg-teal"/>
+        <x-slot name="footerSlot">
+            <x-adminlte-button class="mr-auto" theme="success" label="Accept" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal>
+    {{-- Example button to open modal --}}
+    <x-adminlte-button label="Leer Instructivo" data-toggle="modal" data-target="#modalCustom" class="bg-teal" />
 
 @endsection
 
@@ -160,16 +181,17 @@
         // cuando el domunento este listo dispara la funcion
         $(document).ready(function() {
 
-               if (!$.fn.dataTable.isDataTable('#table5')) {
-                    console.log('Ruta del idioma:', 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'); // Ajusta la ruta
+            if (!$.fn.dataTable.isDataTable('#table5')) {
+                console.log('Ruta del idioma:',
+                'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'); // Ajusta la ruta
 
-                    $('#table5').DataTable({
-                      // Tus opciones de DataTables aquí
-                        language: {
-                            url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json' // Asegúrate de que esta ruta sea correcta
-                        }
-                    });
-                }
+                $('#table5').DataTable({
+                    // Tus opciones de DataTables aquí
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json' // Asegúrate de que esta ruta sea correcta
+                    }
+                });
+            }
 
 
 
