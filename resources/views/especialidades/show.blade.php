@@ -2,11 +2,11 @@
 
 @extends('adminlte::page')
 
-@section('title', 'Registrar Especialidad')
+@section('title', 'Detalles de la Especialidad')
 
 @section('preloader')
     <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
-    <h4 class="mt-4 text-dark">Cargando Formulario Nueva Especialidad..</h4>
+    <h4 class="mt-4 text-dark">Cargando detalles de la Especialidad..</h4>
 @stop
 
 @section('content_header')

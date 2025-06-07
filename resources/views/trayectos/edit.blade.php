@@ -49,9 +49,9 @@
                 </div>
 
                 <div class="col-md-12">
-                    @foreach($especialidades as $especialidad)
-                    <x-adminlte-input class="col-md-6" name="{{ $especialidad->nombre_especialidad}}" label=""
-                        label-class="text-lightblue" value="{{ $especialidad->nombre_especialidad}}">
+                   
+                    <x-adminlte-input class="col-md-6" name="{{ $especialidadAsociada->nombre_especialidad}}" label=""
+                        label-class="text-lightblue" value="{{ $especialidadAsociada->nombre_especialidad}}">
                         <x-slot name="prependSlot">
                             <div class="input-group-text">
                                 <i class=" text-darkblue"></i>
@@ -61,7 +61,7 @@
                             </div>
                         </x-slot>
                     </x-adminlte-input>
-                    @endforeach
+                 
                 </div>
 
 

@@ -32,13 +32,14 @@
         {{-- Setup data for datatables --}}
         <div class="botones">
             <a href="{{ route('trayectos.create') }}" class="btn btn-primary ml-2"> Agrega aqui un  nuevo Trayecto</a>
+
         </div>
         @php
             $heads = [
                 'ID',
                 'Nombre del Trayecto',
+                'Especiadliad asociada',
                 'Descripcion',
-              
                 ['label' => 'Acciones', 'no-export' => true, 'width' => 10],
             ];
 
@@ -62,14 +63,15 @@
 
         {{-- Minimal example / fill data using the component slot :config="$config" --}}
         <x-adminlte-datatable id="table5" :heads="$heads"  :config="$config" theme="light" striped hoverable>
-
-        
+                
+                
             @foreach ($trayectos as $trayecto)
                 <tr>
                     <td>{{ $trayecto->id }}</td>
                     <td>{{ $trayecto->nombre_trayecto }}</td>
-                    <td>{{ $trayecto->descripcion }}</td>
+                     <td>{{ $trayecto->especialidad->nombre_especialidad ?? 'N/A' }}</td> 
 
+                    <td>{{ $trayecto->descripcion }}</td>
                     <td><a href="{{ route('trayectos.edit', $trayecto) }}"
                             class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
@@ -85,6 +87,8 @@
 
                 </tr>
             @endforeach
+                
+               
         </x-adminlte-datatable>
 
 

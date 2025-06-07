@@ -554,7 +554,22 @@ return [
                     'text' => 'Agregar Especialidad',
                     'url' => 'admin/especialidades/create',
                 ],
-              
+                [
+                    'text' => 'Detalles Contaduria Pública',
+                    'url' => 'admin/especialidades/1',
+                ],
+                 [
+                    'text' => 'Detalles Administración',
+                    'url' => 'admin/especialidades/2',
+                ],
+                 [
+                    'text' => 'Detalles Ingenieria Electrica',
+                    'url' => 'admin/especialidades/3',
+                ],
+                 [
+                    'text' => 'Detalles Ingenieria de Mantenimiento',
+                    'url' => 'admin/especialidades/3',
+                ],
                
             ],
         ],

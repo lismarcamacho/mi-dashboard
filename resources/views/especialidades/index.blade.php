@@ -122,6 +122,10 @@
             <h2>Instrucciones</h2>
             <div style="height:400px;">
                 <p> - El boton lapiz lleva a otra interfaz llamada editar especialidad<br>
+                    - El botón del ojo lleva a una vista donde se ven los detalles de la especialidad:
+                    - A que programas esta asociada . <br>
+                    - Cuantos trayectos tiene.
+                    - Titulo o titulos que se otorgan<br><br>
                     - El boton papelera elimina, primero pregunta si desea eliminar
                     el registro, luego lo elimina y envia una notifiacion en la <b>interfaz</b>
                     lista de especialidades de que el registro ha sido eliminado.<br><br>

@@ -13,6 +13,11 @@ class TrayectoController extends Controller
     public function index()
     {
         $trayectos = Trayecto::all();
+
+        /* NECESITO TENER CARGADA LA ESPECIALIDAD ASOCIADA A CADA TRAYECTO EN EL INDICE PARA 
+        QUE EL INDICE GENERAL ME MUESTRE LA ESPECIALIDAD ASOCIADA CUANDO SE GUARDE*/
+        $trayectos = Trayecto::with('especialidad')->get(); 
+        
         return view('trayectos.index', compact('trayectos'));
     }
 
@@ -31,7 +36,7 @@ class TrayectoController extends Controller
     public function store(Request $request)
     {
         $validacion = $request->validate([
-        'nombre_trayecto' => 'required|string|max:255|unique:trayectos,nombre_trayecto',
+        'nombre_trayecto' => 'required|string|max:255',
         'descripcion' => 'nullable|string',
         'especialidad_id' => 'required|exists:especialidades,id', // Asegura que la especialidad exista
     ]);
@@ -45,6 +50,7 @@ class TrayectoController extends Controller
         $especialidad = Especialidad::find($validacion['especialidad_id']);
         // 3. Asignar la especialidad usando el método de relación
         $trayecto->especialidad()->associate($especialidad);
+        
         $trayecto->save();
 
     return redirect()->route('trayectos.index')->with('success', 'Trayecto creado exitosamente.');
@@ -65,9 +71,12 @@ class TrayectoController extends Controller
     {
         //
          $trayecto = Trayecto::find($id);
-        $especialidades = Especialidad::orderBy('nombre_especialidad')->get();
+         $especialidadAsociada = $trayecto->especialidad; // ASOCIANDO PARA QUE SALGA EN EL FORMULARIO EDIT CUAL ESPECIALIDAD TIENE ASOCIADA EL TRAYECTO
+        $todasLasEspecialidades = Especialidad::all(); // PARA CAMBIAR LA especialidad
+        $especialidades = Especialidad::orderBy('nombre_especialidad')->get(); // para listar varias especialidades
 
-        return view('trayectos.edit', compact('trayecto','especialidades'));
+        //return view('trayectos.edit', compact('trayecto','especialidades'));
+        return view('trayectos.edit', compact('trayecto','especialidadAsociada'));
     }
 
     /**
