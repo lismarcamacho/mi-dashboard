@@ -412,6 +412,26 @@ return [
   //          'icon' => 'fas fa-fw fa-file',
   //      ],
 
+                          [
+            'text' => 'Areas administrativas',
+            'icon' => 'fas fa-fw  fa-building',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Lista',
+                  // 'route' => 'programas.index',
+                    'url' => 'admin/areasadmin/create',
+
+                ],
+                [
+                    'text' => 'Agregar Area',
+                    'url' => 'admin/areasadmin/create',
+                ],
+
+               
+            ],
+        ],
+
       [
             'text' => 'Matricula',
             'icon' => 'fas fa-fw  fa-graduation-cap',
@@ -463,25 +483,7 @@ return [
             ],
         ],
 
-                        [
-            'text' => 'Areas administrativas',
-            'icon' => 'fas fa-fw  fa-building',
-            'url' => '#',
-            'submenu' => [
-                 [
-                    'text' => 'Lista',
-                  // 'route' => 'programas.index',
-                    'url' => 'admin/areasadmin/create',
 
-                ],
-                [
-                    'text' => 'Agregar Area',
-                    'url' => 'admin/areasadmin/create',
-                ],
-
-               
-            ],
-        ],
 
         [
             'text' => 'Mallas',
@@ -491,12 +493,13 @@ return [
                  [
                     'text' => 'Lista',
                   // 'route' => 'programas.index',
-                    'url' => 'admin/mallas/create',
+                    'route' => 'mallas-curriculares.index',
 
                 ],
                 [
                     'text' => 'Agregar ',
-                    'url' => 'admin/malla/create',
+                    'url' => 'admin/mallas-curriculares/create',
+                    'route' => 'mallas-curriculares.create',
                 ],
 
                
@@ -598,7 +601,7 @@ return [
             'submenu' => [
                  [
                     'text' => 'Lista de Unidades',
-                   'url' => 'admin/trayectos/create',
+                   'route' => 'unidades-curriculares.index',
                 ],
                 [
                     'text' => 'Agregar',
@@ -615,11 +618,11 @@ return [
             'submenu' => [
                  [
                     'text' => 'Lista de Prelaciones',
-                   'url' => 'admin/trayectos/create',
+                   'url' => 'admin/prelaciones/create',
                 ],
                 [
                     'text' => 'Agregar',
-                    'url' => 'admin/trayectos/create',
+                    'url' => 'admin/prelaciones/create',
                 ],
                
             ],
@@ -632,11 +635,11 @@ return [
             'submenu' => [
                  [
                     'text' => 'Lista de Horarios',
-                   'url' => 'admin/trayectos/create',
+                   'url' => 'admin/horarios/create',
                 ],
                 [
                     'text' => 'Agregar Horario',
-                    'url' => 'admin/trayectos/create',
+                    'url' => 'admin/horarios/create',
                 ],
                
             ],
@@ -676,7 +679,7 @@ return [
 
                 ],
                  [
-                    'text' => 'onstancia de Estudios',
+                    'text' => 'Constancia de Estudios',
                   // 'route' => 'programas.index',
                     'url' => 'admin/evaluaciones/create',
 

@@ -39,6 +39,20 @@
             <form action="{{ route('trayectos.store') }}" method="POST">
                 @csrf
 
+                <div class="col-md-12">
+
+                    <x-adminlte-input class="col-md-6" name="numero_orden" label="Numero orden" placeholder="Numero Orden"
+                        label-class="text-lightblue" value="{{ old('numero_orden') }}">
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text">
+                                <i class=" text-darkblue"></i>
+                                <!-- @ error('nombre_carrera')
+                                                                 <div class="error">{ { $message }}</div> //las dos llaves que estan abriendo deben estar juntas
+                                                                  @ enderror -->
+                            </div>
+                        </x-slot>
+                    </x-adminlte-input>
+                </div>
 
 
 
@@ -67,33 +81,7 @@
                                        @ endforeach
                                     </div> -->
 
-                <div class="col-md-12 ">
-                    {{-- {{ dd($role) }}  --}}
-                    {{-- {{ {{dd($role->permissions)}}  --}}
-
-                    <label for="especialidad_id">Especialidad</label>
-
-                    <x-adminlte-select id="especialidad_id" name="especialidad_id"
-                        class="col-md-6 block w-full mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                        <option value="">Seleccione una Especialidad</option>
-                        @foreach ($especialidades as $especialidad)
-                            <option value="{{ $especialidad->id }}">{{ $especialidad->nombre_especialidad }}</option>
-                        @endforeach
-                    </x-adminlte-select>
-
-                    @error('{{ $especialidad->id }}')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-
-                </div>
-
-
-
-
-
-
-
-
+   
 
                 <div class="col-md-12">
                     <x-adminlte-input class="col-md-6" name="descripcion" label="Descripcion" placeholder="Descripcion"
@@ -107,11 +95,6 @@
                             </div>
                         </x-slot>
                     </x-adminlte-input>
-
-
-
-
-
 
 
                     <button type="submit" class="btn btn-primary">Guardar</button>

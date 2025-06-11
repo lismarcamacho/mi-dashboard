@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Titulo;   // Asegúrate de que esté aquí
 use App\Models\Programa; // Asegúrate de que esté aquí
 use App\Models\Trayecto;
+use App\Models\MallaCurricular;
+
 class Especialidad extends Model
 {
     use HasFactory;
-
     protected $table = 'especialidades';
-
     protected $fillable = [
         'codigo_especialidad',
         'nombre_especialidad',
@@ -20,8 +20,11 @@ class Especialidad extends Model
         // Si en phpMyAdmin es 'duracion' (como en image_28d7c5.jpg), usa 'duracion'.
         'duracion',
         'descripcion',
+        'total_creditos_requeridos',
     ];
-
+    protected $casts = [
+        'total_creditos_requeridos' => 'integer', // O 'float' si fuera el caso
+    ];
     // La relación con Programa (si existe en tu BD y la usas)
     // Si una Especialidad TIENE UN programa, sería belongsTo
     // Si una Especialidad PUEDE TENER MUCHOS programas, sería hasMany (y el método sería 'programas()')
@@ -35,9 +38,9 @@ class Especialidad extends Model
     {
         return $this->hasMany(Titulo::class, 'especialidad_id', 'id'); // Por defecto busca 'especialidad_id' en la tabla 'titulos'
     }
-    public function trayectos()
+
+    public function mallasCurriculares()
     {
-        // Una Especialidad tiene MUCHOS Trayectos
-        return $this->hasMany(Trayecto::class, 'especialidad_id', 'id');
+        return $this->hasMany(MallaCurricular::class, 'id_especialidad', 'id');
     }
 }

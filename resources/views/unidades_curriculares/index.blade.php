@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Lista de Trayectos')
+@section('title', 'Lista de Unidades Curriculares')
 @section('preloader')
     <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
-    <h4 class="mt-4 text-dark">Cargando Lista de Trayectos..</h4>
+    <h4 class="mt-4 text-dark">Cargando Lista de Unidades Curriculares..</h4>
 @stop
 
 
 @section('content_header')
     <center>
-        <h1>Lista de Trayectos</h1>
+        <h1>Lista de Unidades Curriculares</h1>
     </center>
 @stop
 
@@ -31,17 +31,23 @@
 
         {{-- Setup data for datatables --}}
         <div class="botones">
-            <a href="{{ route('trayectos.create') }}" class="btn btn-primary ml-2"> Agrega aqui un  nuevo Trayecto</a>
-
+            <a href="{{ route('unidades-curriculares.create') }}" class="btn btn-primary ml-2"> Agrega aqui una nueva Unidad Curricular</a>
         </div>
         @php
             $heads = [
                 'ID',
-                'Numero Orden',
-                'Nombre del Trayecto',
-                'Descripcion',
+                'Código Unidad Curricular',
+                'Nombre Unidad Curricular',
+                'UC',
+                'HRS SEM',
+                'HTA',
+                'HTI',
+                'HTE',
+                'Eje',
+                'Descripción',
                 ['label' => 'Acciones', 'no-export' => true, 'width' => 10],
             ];
+
 
             $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                 <i class="fa fa-lg fa-fw fa-pen"></i>
@@ -56,6 +62,7 @@
             $config = [
                 'language' => [
                     'url' => 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json',
+                    'scrollCollapse'=> true,
                 ],
             ];
 
@@ -63,19 +70,25 @@
 
         {{-- Minimal example / fill data using the component slot :config="$config" --}}
         <x-adminlte-datatable id="table5" :heads="$heads"  :config="$config" theme="light" striped hoverable>
-                
-                
-            @foreach ($trayectos as $trayecto)
+
+        
+            @foreach ($unidadesCurriculares as $unidadCurricular)
                 <tr>
-                    <td>{{ $trayecto->id }}</td>
-                    <td>{{ $trayecto->numero_orden }}</td>
-                    <td>{{ $trayecto->nombre_trayecto }}</td>
-                    <td>{{ $trayecto->descripcion }}</td>
-                    <td><a href="{{ route('trayectos.edit', $trayecto) }}"
+                    <td>{{ $unidadCurricular->id }}</td>
+                    <td>{{ $unidadCurricular->codigo }}</td>
+                    <td>{{ $unidadCurricular->nombre }}</td>
+                    <td>{{ $unidadCurricular->creditos }}</td>
+                    <td>{{ $unidadCurricular->horas_semanales }}</td>
+                    <td>{{ $unidadCurricular->horas_trabajo_asistidas }}</td>
+                    <td>{{ $unidadCurricular->horas_trabajo_independiente }}</td>
+                    <td>{{ $unidadCurricular->horas_trabajo_estudiantil }}</td>
+                    <td>{{ $unidadCurricular->eje }}</td>
+                    <td>{{ $unidadCurricular->descripcion }}</td>
+                    <td><a href="{{ route('unidades-curriculares.edit', $unidadCurricular) }}"
                             class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </a>
-                        <form style="display: inline" action="{{ route('trayectos.destroy', $trayecto) }}" method="POST"
+                        <form style="display: inline" action="{{ route('unidades-curriculares.destroy', $unidadCurricular) }}" method="POST"
                             class="formEliminar">
                             @csrf
                             @method('delete') {!! $btnDelete !!}
@@ -86,8 +99,6 @@
 
                 </tr>
             @endforeach
-                
-               
         </x-adminlte-datatable>
 
 
@@ -100,16 +111,16 @@
     icon="fas fa-bell" v-centered static-backdrop scrollable>
     <div style="height:800px;"><h2>Instrucciones</h2>
         <div style="height:400px;">
-            <p> - El boton lapiz lleva a otra interfaz llamada editar trayecto<br>
+            <p> - El boton lapiz lleva a otra interfaz llamada editar programa<br>
                 - El boton papelera elimina, primero pregunta si desea eliminar
                  el registro, luego lo elimina y envia una notifiacion en la <b>interfaz</b>
-                 lista de trayectos
+                 lista de programas
                  de que el registro ha sido eliminado</p></div>
     </div>
 
     <x-slot name="footerSlot">
-        <x-adminlte-button class="mr-auto" theme="success" label="Accept" data-dismiss="modal"/>
-        
+        <x-adminlte-button class="mr-auto" theme="success" label="Accept"/>
+        <x-adminlte-button theme="danger" label="Dismiss" data-dismiss="modal"/>
     </x-slot>
 </x-adminlte-modal>
 {{-- Example button to open modal --}}

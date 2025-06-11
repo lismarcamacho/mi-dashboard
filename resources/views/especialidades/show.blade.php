@@ -46,27 +46,63 @@
             </div>
         </div>
 
+        <!--<div class="card mt-4">
+                <div class="card-header">
+                    Trayectos Asociados
+                </div>
+                <div class="card-body">
+                    @ if ($especialidad->trayectos->isNotEmpty())
+                        <ul>
+                            @ foreach ($especialidad->trayectos as $trayecto)
+                                <li>
+                                    <strong>{ { $trayecto->nombre_trayecto }}</strong>
+                                    @ if ($trayecto->numero_trayecto)
+                                        (Número: { { $trayecto->numero_trayecto }})
+                                    @ endif
+                                    @ if ($trayecto->descripcion)
+                                        - { { $trayecto->descripcion }}
+                                    @ endif
+                                </li>
+                            @ endforeach
+                        </ul>
+                    @ else
+                        <p>No hay trayectos asociados a esta especialidad.</p>
+                    @ endif
+                </div>
+            </div>-->
         <div class="card mt-4">
             <div class="card-header">
-                Trayectos Asociados
+                <h4>Unidades Curriculares Asociadas:</h4>
             </div>
             <div class="card-body">
-                @if ($especialidad->trayectos->isNotEmpty())
+                @if ($especialidad->mallasCurriculares->isNotEmpty())
                     <ul>
-                        @foreach ($especialidad->trayectos as $trayecto)
-                            <li>
-                                <strong>{{ $trayecto->nombre_trayecto }}</strong>
-                                @if ($trayecto->numero_trayecto)
-                                    (Número: {{ $trayecto->numero_trayecto }})
-                                @endif
-                                @if ($trayecto->descripcion)
-                                    - {{ $trayecto->descripcion }}
-                                @endif
+                        @foreach ($especialidad->mallasCurriculares as $mallaCurricular)
+                           <!-- <li>
+                                {{-- Aquí usas los atributos de Malla que existen --}}
+                                Mínimo Aprobatorio: { { $mallaCurricular->minimo_aprobatorio }} <br>
+                                Duración: { { $mallaCurricular->duracion_en_malla }} <br>
+                                Fase: { { $mallaCurricular->fase_malla }} <br>
+                                Tipo UC: { { $mallaCurricular->tipo_uc_en_malla }} <br>
+                                Créditos: { { $mallaCurricular->creditos_en_malla }} <br>
+                                {{-- O si tienes el accesor en el modelo Malla: --}}
+                              {{--  Identificador: {{ $mallaCurricular->identificador }} --}}
+                                Malla vigente: 
+                                <hr> -->
                             </li>
+                            <!-- <h4> Malla vigente:{ { $mallaCurricular->año_de_vigencia_de_entrada_malla}}</h4>  -->
+                        
+                             <li>
+                               {{ $mallaCurricular->trayecto->nombre_trayecto }}
+                             
+                {{ $mallaCurricular->unidadCurricular->nombre }}  - Créditos: {{ $mallaCurricular->creditos_en_malla }}
+                            </li>
+                        
+
                         @endforeach
                     </ul>
                 @else
-                    <p>No hay trayectos asociados a esta especialidad.</p>
+                    <p>No hay mallas asociadas a esta especialidad.</p>
                 @endif
             </div>
         </div>

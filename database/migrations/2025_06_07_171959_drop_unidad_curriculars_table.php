@@ -11,6 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::table('unidad_curriculars', function (Blueprint $table) {
+            //
+
+        });
+        Schema::dropIfExists('unidad_curriculars');
+
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
         Schema::create('unidad_curriculars', function (Blueprint $table) {
             $table->id();
             $table->string('nombre',70)->nullable(false);
@@ -27,13 +40,5 @@ return new class extends Migration
             $table->timestamps();
             
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('unidad_curriculars');
     }
 };

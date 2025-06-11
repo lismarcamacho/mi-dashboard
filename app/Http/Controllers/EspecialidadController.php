@@ -19,14 +19,14 @@ class EspecialidadController extends Controller
     public function index()
     {
         //return ("lista de carreras");
-        
+
         $especialidades = Especialidad::all();
         //$especialidades = Especialidad::paginate(15);
-   
+
         $especialidades = Especialidad::with('titulos')->get();
 
         // Or, if you want to paginate the results:
-       // $carreras = Carrera::paginate(15); // Show 10 carreras per page
+        // $carreras = Carrera::paginate(15); // Show 10 carreras per page
 
         // Fetch all carreras from the database
 
@@ -68,7 +68,7 @@ class EspecialidadController extends Controller
         $especialidad->codigo_especialidad = $request->input('codigo_especialidad'); // Asegúrate de que 'codigo_carrera' esté aquí
         $especialidad->nombre_especialidad = $request->input('nombre_especialidad');
         //$especialidad->titulo = $request->input('titulo');
-       // $especialidad->duracion_x_titulo = $request->input('duracion_x_titulo');
+        // $especialidad->duracion_x_titulo = $request->input('duracion_x_titulo');
         $especialidad->duracion = $request->input('duracion');
         $especialidad->descripcion = $request->input('descripcion');
         $especialidad->save();
@@ -93,10 +93,27 @@ class EspecialidadController extends Controller
      */
     public function show(Especialidad $especialidad)
     {
-    // Carga ansiosamente los trayectos para esta especialidad
-    $especialidad->load('titulos','trayectos');
 
-    return view('especialidades.show', compact('especialidad'));
+// Carga la especialidad y sus mallas curriculares (asumiendo una relación hasMany en Especialidad)
+    //$especialidad->load(['titulos','mallasCurriculares.unidadCurricular', 'mallasCurriculares.trayecto']);
+    $especialidad->load('titulos');
+
+    // Necesitarías una relación en Especialidad.php:
+    // public function mallasCurriculares() { return $this->hasMany(MallaCurricular::class, 'id_especialidad', 'id'); }
+        //$especialidad->load('titulos', 'mallasCurriculares');
+    // === Lógica para obtener la Malla Vigente (como lo hicimos antes) ===
+    $mallasVigentesPorEspecialidad = null;
+    $latestYear = $especialidad->mallasCurriculares()->max('año_de_vigencia_de_entrada_malla');
+
+    if ($latestYear) {
+        $mallasVigentesPorEspecialidad = $especialidad->mallasCurriculares()
+                                                     ->where('año_de_vigencia_de_entrada_malla', $latestYear)
+                                                     ->with(['unidadCurricular', 'trayecto']) // ¡Importante! Precargar estas relaciones
+                                                     ->orderBy('id_trayecto')
+                                                     ->orderBy('fase_malla')
+                                                     ->get();
+    }
+        return view('especialidades.show', compact('especialidad', 'mallasVigentesPorEspecialidad'));
     }
 
     /**
@@ -120,13 +137,13 @@ class EspecialidadController extends Controller
         $especialidad = Especialidad::find($id);
         $especialidad->codigo_especialidad = $request->input('codigo_especialidad'); // Asegúrate de que 'codigo_carrera' esté aquí
         $especialidad->nombre_especialidad = $request->input('nombre_especialidad');
-       // $especialidad->titulo = $request->input('titulo');
-       // $especialidad->duracion_x_titulo = $request->input('duracion_x_titulo');
+        // $especialidad->titulo = $request->input('titulo');
+        // $especialidad->duracion_x_titulo = $request->input('duracion_x_titulo');
         $especialidad->duracion = $request->input('duracion');
         $especialidad->descripcion = $request->input('descripcion');
         $especialidad->save();
-       // return redirect()->route('carreras.index')->width('success','Actualizado Correctamente');
-       //
+        // return redirect()->route('carreras.index')->width('success','Actualizado Correctamente');
+        //
         //return session()->flash('success', 'Especialidad Actualizada exitosamente');
         return back()->with('success', 'Especialidad Actualizada exitosamente');
         //return 'Actualización Exitosa';

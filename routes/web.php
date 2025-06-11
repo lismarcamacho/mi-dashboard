@@ -8,10 +8,12 @@ use App\Http\Controllers\PermisoController;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Http\Controllers\AsignarController;
 use App\Http\Controllers\EspecialidadController;
+use App\Http\Controllers\MallaCurricularController;
 use App\Http\Controllers\ProgramaController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TituloController;
 use App\Http\Controllers\TrayectoController;
+use App\Http\Controllers\UnidadCurricularController;
 use App\Models\Carrera;
 
 use Illuminate\Support\Facades\Route;
@@ -126,7 +128,7 @@ Route::get('/users/{user}/edit-roles', [AsignarController::class, 'edit'])->name
 Route::put('/users/{user}/assign-roles', [AsignarController::class, 'update'])->name('asignar.assign-roles');
 
 // COMO EL CONTROLADOR PROGRAMAS FUE CREADO COMO UN RECURSO NO SE NECESITA COLOCAR TANTAS RUTAS
-Route::resource('programas', ProgramaController::class);
+Route::resource('admin/programas', ProgramaController::class);
 
 //----------------------------------------------------------------------------------------------------------//
 
@@ -163,6 +165,18 @@ Route::prefix('admin')->group(function () {
     Route::delete('/trayectos/{trayecto}', [TrayectoController::class, 'destroy'])->name('trayectos.destroy');
 });
 
+Route::resource('admin/unidades-curriculares', UnidadCurricularController::class)->names('unidades-curriculares');
+Route::resource('admin/mallas-curriculares', MallaCurricularController::class)->names('mallas-curriculares');
+
+Route::prefix('admin')->group(function () {
+    Route::get('/mallas-curriculares', [MallaCurricularController::class, 'index'])->name('mallas-curriculares.index');
+    Route::get('/mallas-curriculares/create', [MallaCurricularController::class, 'create'])->name('mallas-curriculares.create'); // administra el formulario para crear una nueva especialidad
+    Route::post('/mallas-curriculares', [MallaCurricularController::class, 'store'])->name('mallas-curriculares.store');
+    Route::get('/mallas-curriculares/{malla-curricular}', [MallaCurricularController::class, 'show'])->name('mallas-curriculares.show');
+    Route::get('/mallas-curriculares/{id}/edit', [MallaCurricularController::class, 'edit'])->name('mallas-curriculares.edit');
+    Route::put('/mallas-curriculares/{malla-curricular}', [MallaCurricularController::class, 'update'])->name('mallas-curriculares.update');
+    Route::delete('/mallas-curriculares/{id}', [MallaCurricularController::class, 'destroy'])->name('mallas-curriculares.destroy');
+});
 
 
 }); // **************************************FIN MIDDLEWARE***************************

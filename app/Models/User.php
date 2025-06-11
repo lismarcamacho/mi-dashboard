@@ -101,6 +101,7 @@ class User extends Authenticatable
 
        public function isAdmin()
     {
+        
         return $this->hasRole('Administrador'); // Utiliza el método hasRole() proporcionado por Spatie
     }
 

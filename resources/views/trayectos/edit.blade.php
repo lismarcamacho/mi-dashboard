@@ -33,6 +33,19 @@
 
                 @method('PUT') <!--NECESARIO PARA PODER HACER EL UPDATE  -->
 
+                <div class="col-md-12">
+                    <x-adminlte-input class="col-md-6" name="numero_orden" label="Numero Orden"
+                        label-class="text-lightblue" value="{{ $trayecto->numero_orden }}">
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text">
+                                <i class=" text-darkblue"></i>
+                                <!-- @ error('nombre_carrera')
+                                                             <div class="error">{ { $message }}</div>
+                                                              @ enderror -->
+                            </div>
+                        </x-slot>
+                    </x-adminlte-input>
+                </div>
 
                 <div class="col-md-12">
                     <x-adminlte-input class="col-md-6" name="nombre_trayecto" label="Nombre"
@@ -48,21 +61,6 @@
                     </x-adminlte-input>
                 </div>
 
-                <div class="col-md-12">
-                   
-                    <x-adminlte-input class="col-md-6" name="{{ $especialidadAsociada->nombre_especialidad}}" label=""
-                        label-class="text-lightblue" value="{{ $especialidadAsociada->nombre_especialidad}}">
-                        <x-slot name="prependSlot">
-                            <div class="input-group-text">
-                                <i class=" text-darkblue"></i>
-                                <!-- @ error('nombre_carrera')
-                                                             <div class="error">{ { $message }}</div>
-                                                              @ enderror -->
-                            </div>
-                        </x-slot>
-                    </x-adminlte-input>
-                 
-                </div>
 
 
     
