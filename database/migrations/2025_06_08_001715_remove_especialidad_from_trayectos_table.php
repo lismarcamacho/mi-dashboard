@@ -19,10 +19,10 @@ return new class extends Migration
             //    Laravel nombra las restricciones automáticamente, generalmente 'nombre_tabla_columna_foreign'.
             //    Para 'especialidad_id' en 'trayectos', suele ser 'trayectos_especialidad_id_foreign'.
             //    Puedes usar ->dropConstrainedForeignId() si no necesitas el nombre exacto de la restricción.
-            $table->dropForeign(['especialidad_id']);
+            //$table->dropForeign(['especialidad_id']);
             
             // 2. Luego, elimina la columna.
-            $table->dropColumn('especialidad_id');
+           // $table->dropColumn('especialidad_id');
         });
     }
 
@@ -35,9 +35,9 @@ return new class extends Migration
     {
         Schema::table('trayectos', function (Blueprint $table) {
             // Para revertir esta migración, añade la columna de nuevo como estaba originalmente.
-            $table->foreignId('especialidad_id')
-                  ->constrained('especialidades')
-                  ->onDelete('cascade'); // Asegúrate de replicar el onDelete original.
+           // $table->foreignId('especialidad_id')
+            //      ->constrained('especialidades')
+           //       ->onDelete('cascade'); // Asegúrate de replicar el onDelete original.
         });
     }
 };

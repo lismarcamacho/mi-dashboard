@@ -14,17 +14,18 @@ return new class extends Migration
         Schema::create('unidades_curriculares', function (Blueprint $table) {
             $table->id();
             
-            // Nombre de la unidad curricular: Obligatorio, longitud razonable.
-            $table->string('nombre', 255)->nullable(false)->comment('Nombre completo de la unidad curricular.');
-
             // Código de la unidad curricular: Obligatorio, único para evitar duplicados.
             // Asegúrate de que 70 caracteres sean suficientes para todos los códigos posibles.
             $table->string('codigo', 70)->unique()->nullable(false)->comment('Código único de la unidad curricular (ej: CALC101).');
-            
+            // Nombre de la unidad curricular: Obligatorio, longitud razonable.
+            $table->string('nombre', 255)->nullable(false)->comment('Nombre completo de la unidad curricular.');
+            $table->boolean('es_proyecto')->default(false); // Asegúrate de que esta línea esté, si la tienes.
             // Unidades de crédito: Decimal para permitir valores como 3.5.
             // Es un atributo intrínseco de la UC, no de la malla.
             $table->decimal('creditos', 3, 1)->nullable(false)->comment('Unidades de crédito de la unidad curricular.');
-
+            $table->foreignId('trayecto_id')->constrained('trayectos')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('anio_de_vigencia_de_entrada')->nullable();
+            $table->integer('anio_de_salida_vigencia')->nullable();
             // Horas semanales: Tipo INT, ya que son números enteros.
             // Representan la carga total semanal de contacto, o un resumen.
             $table->integer('horas_semanales')->nullable()->comment('Total de horas de contacto semanales de la unidad curricular.');

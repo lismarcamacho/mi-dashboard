@@ -8,12 +8,6 @@ use App\Models\Trayecto;
 use App\Models\UnidadCurricular;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log; // Añade esta línea
-use Illuminate\Validation\Rule; 
-/* RULE:  Esto es para poder editar una malla curricular y
-| que no de problemas por el nombre ya que el nombre es unico 
-| y para no romper la regla la unicidad se permite editar una
-|malla cuando no se cambia el nombre*/
-
 
 class MallaCurricularController extends Controller
 {
@@ -53,7 +47,7 @@ class MallaCurricularController extends Controller
     {
         // 1. Reglas de validación para los datos de la malla curricular
         Log::info('Inicio del metodo store, intentando guardar Malla Curricular.');
-        // dd($request->all()); // <-- PARA HACER DEPURACION : ¡PARA AQUÍ y mira si 'nombre' está presente y con valor!
+            dd($request->all()); // <-- PARA HACER DEPURACION : ¡PARA AQUÍ y mira si 'nombre' está presente y con valor!
 
         $currentYear = date('Y');
         try {
@@ -83,16 +77,14 @@ class MallaCurricularController extends Controller
         $mallaCurricular = new MallaCurricular();
 
         // 3. Asignar cada campo de forma explícita
-        $mallaCurricular->duracion_en_malla = $validatedData['duracion_en_malla'];
-        $mallaCurricular->nombre = $validatedData['nombre'];
+        //$mallaCurricular->duracion_en_malla = $validatedData['duracion_en_malla'];
+        $mallaCurricular->fase_malla = $validatedData['nombre'];
         $mallaCurricular->fase_malla = $validatedData['fase_malla'];
         $mallaCurricular->tipo_uc_en_malla = $validatedData['tipo_uc_en_malla'];
         $mallaCurricular->anio_de_vigencia_de_entrada_malla = $validatedData['anio_de_vigencia_de_entrada_malla'];
         $mallaCurricular->creditos_en_malla = $validatedData['creditos_en_malla'];
         $mallaCurricular->anio_salida_vigencia = $validatedData['anio_salida_vigencia'];
         Log::info('Campos de MallaCurricular asignados.', ['mallaCurricular_data' => $mallaCurricular->toArray()]);
-        // ***** LÍNEA DE DEPURACIÓN CLAVE: Aquí vemos el modelo final antes de guardar *****
-        //dd('Modelo MallaCurricular justo antes de SAVE:', $mallaCurricular->toArray());
 
         try {
             $especialidad = Especialidad::find($validatedData['id_especialidad']);
@@ -170,60 +162,27 @@ class MallaCurricularController extends Controller
     public function update(Request $request, MallaCurricular $mallaCurricular)
     {
         // Reglas de validación para la actualización
-        Log::info('Inicio del método update: Intentando actualizar Malla Curricular.', ['malla_id' => $mallaCurricular->id, 'request_data' => $request->all()]);
-        //dd("ID de la Malla actual: " . $mallaCurricular->id, "Nombre recibido: " . $request->nombre, "Regla unique esperada: " . 'unique:mallas_curriculares,nombre,' . $mallaCurricular->id . ',id');
- // ***** LÍNEA DE DEPURACIÓN CLAVE *****
-         //dd("ID de la Malla actual: " . $mallaCurricular->id, "Nombre recibido: " . $request->nombre, "Regla Unique Objeto:", $uniqueRule);
-        $currentYear = date('Y');
-        try {
-            $validatedData = $request->validate([
-                // unique:tabla,columna,id_a_ignorar,nombre_columna_id
-            'nombre' => ['required','string','max:255',                    // ¡Regla unique con el nombre de la columna ID explícito!
-                    Rule::unique('mallas_curriculares', 'nombre')->ignore($mallaCurricular->id, 'id'), 
-        ],
+        $request->validate([
             'id_especialidad' => 'required|exists:especialidades,id',
-                'duracion_en_malla' => 'required|string|max:50',
-                'fase_malla' => 'nullable|string|max:20',
-                'tipo_uc_en_malla' => 'required|string|max:50',
-                'anio_de_vigencia_de_entrada_malla' => 'required|integer|min:1900|max:' . ($currentYear + 5),
-                'creditos_en_malla' => 'required|integer|min:0',
-                'anio_salida_vigencia' => 'nullable|integer|min:1900|max:' . ($currentYear + 10),
-                // 'minimo_aprobatorio' => 'nullable|numeric|min:0|max:20', // Si lo tienes descomentado, ajusta 'nullable'
-                'trayectos_seleccionados' => 'array', // 'array' es suficiente, 'required' depende si es obligatorio seleccionar al menos uno
-                'trayectos_seleccionados.*' => 'exists:trayectos,id',
-            ]);
+            //  'id_unidad_curricular' => 'required|exists:unidades_curriculares,id',
+            //  'id_trayecto' => 'required|exists:trayectos,id',
+            //  'minimo_aprobatorio' => 'required|numeric|min:0|max:20',
+            'duracion_en_malla' => 'required|string|max:50',
+            'fase_malla' => 'nullable|string|max:20',
+            'tipo_uc_en_malla' => 'required|string|max:50',
+            'anio_de_vigencia_de_entrada_malla' => 'required|nullable|integer|min:1900|max:' . (date('Y') + 10),
+            'anio_salida_vigencia' => 'nullable|integer|min:1900|max:' . (date('Y') + 10),
+            'creditos_en_malla' => 'nullable|integer|min:1',
+            'trayectos_seleccionados' => 'required|array',
+            'trayectos_seleccionados.*' => 'exists:trayectos,id',
+        ]);
 
-            // Asigna los datos validados al modelo $mallaCurricular (que ya fue inyectado)
-            $mallaCurricular->fill($validatedData);
-
-            // La asociación de especialidad puede ir aquí antes de save()
-            $especialidad = Especialidad::find($validatedData['id_especialidad']);
-            if ($especialidad) {
-                $mallaCurricular->especialidad()->associate($especialidad);
-            } else {
-                Log::error('Especialidad no encontrada al asociar en update.', ['id_especialidad' => $validatedData['id_especialidad']]);
-                throw new \Exception('Especialidad no encontrada al actualizar.');
-            }
-
-            $mallaCurricular->save(); // Guarda los cambios en la base de datos para la malla existente
-
-            // Sincronizar trayectos (esto necesita el ID de la malla, que ya existe)
-            if (!empty($validatedData['trayectos_seleccionados'])) {
-                $mallaCurricular->trayectos()->sync($validatedData['trayectos_seleccionados']);
-            } else {
-                $mallaCurricular->trayectos()->detach(); // Si no se seleccionan trayectos, se desvinculan todos
-            }
-
-            Log::info('Malla Curricular actualizada exitosamente.', ['mallaCurricular_id' => $mallaCurricular->id]);
-            return redirect()->route('mallas-curriculares.index')
-                ->with('success', 'Malla Curricular actualizada exitosamente.');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            Log::error('Error de validación al actualizar Malla Curricular: ' . $e->getMessage(), ['errors' => $e->errors(), 'request_data' => $request->all()]);
-            return redirect()->back()->withErrors($e->errors())->withInput()->with('error', 'Por favor, corrige los errores del formulario de actualización.');
-        } catch (\Exception $e) {
-            Log::error('Error general al actualizar Malla Curricular: ' . $e->getMessage(), ['exception_trace' => $e->getTraceAsString(), 'request_data' => $request->all()]);
-            return redirect()->back()->withInput()->with('error', 'Hubo un problema al actualizar la Malla Curricular: ' . $e->getMessage());
-        }
+        // Actualizar la entrada de malla curricular
+        $mallaCurricular->update($request->all());
+        // **ACTUALIZAR LA ASOCIACIÓN DE TRAYECTOS**
+        $mallaCurricular->trayectos()->sync($request->input('trayectos_seleccionados'));
+        return redirect()->route('mallas-curriculares.index')
+            ->with('success', 'Entrada de malla curricular actualizada exitosamente.');
     }
 
     /**

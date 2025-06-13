@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('trayectos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_trayecto'); // Por ejemplo: "Trayecto I", "Trayecto II", etc.
+            $table->integer('numero_orden')->nullable();
+            $table->string('nombre_trayecto'); //'Orden numérico del trayecto (ej. 1 para Trayecto I, 2 para Trayecto II).'); // Por ejemplo: "Trayecto I", "Trayecto II", etc.
             $table->text('descripcion')->nullable(); // Opcional, para una descripción del trayecto
-            $table->foreignId('especialidad_id')->constrained('especialidades')->onDelete('cascade'); // Clave foránea
             $table->timestamps();
         });
     }

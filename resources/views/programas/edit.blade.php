@@ -136,11 +136,11 @@
 
 
 <!-- ESTE CODIGO FUNCIONA PERFECTAMENTE-->
-<!-- 
-<@ section('js') @ if (session('success'))
+
+<@section('js') @if (session('success'))
     <script>
         $(document).ready(function() {
-            let mensaje = "{ { session('success') }}";
+            let mensaje = "{{ session('success') }}";
             Swal.fire({
                 title: 'Resultado',
                 text: mensaje,
@@ -148,13 +148,14 @@
             })
         })
     </script>
-    @ endif
-@ stop
--->
+    @endif
+@stop
 
-<@section('js') <script>
+<!--
+
+<@ section('js') <script>
     $(document).ready(function() {
         console.log('¡jQuery se integró correctamente!');
     })
 </script>
-@stop
+@ stop -->

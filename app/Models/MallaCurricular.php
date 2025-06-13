@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Trayecto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,12 +17,14 @@ class MallaCurricular extends Model
     // Para habilitar la asignación masiva.
     // Incluye todos los campos que pueden ser asignados al crear o actualizar una entrada de malla.
 
-    protected $table = 'mallas_curriculares'; 
+    protected $table = 'mallas_curriculares';
 
     protected $fillable = [
+        'nombre',
         'id_especialidad',
         'id_unidad_curricular',
         'id_trayecto', // Ya que ahora manejamos id_trayecto como FK
+        'id_unidad_curricular',
         'minimo_aprobatorio',
         'duracion_en_malla',
         'fase_malla',
@@ -73,12 +76,16 @@ class MallaCurricular extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function trayecto()
+   /* public function trayecto()
     {
         return $this->belongsTo(Trayecto::class, 'id_trayecto', 'id');
         // Asume que tu modelo de trayecto se llama 'Trayecto'.
         // 'id_trayecto' es la FK en esta tabla.
         // 'id' es la PK en la tabla 'trayectos'.
+    }*/
+    public function trayectos()
+    {
+        return $this->belongsToMany(Trayecto::class, 'malla_curricular_trayecto', 'malla_curricular_id', 'trayecto_id');
     }
 
     /**
@@ -105,7 +112,7 @@ class MallaCurricular extends Model
 
     // Aquí podrías añadir otros métodos personalizados relacionados con la lógica de la malla.
 
-        // Puedes añadir un accesor para una descripción legible
+    // Puedes añadir un accesor para una descripción legible
     public function getDescripcionCompletaAttribute()
     {
         $ucNombre = $this->unidadCurricular ? $this->unidadCurricular->nombre : 'Desconocida';

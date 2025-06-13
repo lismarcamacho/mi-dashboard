@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Trayecto; // Importa tu modelo Titulo
-//use App\Models\Especialidad; // ¡Importa el modelo Especialidad para el dropdown!
+use App\Models\Trayecto; 
+//use App\Models\Especialidad;
+use App\Models\UnidadCurricular; 
+
 use Illuminate\Http\Request;
 
 class TrayectoController extends Controller
@@ -16,9 +18,10 @@ class TrayectoController extends Controller
 
         /* NECESITO TENER CARGADA LA ESPECIALIDAD ASOCIADA A CADA TRAYECTO EN EL INDICE PARA 
         QUE EL INDICE GENERAL ME MUESTRE LA ESPECIALIDAD ASOCIADA CUANDO SE GUARDE*/
-        //$trayectos = Trayecto::with('especialidad')->get(); 
-        
-        return view('trayectos.index', compact('trayectos'));
+        $trayectos = Trayecto::with('unidadesCurriculares')->get(); 
+        $unidadesCurriculares = UnidadCurricular::all();
+
+        return view('trayectos.index', compact('trayectos','unidadesCurriculares'));
     }
 
     /**

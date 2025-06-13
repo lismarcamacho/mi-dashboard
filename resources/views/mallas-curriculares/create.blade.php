@@ -21,273 +21,192 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-{{--@ php// ESTE CODIGO ES OTRA MANERA DE ENVIAR LA NOTIFICACION AL USUARIO PERO SE QUEDA EN EL FORMULARIO
-        if (session()) {
-        if (session('message') == 'ok') {
-                                                                                                                                                                # code...
-        echo '<x-adminlte-alert class="bg-teal text-uppercase" icon="fa fa-lg fa-thumbs-up" title="Done" dismissable>
-        Especialidad Creada exitosamente!
-    </x-adminlte-alert>';
-    }
-}
-
-
-                                                                                                                                                    @ endphp -->
-    {{-- El resto de tu contenido de la vista --}}
-
     <div class="card">
-
-
-
         <div class="card-body">
             <form action="{{ route('mallas-curriculares.store') }}" method="POST">
                 @csrf
 
-                <div class="col-md-12 ">
-                    {{-- {{ dd($role) }}  --}}
-                    {{-- {{ {{dd($role->permissions)}}  --}}
+                {{-- Fila 1: Nombre de Malla y Especialidad --}}
+                <div class="row">
+                    {{-- Campo Nombre de la Malla --}}
+                    <div class="col-md-6">
+                        <label for="nombre" class="text-lightblue">Nombre Malla:</label>
+                        <input type="text" name="nombre" id="nombre"
+                            class="form-control @error('nombre') is-invalid @enderror"
+                            value="{{ old('nombre') }}" required>
+                        @error('nombre')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
 
-                    <label for="id_especialidad" class="text-lightblue">Especialidad</label>
+                    {{-- Campo Especialidad --}}
+                    <div class="col-md-6">
+                        <label for="id_especialidad" class="text-lightblue">Especialidad</label>
+                        <select id="id_especialidad" name="id_especialidad"
+                            class="form-control @error('id_especialidad') is-invalid @enderror" required>
+                            <option value="">Seleccione una Especialidad</option>
+                            @foreach ($especialidades as $especialidad)
+                                <option value="{{ $especialidad->id }}"
+                                    {{ old('id_especialidad') == $especialidad->id ? 'selected' : '' }}>
+                                    {{ $especialidad->nombre_especialidad ?? 'ID: ' . $especialidad->id }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('id_especialidad')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div> {{-- Cierre de la Fila 1 --}}
 
-                    <x-adminlte-select id="id_especialidad" name="id_especialidad"
-                        class="form-control @error('id_especialidad') is-invalid @enderror" required
-                        class="col-md-6 block w-full mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                        <option value="">Seleccione una Especialidad</option>
-                        @foreach ($especialidades as $especialidad)
-                            <option value="{{ $especialidad->id }}"
-                                {{ old('id_especialidad') == $especialidad->id ? 'selected' : '' }}>
-                                {{ $especialidad->nombre_especialidad ?? 'ID: ' . $especialidad->id }}
-                            </option>
-                        @endforeach
-                    </x-adminlte-select>
-
-                    @error('id_especialidad')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-
-                <div class="col-md-12">
-                    <label for="id_unidad_curricular" class="text-lightblue">Unidad Curricular:</label>
-                    <x-adminlte-select name="id_unidad_curricular" id="id_unidad_curricular"
-                        class="form-control @error('id_unidad_curricular') is-invalid @enderror" required
-                        class="col-md-6 block w-full mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                        <option value="">Seleccione una Unidad Curricular</option>
-                        @foreach ($unidadesCurriculares as $uc)
-                            {{-- ¡Necesitarás pasar $unidadesCurriculares desde el controlador! --}}
-                            <option value="{{ $uc->id }}" data-creditos="{{ $uc->creditos ?? 0 }}"
-                                {{ old('id_unidad_curricular') == $uc->id ? 'selected' : '' }}>
-                                {{ $uc->nombre ?? 'ID: ' . $uc->id }} {{-- Muestra el nombre de la UC, si existe --}}
-                            </option>
-                        @endforeach
-                    </x-adminlte-select>
-                    @error('id_unidad_curricular')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-
-
-                {{-- Tu campo de Creditos en Malla (el último input) --}}
-                <div class="col-md-12">
-                    <label for="creditos_en_malla" class="text-lightblue">Créditos en Malla:</label>
-                    {{-- ¡Importante! Añade el atributo `readonly` para que el usuario no lo edite manualmente --}}
-                    <x-adminlte-input type="number" name="creditos_en_malla" id="creditos_en_malla"
-                        class="form-control @error('creditos_en_malla') is-invalid @enderror"
-                        value="{{ old('creditos_en_malla') }}" step="0.01" readonly required
-                        class="col-md-6 block w-full mt-1 border-gray-300 focus:border-indigo-500
-                         focus:ring-indigo-500 rounded-md shadow-sm">
+                {{-- Fila 2: Créditos en Malla y Trayectos Seleccionados --}}
+                <div class="row mt-3"> {{-- mt-3 añade un margen superior para más separación entre filas --}}
+                    {{-- Campo Créditos en Malla --}}
+                    <div class="col-md-6">
+                        <label for="creditos_en_malla" class="text-lightblue">Créditos en Malla:</label>
+                        <input type="number" name="creditos_en_malla" id="creditos_en_malla"
+                            class="form-control @error('creditos_en_malla') is-invalid @enderror"
+                            value="{{ old('creditos_en_malla') }}" step="0.01" required>
                         @error('creditos_en_malla')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
-                    </x-adminlte-input>
-                </div>
+                    </div>
 
-                <div class="col-md-12">
-                    {{-- {{ dd($role) }}  --}}
-                    {{-- {{ {{dd($role->permissions)}}  --}}
-
-                    <label for="id_trayecto" class="text-lightblue">Trayecto</label>
-
-                    <x-adminlte-select id="id_trayecto" name="id_trayecto"
-                        class="form-control @error('id_trayecto') is-invalid @enderror" required
-                        class="col-md-6 block w-full mt-1 sm:text-sm bg-blue-50 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                        <option value="">Seleccione un Trayecto</option>
-                        @foreach ($trayectos as $trayecto)
-                            {{-- ¡Necesitarás pasar $trayectos desde el controlador! --}}
-                            <option value="{{ $trayecto->id }}"
-                                {{ old('id_trayecto') == $trayecto->id ? 'selected' : '' }}>
-                                {{ $trayecto->nombre_trayecto ?? 'ID: ' . $trayecto->id }}
-                            </option>
-                        @endforeach
-                    </x-adminlte-select>
-                    @error('id_trayecto')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-
-                <div class="col-md-12">
-                    <label for="minimo_aprobatorio" class="text-lightblue">Minimo Aprobatorio:</label>
-                    {{-- ¡Importante! Añade el atributo `readonly` para que el usuario no lo edite manualmente --}}
-                    <span class="tooltip-container"> {{-- Contenedor para el tooltip si usas el CSS personalizado --}}
-                        <i class="fas fa-info-circle text-blue-500 text-base cursor-help"
-                            title="La nota mínima para aprobar esta unidad curricular. Se ajusta automáticamente según si es una materia proyecto o no."></i>
-                        {{-- Opcional: Si quieres un tooltip personalizado más complejo, usa el span tooltip-text --}}
-                    </span>
-                    <x-adminlte-input type="number" name="minimo_aprobatorio" id="minimo_aprobatorio"
-                        class="form-control @error('minimo_aprobatorio') is-invalid @enderror"
-                        value="{{ old('minimo_aprobatorio') }}" step="0.01" readonly required
-                        class="col-md-6 block w-full mt-1 border-gray-300 focus:border-indigo-500
-                         focus:ring-indigo-500 rounded-md shadow-sm">
-                        @error('minimo_aprobatorio')
+                    {{-- Campo Seleccione uno o más Trayectos --}}
+                    <div class="col-md-6">
+                        <label for="trayectos_seleccionados" class="text-lightblue">Seleccione uno o más Trayectos</label>
+                        <select class="form-control @error('trayectos_seleccionados') is-invalid @enderror"
+                            id="trayectos_seleccionados" name="trayectos_seleccionados[]" multiple required>
+                            @foreach ($trayectos as $trayecto)
+                                <option value="{{ $trayecto->id }}"
+                                    {{ in_array($trayecto->id, old('trayectos_seleccionados', [])) ? 'selected' : '' }}>
+                                    {{ $trayecto->nombre_trayecto }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('trayectos_seleccionados')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
-                    </x-adminlte-input>
-                </div>
+                    </div>
+                </div> {{-- Cierre de la Fila 2 --}}
 
-                <div class="col-md-12 ">
-                    {{-- {{ dd($role) }}  --}}
-                    {{-- {{ {{dd($role->permissions)}}  --}}
-
-                    <label for="duracion_en_malla" class="text-lightblue">Duración en malla</label>
-
-                    <span class="tooltip-container"> {{-- Contenedor para el tooltip si usas el CSS personalizado --}}
-                        <i class="fas fa-info-circle text-blue-500 text-base cursor-help"
-                            title="Si el proyecto es por fase se indica por fase no anual "></i>
-                        {{-- Opcional: Si quieres un tooltip personalizado más complejo, usa el span tooltip-text --}}
-                    </span>
-                    <x-adminlte-select id="duracion_en_malla" name="duracion_en_malla"
-                        class="form-control @error('duracion_en_malla') is-invalid @enderror" required
-                        class="col-md-6 block w-full mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                        <option value="">Seleccione la Duración</option>
-                        <option value="Trimestral" {{ old('duracion_en_malla') == 'Trimestral' ? 'selected' : '' }}>
-                            Trimestral</option>
-                        <option value="Semestral" {{ old('duracion_en_malla') == 'Semestral' ? 'selected' : '' }}>
-                            Semestral</option>
-                        <option value="Anual" {{ old('duracion_en_malla') == 'Anual' ? 'selected' : '' }}>Anual</option>
-                        <option value="Por Fases" {{ old('duracion_en_malla') == 'Por Fases' ? 'selected' : '' }}>Por
-                            Fases</option>
-                    </x-adminlte-select>
-                    @error('duracion_en_malla')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
+                {{-- Fila 3: Fase en Malla y Tipo de UC en Malla --}}
+                <div class="row mt-3"> {{-- mt-3 añade un margen superior --}}
+                    {{-- Campo Fase en malla --}}
+                    <div class="col-md-6">
+                        <label for="duracion_en_malla" class="text-lightblue">Duración en malla</label>
+                        <span>
+                            <i class="fas fa-info-circle text-blue-500 text-base cursor-help"
+                                title="Fase específica de la unidad curricular dentro del trayecto (ej. Fase 1, Fase 2). Selecciona el campo vacio, si no aplica."></i>
                         </span>
-                    @enderror
+                        <select id="duracion_en_malla" name="duracion_en_malla" class="form-control @error('duracion_en_malla') is-invalid @enderror">
+                            <option value="">Seleccione la Fase</option>
+                            <option value="N/A" {{ old('duracion_en_malla') == 'N/A' ? 'selected' : '' }}>N/A</option>
+                            <option value="Por fases" {{ old('duracion_en_malla') == 'Por fases' ? 'selected' : '' }}>Por fases</option>
+                            <option value="Anual" {{ old('duracion_en_malla') == 'Anual' ? 'selected' : '' }}>Anual</option>
+                            <option value="Semestral" {{ old('duracion_en_malla') == 'Semestral' ? 'selected' : '' }}>Semestral</option>
+                            <option value="Trimestral" {{ old('duracion_en_malla') == 'Trimestral' ? 'selected' : '' }}>Trimestral</option>
+                        </select>
+                        @error('duracion_en_malla')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
 
-                </div>
-
-                <div class="col-md-12 ">
-
-                    <label for="fase_malla" class="text-lightblue">Fase en malla</label>
-
-                    <i class="fas fa-info-circle text-blue-500 text-base cursor-help"
-                        title="Fase específica de la unidad curricular dentro del trayecto (ej. Fase 1, Fase
-                            2). Selecciona el campo vacio, si no aplica."></i>
-                    {{-- Opcional: Si quieres un tooltip personalizado más complejo, usa el span tooltip-text --}}
-                    </span>
-                    <x-adminlte-select id="fase_malla" name="fase_malla"
-                        class="form-control @error('fase_malla') is-invalid @enderror" 
-                        class="col-md-6
-                        block w-full mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md
-                        shadow-sm">
-                        <option value="">Seleccione la Fase</option>
-                        <option value="N/A" {{ old('fase_malla') == 'N/A' ? 'selected' : '' }}>N/A</option>
-                        <option value="Fase 1" {{ old('fase_malla') == 'Fase 1' ? 'selected' : '' }}>Fase 1</option>
-                        <option value="Fase 2" {{ old('fase_malla') == 'Fase 2' ? 'selected' : '' }}>Fase 2</option>
-                    </x-adminlte-select>
-                    @error('fase_malla')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
+                    <div class="col-md-6">
+                        <label for="fase_malla" class="text-lightblue">Fase en malla</label>
+                        <span>
+                            <i class="fas fa-info-circle text-blue-500 text-base cursor-help"
+                                title="Fase específica de la unidad curricular dentro del trayecto (ej. Fase 1, Fase 2). Selecciona el campo vacio, si no aplica."></i>
                         </span>
-                    @enderror
+                        <select id="fase_malla" name="fase_malla" class="form-control @error('fase_malla') is-invalid @enderror">
+                            <option value="">Seleccione la Fase</option>
+                            <option value="N/A" {{ old('fase_malla') == 'N/A' ? 'selected' : '' }}>N/A</option>
+                            <option value="Fase 1" {{ old('fase_malla') == 'Fase 1' ? 'selected' : '' }}>Fase 1</option>
+                            <option value="Fase 2" {{ old('fase_malla') == 'Fase 2' ? 'selected' : '' }}>Fase 2</option>
+                           
+                        </select>
+                        @error('fase_malla')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
 
-                </div>
-
-                <div class="col-md-12 ">
-                    {{-- {{ dd($role) }}  --}}
-                    {{-- {{ {{dd($role->permissions)}}  --}}
-
-                    <label for="tipo_uc_en_malla" class="text-lightblue">Tipo de UC en malla</label>
-
-                    <i class="fas fa-info-circle text-blue-500 text-base cursor-help" title="Seleccione una opcion"></i>
-                    {{-- Opcional: Si quieres un tooltip personalizado más complejo, usa el span tooltip-text --}}
-                    </span>
-                    <x-adminlte-select id="tipo_uc_en_malla" name="tipo_uc_en_malla"
-                        class="form-control @error('fase_malla') is-invalid @enderror" required
-                        class="col-md-6
-                        block w-full mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md
-                        shadow-sm">
-                        <option value="">Seleccione la Fase</option>
-                        <option value="Obligatoria" {{ old('tipo_uc_en_malla') == 'Obligatoria' ? 'selected' : '' }}>
-                            Obligatoria</option>
-                        <option value="Optativa" {{ old('tipo_uc_en_malla') == 'Optativa' ? 'selected' : '' }}>Optativa
-                        </option>
-                        <option value="Servicio Comunitario"
-                            {{ old('tipo_uc_en_malla') == 'Servicio Comunitario' ? 'selected' : '' }}>Servicio Comunitario
-                        </option>
-                        <option value="Proyecto" {{ old('tipo_uc_en_malla') == 'Proyecto' ? 'selected' : '' }}>Proyecto
-                        </option>
-                        <option value="Practicas profesionales"
-                            {{ old('tipo_uc_en_malla') == 'Practicas profesionales' ? 'selected' : '' }}>Practicas
-                            profesionales</option>
-                    </x-adminlte-select>
-                    @error('tipo_uc_en_malla')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
+                    {{-- Campo Tipo de UC en malla --}}
+                    <div class="col-md-6">
+                        <label for="tipo_uc_en_malla" class="text-lightblue">Tipo de UC en malla</label>
+                        <span>
+                            <i class="fas fa-info-circle text-blue-500 text-base cursor-help" title="Seleccione una opcion"></i>
                         </span>
-                    @enderror
+                        <select id="tipo_uc_en_malla" name="tipo_uc_en_malla"
+                            class="form-control @error('tipo_uc_en_malla') is-invalid @enderror" required>
+                            <option value="">Seleccione El tipo UC</option>
+                            <option value="Obligatoria" {{ old('tipo_uc_en_malla') == 'Obligatoria' ? 'selected' : '' }}>Obligatoria</option>
+                            <option value="Optativa" {{ old('tipo_uc_en_malla') == 'Optativa' ? 'selected' : '' }}>Optativa</option>
+                            <option value="Servicio Comunitario" {{ old('tipo_uc_en_malla') == 'Servicio Comunitario' ? 'selected' : '' }}>Servicio Comunitario</option>
+                            <option value="Proyecto" {{ old('tipo_uc_en_malla') == 'Proyecto' ? 'selected' : '' }}>Proyecto</option>
+                            <option value="Practicas profesionales" {{ old('tipo_uc_en_malla') == 'Practicas profesionales' ? 'selected' : '' }}>Practicas profesionales</option>
+                        </select>
+                        @error('tipo_uc_en_malla')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div> {{-- Cierre de la Fila 3 --}}
 
+                {{-- Fila 4: Año de Vigencia de Entrada y Año de Salida de Vigencia --}}
+                <div class="row mt-3"> {{-- mt-3 añade un margen superior --}}
+                    {{-- Campo anio_de_vigencia_de_entrada_malla --}}
+                    <div class="col-md-6">
+                        <label for="anio_de_vigencia_de_entrada_malla" class="text-lightblue">Año de Entrada en vigencia</label>
+                        <input name="anio_de_vigencia_de_entrada_malla" id="anio_de_vigencia_de_entrada_malla"
+                            class="form-control @error('anio_de_vigencia_de_entrada_malla') is-invalid @enderror" type="number"
+                            min="2008" max="2050" value="{{ old('anio_de_vigencia_de_entrada_malla') }}" required>
+                        @error('anio_de_vigencia_de_entrada_malla')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    {{-- Campo anio_salida_vigencia --}}
+                    <div class="col-md-6">
+                        <label for="anio_salida_vigencia" class="text-lightblue">Año de Salida en Vigencia</label>
+                        <input name="anio_salida_vigencia" id="anio_salida_vigencia"
+                            class="form-control @error('anio_salida_vigencia') is-invalid @enderror" type="number"
+                            min="2008" max="2050" value="{{ old('anio_salida_vigencia') }}">
+                        @error('anio_salida_vigencia')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div> {{-- Cierre de la Fila 4 --}}
+
+
+                {{-- Botones de acción --}}
+                <div class="row mt-4"> {{-- Margin top para separar los botones de los campos --}}
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <a href="{{ route('mallas-curriculares.index') }}" class="btn btn-secondary">Cancelar</a>
+                    </div>
                 </div>
-
-                <div class="col-md-12">
-
-                    <x-adminlte-input class="col-md-6" name="anio_de_vigencia_de_entrada_malla"
-                        label="anio_de_vigencia_de_entrada_malla " type="number" label-class="text-lightblue"
-                        min="2008" max="2050" value="{{ old('anio_de_vigencia_de_entrada_malla') }}" required>
-
-                    </x-adminlte-input>
-                </div>
-
-                <div class="col-md-12">
-
-                    <x-adminlte-input class="col-md-6" name="anio_salida_vigencia"
-                        label="anio_salida_vigencia " type="number" label-class="text-lightblue"
-                        min="2008" max="2050" value="{ { old('anio_salida_vigencia') }}" required>
-
-                    </x-adminlte-input>-->
-
-
-
-
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                <a href="{{ route('mallas-curriculares.index') }}" class="btn btn-secondary">Cancelar</a>
-                </div>
-
-
-
-
-
-
-
-
-
 
             </form>
         </div>
     </div>
 
-
-
-
-    {{-- Custom --}}
+    {{-- Custom Modal (instrucciones) --}}
     <x-adminlte-modal id="modalCustom" title="Instrucciones" size="lg" theme="teal" icon="fas fa-bell"
         v-centered static-backdrop scrollable>
         <div style="height:800px;">
@@ -301,103 +220,23 @@
 
         <x-slot name="footerSlot">
             <x-adminlte-button class="mr-auto" theme="success" label="Accept" data-dismiss="modal" />
-
         </x-slot>
     </x-adminlte-modal>
-    {{-- Example button to open modal --}}
     <x-adminlte-button label="Leer Instructivo" data-toggle="modal" data-target="#modalCustom" class="bg-teal" />
 
 @stop
 
-@section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
 
-        /* Estilos para el tooltip (opcional, si AdminLTE no lo maneja por defecto) */
-        .tooltip-container {
-            position: relative;
-            display: inline-block;
-        }
-
-        .tooltip-text {
-            visibility: hidden;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px 8px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            /* Posición encima */
-            left: 50%;
-            margin-left: -60px;
-            /* Centrar el tooltip */
-            opacity: 0;
-            transition: opacity 0.3s;
-            white-space: nowrap;
-            font-size: 0.75rem;
-        }
-
-        .tooltip-container:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
-        }
-    </style>
-@stop
-
-@section('js')
+@section('js') @if (session('success'))
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const unidadCurricularSelect = document.getElementById('id_unidad_curricular');
-            const creditosEnMallaInput = document.getElementById('creditos_en_malla');
-            const minimoAprobatorioInput = document.getElementById('minimo_aprobatorio');
-
-            // Función única para actualizar ambos valores (créditos y mínimo aprobatorio)
-            function actualizarValoresUnidadCurricular() {
-                const selectedOption = unidadCurricularSelect.options[unidadCurricularSelect.selectedIndex];
-
-                // Si no se selecciona ninguna opción (o se selecciona la opción vacía)
-                if (!selectedOption || selectedOption.value === "") {
-                    creditosEnMallaInput.value = '';
-                    minimoAprobatorioInput.value = '';
-                    return; // Salir de la función
-                }
-
-                // --- Lógica para Créditos en Malla ---
-                // Asegúrate de que 'selectedOption' y 'selectedOption.dataset' existen
-                const creditos = selectedOption.dataset.creditos; // Obtener los créditos del atributo data-creditos
-                creditosEnMallaInput.value = creditos;
-
-                // --- Lógica para Mínimo Aprobatorio ---
-                const unidadCurricularNombre = selectedOption.textContent
-                    .trim(); // Obtener el texto visible de la opción
-                let minimoAprobatorio = '';
-
-                // Convertir a mayúsculas para hacer la comparación insensible a mayúsculas/minúsculas
-                const nombreMayusculas = unidadCurricularNombre.toUpperCase();
-
-                // Condición: Si el nombre comienza con "PROYECTO"
-                if (nombreMayusculas.startsWith('PROYECTO')) {
-                    minimoAprobatorio = 16;
-                } else { // Si se selecciona otra UC, que no sea la opción vacía o "PROYECTO..."
-                    minimoAprobatorio = 12;
-                }
-
-                minimoAprobatorioInput.value = minimoAprobatorio;
-            }
-
-            // UN ÚNICO Listener para el evento 'change' en el select de Unidad Curricular
-            unidadCurricularSelect.addEventListener('change', actualizarValoresUnidadCurricular);
-
-            // Opcional: Llamar a la función al cargar la página si ya hay una opción seleccionada (ej. con old())
-            // Esto es importante para mantener los valores si la página se recarga por una validación fallida
-            if (unidadCurricularSelect.value) {
-                actualizarValoresUnidadCurricular();
-            }
-        });
+        $(document).ready(function() {
+            let mensaje = "{{ session('success') }}";
+            Swal.fire({
+                title: 'Resultado',
+                text: mensaje,
+                icon: 'success'
+            })
+        })
     </script>
+    @endif
 @stop

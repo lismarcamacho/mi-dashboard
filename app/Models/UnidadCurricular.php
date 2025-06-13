@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,16 +12,18 @@ class UnidadCurricular extends Model
 
     // Para habilitar la asignación masiva (llenar atributos con un array):
     protected $fillable = [
-    'codigo',
-    'nombre',
-    'creditos',
-    'horas_semanales',
-    'horas_trabajo_asistidas',
-    'horas_trabajo_independiente',
-    'horas_trabajo_estudiantil',
-    'eje',
-    'descripcion',
-    
+        'codigo',
+        'nombre',
+        'creditos',
+        'horas_semanales',
+        'horas_trabajo_asistidas',
+        'horas_trabajo_independiente',
+        'horas_trabajo_estudiantil',
+        'eje',
+        'descripcion',
+        'anio_de_vigencia_de_entrada',
+        'anio_de_salida_vigencia',
+
     ];
 
     // Para evitar la asignación masiva de ciertos campos:
@@ -56,7 +59,9 @@ class UnidadCurricular extends Model
 
     // Aquí podrías añadir otras relaciones futuras, como si una unidad curricular tiene pre-requisitos
     // (a través de la tabla Prelaciones y MallaCurricular), o profesores, etc.
-  
 
-
+    public function trayecto()
+    {
+        return $this->belongsTo(Trayecto::class, 'trayecto_id');
+    }
 }
