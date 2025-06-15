@@ -432,6 +432,26 @@ return [
             ],
         ],
 
+                                  [
+            'text' => 'Estudiantes',
+            'icon' => 'fas fa-fw  fa-graduation-cap',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Lista',
+                  // 'route' => 'estudiantes.index',
+                    'url' => 'admin/estudiantes',
+
+                ],
+                [
+                    'text' => 'Agregar Estudiante',
+                    'url' => 'admin/estudiantes/create',
+                ],
+
+               
+            ],
+        ],
+
       [
             'text' => 'Matricula',
             'icon' => 'fas fa-fw  fa-graduation-cap',
@@ -440,7 +460,7 @@ return [
                  [
                     'text' => 'Inscripciones PIU',
                   // 'route' => 'programas.index',
-                    'url' => 'admin/programas/create',
+                    'url' => 'admin/programas',
 
                 ],
                 [
@@ -559,7 +579,8 @@ return [
                 ],
                 [
                     'text' => 'Detalles Contaduria Pública',
-                    'url' => 'admin/especialidades/1',
+                    'url' => 'admin/especialidades/1/malla',
+                   // route('especialidades.pensum_structure', ['especialidad' => 1]),
                 ],
                  [
                     'text' => 'Detalles Administración',

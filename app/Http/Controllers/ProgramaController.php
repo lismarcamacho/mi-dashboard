@@ -45,12 +45,19 @@ class ProgramaController extends Controller
 
 
         $programa = new Programa();
-        $programa->nombre_programa = $request->input('nombre_programa');
-        $programa->codigo_programa = $request->input('codigo_programa');
-        $programa->fecha_programa = $request->input('fecha_programa');
+        //$programa->nombre_programa = $request->input('nombre_programa');
+        //$programa->codigo_programa = $request->input('codigo_programa');
+        //$programa->fecha_programa = $request->input('fecha_programa');
          // Convertir la fecha de 'dd/mm/aaaa' a 'YYYY-MM-DD' para la base de datos
-        $programa->fecha_programa = Carbon::createFromFormat('d/m/Y', $request->input('fecha_programa'))->format('Y-m-d');
-        $programa->descripcion = $request->input('descripcion');
+        //$programa->fecha_programa = Carbon::createFromFormat('d/m/Y', $request->input('fecha_programa'))->format('Y-m-d');
+        //$programa->descripcion = $request->input('descripcion');
+
+        $programa->nombre_programa = $validacion['nombre_programa'];
+        $programa->codigo_programa = $validacion['codigo_programa'];
+        $programa->fecha_programa = $validacion['fecha_programa'];
+        $programa->fecha_programa = Carbon::createFromFormat('d/m/Y', $validacion['fecha_programa'])->format('Y-m-d');
+        $programa->descripcion = $validacion['descripcion'];
+
         $programa->save();
         //dd('Guardado intentado');
         //return session()->flash('success', 'Especialidad creada exitosamente');

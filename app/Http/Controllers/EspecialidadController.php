@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Especialidad;
+use App\Models\MallaCurricular;
 use App\Models\Programa;
 use GuzzleHttp\Client;
 use Illuminate\Validation\Rules\Can;
@@ -43,7 +44,7 @@ class EspecialidadController extends Controller
     {
         // return("Nueva carrera");
         $programas = Programa::all();
-        return view('especialidades.create');
+        return view('especialidades.create', compact('programas'));
     }
 
     /**
@@ -102,19 +103,45 @@ class EspecialidadController extends Controller
     // public function mallasCurriculares() { return $this->hasMany(MallaCurricular::class, 'id_especialidad', 'id'); }
         //$especialidad->load('titulos', 'mallasCurriculares');
     // === Lógica para obtener la Malla Vigente (como lo hicimos antes) ===
-    $mallasVigentesPorEspecialidad = null;
-    $latestYear = $especialidad->mallasCurriculares()->max('año_de_vigencia_de_entrada_malla');
+    //$mallasVigentesPorEspecialidad = null;
+    //$latestYear = $especialidad->mallasCurriculares()->max('anio_de_vigencia_de_entrada_malla');
 
-    if ($latestYear) {
-        $mallasVigentesPorEspecialidad = $especialidad->mallasCurriculares()
-                                                     ->where('año_de_vigencia_de_entrada_malla', $latestYear)
-                                                     ->with(['unidadCurricular', 'trayecto']) // ¡Importante! Precargar estas relaciones
-                                                     ->orderBy('id_trayecto')
-                                                     ->orderBy('fase_malla')
-                                                     ->get();
+    //if ($latestYear) {
+    //    $mallasVigentesPorEspecialidad = $especialidad->mallasCurriculares()
+    //                                                 ->where('anio_de_vigencia_de_entrada_malla', $latestYear)
+    //                                                 ->with(['unidadCurricular', 'trayecto']) // ¡Importante! Precargar estas relaciones
+    //                                                 ->orderBy('id_trayecto')
+    //                                                 ->orderBy('fase_malla')
+    //                                                 ->get();
+    //}
+        //return view('especialidades.show', compact('especialidad', 'mallasVigentesPorEspecialidad'));
+         return view('especialidades.show', compact('especialidad'));
     }
-        return view('especialidades.show', compact('especialidad', 'mallasVigentesPorEspecialidad'));
+
+        /**
+     * Muestra la estructura detallada del pensum para una especialidad específica.
+     * Agrupa las unidades curriculares por trayecto.
+     */
+    public function showMallaStructure(Especialidad $especialidad)
+    {
+        // Obtener todas las entradas de malla para esta especialidad.
+        // Asumiendo que MallaCurricular tiene una relación belongsToMany con Trayecto
+        // a través de la tabla pivote 'malla_trayecto'.
+        // Si no es así, esta consulta aún podría fallar o no cargar Trayecto.
+        $mallasCurriculares = $especialidad->mallasCurriculares()
+                                           ->with(['unidadCurricular', 'trayectos']) // 'trayectos' es el nombre de la relación N:M si existe
+                                           ->get();
+
+        // No podemos agrupar por 'trayecto_nombre' o 'trayecto_orden' directamente aquí
+        // porque la relación es Many-to-Many y un MallaCurricular puede tener múltiples trayectos,
+        // o la columna directa no existe.
+        // La vista necesitará iterar sobre cada MallaCurricular y luego sobre sus trayectos asociados.
+
+        return view('especialidades.malla_structure', compact('especialidad', 'mallasCurriculares'));
     }
+
+
+
 
     /**
      * Show the form for editing the specified resource.

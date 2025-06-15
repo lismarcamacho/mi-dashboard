@@ -21,12 +21,13 @@ class DatabaseSeeder extends Seeder
            // RoleSeeder::class,
            //  ProgramaSeeder::class,
             // Y tus otros seeders, como UserSeeder, etc.
+            EstudianteSeeder::class,
         ]);
 
 
-        User::factory()->create([
+       /* User::factory()->create([
             'name' => 'user',
             'email' => 'user@example.com',
-        ]);
+        ]);*/
     }
 }

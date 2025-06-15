@@ -8,6 +8,7 @@ use App\Http\Controllers\PermisoController;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Http\Controllers\AsignarController;
 use App\Http\Controllers\EspecialidadController;
+use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\MallaCurricularController;
 use App\Http\Controllers\ProgramaController;
 use App\Http\Controllers\SearchController;
@@ -57,8 +58,6 @@ Route::get(
 
 // ****************************OJO NO MOVER MIDDLEWARE**********************
 Route::middleware(['auth'])->group(function () {
-
-
 
 
 
@@ -141,6 +140,9 @@ Route::prefix('admin')->group(function () {
     Route::get('/especialidades/{especialidad}/edit', [EspecialidadController::class, 'edit'])->name('especialidades.edit');
     Route::put('/especialidades/{especialidad}', [EspecialidadController::class, 'update'])->name('especialidades.update');
     Route::delete('/especialidades/{especialidad}', [EspecialidadController::class, 'destroy'])->name('especialidades.destroy');
+    // Ruta para mostrar la estructura del pensum de una especialidad
+    Route::get('/especialidades/{id}/malla', [EspecialidadController::class, 'showMallaStructure'])->name('especialidades.malla_structure');
+
 });
 
 Route::resource('/titulos', TituloController::class)->names('titulos');; // Esto crea varias rutas: index, create, store, show, edit, update, destroy
@@ -178,6 +180,15 @@ Route::prefix('admin')->group(function () {
     Route::delete('/mallas-curriculares/{id}', [MallaCurricularController::class, 'destroy'])->name('mallas-curriculares.destroy');
 });
 
+Route::resource('admin/estudiantes', EstudianteController::class);
+
+
+Route::prefix('admin')->group(function () {
+
+    // Rutas de recursos para Estudiantes
+    Route::get('/estudiantes', [EstudianteController::class, 'index'])->name('estudiantes.index'); // Muestra todos los estudiantes
+    Route::get('/estudiantes/{estudiante}', [EstudianteController::class, 'show'])->name('estudiantes.show'); // Muestra un estudiante específico
+});
 
 }); // **************************************FIN MIDDLEWARE***************************
 

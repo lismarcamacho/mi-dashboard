@@ -23,7 +23,7 @@ class MallaCurricular extends Model
         'nombre',
         'id_especialidad',
         'id_unidad_curricular',
-        'id_trayecto', // Ya que ahora manejamos id_trayecto como FK
+        //'id_trayecto', // Ya que ahora manejamos id_trayecto como FK OK
         'id_unidad_curricular',
         'minimo_aprobatorio',
         'duracion_en_malla',
