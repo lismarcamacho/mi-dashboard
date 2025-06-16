@@ -109,11 +109,11 @@
 
                       <div class="form-group"> {{-- Usamos form-group para los márgenes --}}
                             <x-adminlte-input name="fecha_nacimiento" type="text" label="Fecha Nacimiento"
-                                placeholder="DD/MM/YYYY"
-                                value="{{ old('fecha_nacimiento', isset($estudiante) ? \Carbon\Carbon::parse($estudiante->fecha_nacimiento)->format('d/m/Y') : '') }}"
+                                placeholder="DD/MM/YYYY"  class="col-md-6"  label-class="text-lightblue"
+                                value="{{ old('fecha_nacimiento', \Carbon\Carbon::now()->format('d/m/Y'))}}"
                                 enable-old-support="true" {{-- Esto es importante para x-adminlte-input --}}>
                                 <x-slot name="appendSlot">
-                                    <div class="input-group-text bg-dark">
+                                    <div class="input-group-text bg-gradient-info">
                                         <i class="fas fa-calendar-alt"></i>
                                     </div>
                                 </x-slot>

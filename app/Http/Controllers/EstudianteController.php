@@ -40,33 +40,39 @@ class EstudianteController extends Controller
             'municipio' => 'required|nullable|string|max:100',
             'parroquia' => 'required|nullable|string|max:100',
             'estatus_activo' => 'boolean', // Será 0 o 1
-            'fecha_nacimiento' => 'nullable|date_format:d/m/Y',
+            'fecha_nacimiento' => 'required|date_format:d/m/Y'
 
         ]);
+
+        //dd($validatedData['fecha_nacimiento'], gettype($validatedData['fecha_nacimiento']));
 
         // Crea el nuevo estudiante
         $validatedData['estatus_activo'] = $request->has('estatus_activo') ? 1 : 0;
         // Convertir la fecha de 'dd/mm/aaaa' a 'YYYY-MM-DD' para la base de datos
         // CONVERSIÓN DE LA FECHA A FORMATO DE BASE DE DATOS (YYYY-MM-DD)
+ // CONVERSIÓN DE LA FECHA A FORMATO YYYY-MM-DD para la base de datos
+        if (!empty($validatedData['fecha_nacimiento'])) {
+            try {
+                // **PASO CLAVE: Limpiar la cadena antes de Carbon::createFromFormat**
+                $fechaString = trim($validatedData['fecha_nacimiento']);
+                // Asegúrate de que sea utf8 para evitar problemas de codificación
+                $fechaString = mb_convert_encoding($fechaString, 'UTF-8', 'UTF-8');
 
-
-
-
-        try {
-            $fechaNacimiento = Carbon::createFromFormat('d/m/Y', $validatedData['fecha_nacimiento']);
-            $validatedData['fecha_nacimiento'] = $fechaNacimiento->format('Y-m-d');
-        } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['fecha_nacimiento' => 'El formato de fecha es incorrecto. Por favor, use DD/MM/YYYY.']);
+                // Crea un objeto Carbon interpretando la cadena limpia como DD/MM/YYYY
+                $fechaNacimiento = Carbon::createFromFormat('d/m/Y', $fechaString);
+                // Formatea el objeto Carbon a YYYY-MM-DD para guardar en la DB
+                $validatedData['fecha_nacimiento'] = $fechaNacimiento->format('Y-m-d');
+            } catch (\Exception $e) {
+                // Esto debería capturar el "Unexpected character" si persiste.
+                return back()->withInput()->withErrors(['fecha_nacimiento' => 'Error de formato de fecha. Mensaje: ' . $e->getMessage() . '. Asegúrese de usar DD/MM/YYYY.']);
+            }
         }
 
-
-
-
-        Estudiante::create($request->all());
-
-        // Redirige con un mensaje de éxito
+        Estudiante::create($validatedData);
         return redirect()->route('estudiantes.index')->with('success', 'Estudiante creado exitosamente.');
     }
+
+
 
     /**
      * Muestra los detalles de un estudiante específico.
@@ -100,21 +106,28 @@ class EstudianteController extends Controller
             'municipio' => 'required|nullable|string|max:100',
             'parroquia' => 'required|nullable|string|max:100',
             'estatus_activo' => 'boolean',
-            'fecha_nacimiento' => 'nullable|date_format:d/m/Y',
+            'fecha_nacimiento' => 'required|date_format:d/m/Y'
         ]);
 
-        // Actualiza el estudiante
-        $validatedData['estatus_activo'] = $request->has('estatus_activo') ? 1 : 0;
-        // Convertir la fecha de 'dd/mm/aaaa' a 'YYYY-MM-DD' para la base de datos
-        $fechaNacimiento = Carbon::createFromFormat('d/m/Y', $validatedData['fecha_nacimiento']);
-        // Formatea a 'Y-m-d' para la base de datos
-        $validatedData['fecha_nacimiento'] = $fechaNacimiento->format('Y-m-d');
+        //dd($validatedData['fecha_nacimiento'], gettype($validatedData['fecha_nacimiento']));
 
-        $estudiante->update($request->all());
 
-        // Redirige con un mensaje de éxito
+        if (!empty($validatedData['fecha_nacimiento'])) {
+            try {
+                $fechaString = trim($validatedData['fecha_nacimiento']);
+                $fechaString = mb_convert_encoding($fechaString, 'UTF-8', 'UTF-8');
+
+                $fechaNacimiento = Carbon::createFromFormat('d/m/Y', $fechaString);
+                $validatedData['fecha_nacimiento'] = $fechaNacimiento->format('Y-m-d');
+            } catch (\Exception $e) {
+                return back()->withInput()->withErrors(['fecha_nacimiento' => 'Error de formato de fecha. Mensaje: ' . $e->getMessage() . '. Asegúrese de usar DD/MM/YYYY.']);
+            }
+        }
+
+        $estudiante->update($validatedData);
         return redirect()->route('estudiantes.index')->with('success', 'Estudiante actualizado exitosamente.');
     }
+    
 
     /**
      * Elimina un estudiante de la base de datos.

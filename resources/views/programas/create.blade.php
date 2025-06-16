@@ -43,8 +43,6 @@
             <form action="{{ route('programas.store') }}" method="POST">
                 @csrf
 
-
-
                 {{-- With prepend slot --}}
                 <div class="col-md-12">
                     <x-adminlte-input class="col-md-6" name="codigo_programa" label="Codigo Programa"
@@ -75,12 +73,10 @@
                     </x-adminlte-input>
                 </div>
 
-
-
                 <div class="col-md-12">
                     <x-adminlte-input class="col-md-6" name="fecha_programa" label="Fecha Programa" placeholder="DD/MM/AAAA"
                         label-class="text-lightblue"
-                        value="{{ old('fecha_programa', \Carbon\Carbon::now()->format('d/m/Y')) }}"
+                        value="{{ old('fecha_programa') }}"
                         enable-old-support="false" title="Puedes cambiar la fecha haciendo clic o escribiendo aquí.">
                         <x-slot name="prependSlot">
                             <div class="input-group-text bg-gradient-info">

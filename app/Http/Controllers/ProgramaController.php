@@ -16,7 +16,6 @@ class ProgramaController extends Controller
         //
         $programas = Programa::all();
         return view('programas.index', compact('programas'));
-
     }
 
     /**
@@ -25,7 +24,7 @@ class ProgramaController extends Controller
     public function create()
     {
         //
-          return view('programas.create');
+        return view('programas.create');
     }
 
     /**
@@ -34,73 +33,98 @@ class ProgramaController extends Controller
     public function store(Request $request)
     {
         //
-            $validacion = $request->validate([
+        $validacion = $request->validate([
 
-            'nombre_programa' => 'required|string|unique:Programas,nombre_programa|max:105',
-            'codigo_programa' => 'required|string|unique:Programas,codigo_programa|max:105',
+            'nombre_programa' => 'required|string|unique:programas,nombre_programa|max:105',
+            'codigo_programa' => 'required|string|unique:programas,codigo_programa|max:105',
             'fecha_programa' => 'required|date_format:d/m/Y',
             'descripcion' => 'required|string|max:255',
 
         ]);
 
 
-        $programa = new Programa();
-        //$programa->nombre_programa = $request->input('nombre_programa');
-        //$programa->codigo_programa = $request->input('codigo_programa');
-        //$programa->fecha_programa = $request->input('fecha_programa');
-         // Convertir la fecha de 'dd/mm/aaaa' a 'YYYY-MM-DD' para la base de datos
-        //$programa->fecha_programa = Carbon::createFromFormat('d/m/Y', $request->input('fecha_programa'))->format('Y-m-d');
-        //$programa->descripcion = $request->input('descripcion');
 
-        $programa->nombre_programa = $validacion['nombre_programa'];
-        $programa->codigo_programa = $validacion['codigo_programa'];
-        $programa->fecha_programa = $validacion['fecha_programa'];
-        $programa->fecha_programa = Carbon::createFromFormat('d/m/Y', $validacion['fecha_programa'])->format('Y-m-d');
-        $programa->descripcion = $validacion['descripcion'];
 
-        $programa->save();
-        //dd('Guardado intentado');
-        //return session()->flash('success', 'Especialidad creada exitosamente');
+        if (!empty($validacion['fecha_programa'])) {
+            try {
+                $fechaString = trim($validacion['fecha_programa']);
+                $fechaString = mb_convert_encoding($fechaString, 'UTF-8', 'UTF-8');
 
-        //  return back();
+                $fechaNacimiento = Carbon::createFromFormat('d/m/Y', $fechaString);
+                $validacion['fecha_programa'] = $fechaNacimiento->format('Y-m-d');
+            } catch (\Exception $e) {
+                return back()->withInput()->withErrors(['fecha_programa' => 'Error de formato de fecha. Mensaje: ' . $e->getMessage() . '. Asegúrese de usar DD/MM/YYYY.']);
+            }
+        }
+
+
+        // 3. Crear el nuevo registro en la base de datos utilizando los datos validados
+        Programa::create($validacion);
+
         return redirect()->route('programas.index')->with('success', 'Programa creado exitosamente');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Programa $programa)
     {
-        //
+        //    */
+ 
+        return view('programas.show', compact('programa'));
+    
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Programa $programa)
     {
         //
-        $programa = Programa::find($id);
+      
         return view('programas.edit', compact('programa'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,  Programa $programa)
+
     {
         //
-        $programa = Programa::find($id);
-        $programa->nombre_programa = $request->input('nombre_programa');
-        $programa->codigo_programa = $request->input('codigo_programa');
-        $programa->fecha_programa = $request->input('fecha_programa');
-        $programa->fecha_programa = Carbon::createFromFormat('d/m/Y', $request->input('fecha_programa'))->format('Y-m-d');
-        $programa->descripcion = $request->input('descripcion');
-        $programa->save();
-       //
-        return back()->with('success', 'Programa Actualizado exitosamente');
-        //return 'Actualización Exitosa';
+
+        $validacion = $request->validate([
+
+            'nombre_programa' => 'required|string|max:105|unique:programas,nombre_programa,' . $programa->id,
+            'codigo_programa' => 'required|string|max:105|unique:programas,codigo_programa,' . $programa->id,
+            'fecha_programa' => 'required|date_format:d/m/Y',
+            'descripcion' => 'required|string|max:255'
+
+        ]);
+
+        //$programa = Programa::find($id);
+
+       // Manejo de la fecha
+        // La validación ya asegura que 'fecha_programa' no esté vacío y tenga el formato correcto.
+        try {
+            $fechaString = trim($validacion['fecha_programa']);
+            $fechaString = mb_convert_encoding($fechaString, 'UTF-8', 'UTF-8'); // Saneamiento de la cadena
+
+            $fechaPrograma = Carbon::createFromFormat('d/m/Y', $fechaString);
+            $validacion['fecha_programa'] = $fechaPrograma->format('Y-m-d');
+        } catch (\Exception $e) {
+            return back()->withInput()->withErrors(['fecha_programa' => 'Error de formato de fecha. Mensaje: ' . $e->getMessage() . '. Asegúrese de usar DD/MM/YYYY.']);
+        }
+
+ 
+
+        //$programa->save(); // Guardar los cambios en la base de datos
+
+
+         $programa->update($validacion);
+        return redirect()->route('programas.index')->with('success', 'Programa actualizado exitosamente.');
     }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -114,6 +138,5 @@ class ProgramaController extends Controller
         //return back();
 
         return redirect()->route('programas.index')->with('success', 'Programa eliminado exitosamente');
-
     }
 }

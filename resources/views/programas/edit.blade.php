@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Registrar Programa')
+@section('title', 'Editar Programa')
 
 @section('preloader')
     <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>

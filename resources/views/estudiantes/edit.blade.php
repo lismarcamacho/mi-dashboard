@@ -194,7 +194,7 @@
                 </div> {{-- Fin de la fila principal de dos columnas --}}
 
                 <button type="submit" class="btn btn-primary" id="Edit">Actualizar</button>
-                <a href="{{ route('programas.index') }}" class="btn btn-secondary">Regresar</a>
+                <a href="{{ route('estudiantes.index') }}" class="btn btn-secondary">Cancelar</a>
 
 
 

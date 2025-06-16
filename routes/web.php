@@ -128,7 +128,7 @@ Route::put('/users/{user}/assign-roles', [AsignarController::class, 'update'])->
 
 // COMO EL CONTROLADOR PROGRAMAS FUE CREADO COMO UN RECURSO NO SE NECESITA COLOCAR TANTAS RUTAS
 Route::resource('admin/programas', ProgramaController::class);
-
+Route::get('/admin/programas/{id}', [ProgramaController::class, 'show'])->name('programas.show');
 //----------------------------------------------------------------------------------------------------------//
 
 Route::resource('/especialidades', EspecialidadController::class)->names('especialidades');
