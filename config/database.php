@@ -79,6 +79,9 @@ return [
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                     // >>>>>>>>>>> AÑADE O VERIFICA ESTA LÍNEA añadida 16/06/25<<<<<<<<<<<
+                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci',
+                    // >>>>>>>>>>> FIN DE LA LÍNEA A AÑADIR <<<<<<<<<<<
             ]) : [],
         ],
 

@@ -484,6 +484,40 @@ return [
         ],
 
         ['header' => 'GESTIÓN ADMINISTRATIVA'],
+
+                       [
+            'text' => 'Especialidades',
+            'icon' => 'fas fa-fw fa-trophy',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Lista de Especialidades',
+                   'route' => 'especialidades.index',
+                ],
+                [
+                    'text' => 'Agregar Especialidad',
+                    'url' => 'admin/especialidades/create',
+                ],
+                [
+                    'text' => 'Detalles Contaduria Pública',
+                    'url' => 'admin/especialidades/1/malla',
+                   // route('especialidades.pensum_structure', ['especialidad' => 1]),
+                ],
+                 [
+                    'text' => 'Detalles Administración',
+                    'url' => 'admin/especialidades/2',
+                ],
+                 [
+                    'text' => 'Detalles Ingenieria Electrica',
+                    'url' => 'admin/especialidades/3',
+                ],
+                 [
+                    'text' => 'Detalles Ingenieria de Mantenimiento',
+                    'url' => 'admin/especialidades/3',
+                ],
+               
+            ],
+        ],
                 [
             'text' => 'Programas',
             'icon' => 'fas fa-fw fa-university',
@@ -498,6 +532,24 @@ return [
                 [
                     'text' => 'Agregar Programa',
                     'route' => 'programas.create',
+                ],
+               
+            ],
+        ],
+   [
+            'text' => 'Secciones',
+            'icon' => 'fas fa-fw fa-university',
+            'url' => '#',
+            'submenu' => [
+                 [
+                    'text' => 'Lista de Secciones',
+                  // 'route' => 'programas.index',
+                   'route' => 'secciones.index',
+
+                ],
+                [
+                    'text' => 'Agregar Sección',
+                    'route' => 'secciones.create',
                 ],
                
             ],
@@ -564,39 +616,7 @@ return [
             ],
         ],
 
-                [
-            'text' => 'Especialidades',
-            'icon' => 'fas fa-fw fa-trophy',
-            'url' => '#',
-            'submenu' => [
-                 [
-                    'text' => 'Lista de Especialidades',
-                   'route' => 'especialidades.index',
-                ],
-                [
-                    'text' => 'Agregar Especialidad',
-                    'url' => 'admin/especialidades/create',
-                ],
-                [
-                    'text' => 'Detalles Contaduria Pública',
-                    'url' => 'admin/especialidades/1/malla',
-                   // route('especialidades.pensum_structure', ['especialidad' => 1]),
-                ],
-                 [
-                    'text' => 'Detalles Administración',
-                    'url' => 'admin/especialidades/2',
-                ],
-                 [
-                    'text' => 'Detalles Ingenieria Electrica',
-                    'url' => 'admin/especialidades/3',
-                ],
-                 [
-                    'text' => 'Detalles Ingenieria de Mantenimiento',
-                    'url' => 'admin/especialidades/3',
-                ],
-               
-            ],
-        ],
+ 
 
                 [
             'text' => 'Titulos',

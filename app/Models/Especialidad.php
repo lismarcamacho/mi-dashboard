@@ -28,9 +28,12 @@ class Especialidad extends Model
     // La relación con Programa (si existe en tu BD y la usas)
     // Si una Especialidad TIENE UN programa, sería belongsTo
     // Si una Especialidad PUEDE TENER MUCHOS programas, sería hasMany (y el método sería 'programas()')
-    public function programa()
+  /**
+     * Una especialidad puede pertenecer a muchos programas.
+     */
+    public function programas()
     {
-        return $this->belongsTo(Programa::class, 'programa_id'); // Asegúrate que 'programa_id' exista en la tabla 'especialidades'
+        return $this->belongsToMany(Programa::class, 'programa_especialidad', 'especialidad_id', 'programa_id');
     }
 
     // La relación con Titulos (Una Especialidad tiene muchos Titulos)

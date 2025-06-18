@@ -3,13 +3,13 @@
 @section('title', 'Lista de Programas')
 @section('preloader')
     <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
-    <h4 class="mt-4 text-dark">Cargando Lista de Programas..</h4>
+    <h4 class="mt-4 text-dark">Cargando Lista de Secciones..</h4>
 @stop
 
 
 @section('content_header')
     <center>
-        <h1>Lista de Programas</h1>
+        <h1>Lista de Secciones</h1>
     </center>
 @stop
 
@@ -25,27 +25,30 @@
 
         <!-- NO TOCAR : SIN ESTA DIRECTIVA NO SE VAN A ENVIAR LAS NOTIFICACIONES DE GUARDADO, ELIMINACION, EDICION,ECT -->
         @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <x-adminlte-alert theme="success" title="Éxito" dismissable>
                 {{ session('success') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+            </x-adminlte-alert>
+        @endif
+        @if (session('error'))
+            <x-adminlte-alert theme="danger" title="Error" dismissable>
+                {{ session('error') }}
+            </x-adminlte-alert>
         @endif
         <!-- *************************************NO TOCAR***************************** -->
 
         {{-- Setup data for datatables --}}
         <div class="botones">
-            <a href="{{ route('programas.create') }}" class="btn btn-primary ml-2"> Agrega aqui un nuevo Programa</a>
+            <a href="{{ route('secciones.create') }}" class="btn btn-primary ml-2"> <i class="fas fa-plus"></i>Agrega aqui
+                una nueva sección</a>
         </div>
         @php
+
             $heads = [
                 'ID',
-                'Código Programa',
-                'Nombre Programa',
-                'Fecha Programa',
-                'Descripción',
-                'Especialidades',
+                'Nombre de Sección',
+                'Capacidad Máxima',
+                'Fecha de Creación',
+
                 ['label' => 'Acciones', 'no-export' => true, 'width' => 10],
             ];
 
@@ -77,29 +80,22 @@
         <x-adminlte-datatable id="table5" :heads="$heads" :config="$config" theme="light" striped hoverable>
 
 
-            @foreach ($programas as $programa)
+            @foreach ($secciones as $seccion)
                 <tr>
-                    <td>{{ $programa->id }}</td>
-                    <td>{{ $programa->codigo_programa }}</td>
-                    <td>{{ $programa->nombre_programa }}</td>
-                    <td>{{ \Carbon\Carbon::parse($programa->fecha_programa)->format('d/m/Y') }}</td>
-                    <td>{{ Str::limit($programa->descripcion, 50) }}</td>
-                    <td>
-                                @forelse ($programa->especialidades as $especialidad)
-                                    <span class="badge badge-info">{{ $especialidad->nombre_especialidad }}</span>
-                                @empty
-                                    <span class="badge badge-secondary">Sin especialidades Asignadas</span>
-                                @endforelse
-                    </td>
-                    <td><a href="{{ route('programas.edit', $programa) }}"
+                    <td>{{ $seccion->id }}</td>
+                    <td>{{ $seccion->nombre }}</td>
+                    <td>{{ $seccion->capacidad_maxima }}</td>
+                    <td>{{ $seccion->created_at->format('d/m/Y H:i') }}</td>
+
+                    <td><a href="{{ route('secciones.edit', $seccion) }}"
                             class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </a>
-                        <a href="{{ route('programas.show', $programa) }}"
+                        <a href="{{ route('secciones.show', $seccion) }}"
                             class="btn btn-xs btn-default text-primary mx-1 shadow" title="Show">
                             <i class="fa fa-lg fa-fw fa-eye"></i>
                         </a>
-                        <form style="display: inline" action="{{ route('programas.destroy', $programa) }}" method="POST"
+                        <form style="display: inline" action="{{ route('secciones.destroy', $seccion) }}" method="POST"
                             class="formEliminar">
                             @csrf
                             @method('delete') {!! $btnDelete !!}
@@ -123,10 +119,10 @@
         <div style="height:800px;">
             <h2>Instrucciones</h2>
             <div style="height:400px;">
-                <p> - El boton lapiz lleva a otra interfaz llamada editar programa<br>
+                <p> - El boton lapiz lleva a otra interfaz llamada editar seccion<br>
                     - El boton papelera elimina, primero pregunta si desea eliminar
                     el registro, luego lo elimina y envia una notifiacion en la <b>interfaz</b>
-                    lista de programas
+                    lista de secciones
                     de que el registro ha sido eliminado</p>
             </div>
         </div>

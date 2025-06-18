@@ -15,7 +15,10 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TituloController;
 use App\Http\Controllers\TrayectoController;
 use App\Http\Controllers\UnidadCurricularController;
-use App\Models\Carrera;
+
+use App\Http\Controllers\MatriculaController;
+use App\Http\Controllers\SeccionController;
+
 
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
@@ -44,6 +47,9 @@ Route::match(
     'SearchController@showNavbarSearchResults'
 );
 Route::match(['get', 'post'], '/nav-bar/search', [SearchController::class, 'showNavBarSearchResults'])->name('nav-bar-search');
+
+// agregado 17/06/25
+Route::get('/search', [SearchController::class, 'index']); // Estilo moderno, pero requiere importación
 
 
 /* ruta a Controlador de notificaciones */
@@ -188,6 +194,15 @@ Route::prefix('admin')->group(function () {
     // Rutas de recursos para Estudiantes
     Route::get('/estudiantes', [EstudianteController::class, 'index'])->name('estudiantes.index'); // Muestra todos los estudiantes
     Route::get('/estudiantes/{estudiante}', [EstudianteController::class, 'show'])->name('estudiantes.show'); // Muestra un estudiante específico
+});
+Route::resource('admin/matriculas', MatriculaController::class);
+
+
+Route::prefix('admin')->group(function () {
+ Route::resource('secciones', SeccionController::class)->parameters([
+        'secciones' => 'seccion' // ¡IMPORTANTE! Esto asegura que el comodín sea {seccion}
+    ]);
+
 });
 
 }); // **************************************FIN MIDDLEWARE***************************

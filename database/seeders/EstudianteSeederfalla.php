@@ -6,6 +6,11 @@ use App\Models\Estudiante;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB; // Añadir esta línea si no está
+// >>>>> AÑADE ESTAS DOS LÍNEAS <<<<<
+use League\Csv\Reader;
+use League\Csv\Exception;
+// >>>>> FIN DE LAS LÍNEAS A AÑADIR <<<<<
+
 
 class EstudianteSeeder extends Seeder
 {
@@ -37,34 +42,27 @@ class EstudianteSeeder extends Seeder
             return;
         }
 
-        // 2. Detectar el delimitador del CSV (coma o punto y coma)
-        $detectedDelimiter = ','; // Asumimos coma por defecto
-        if (($handleTemp = fopen($csvFile, 'r')) !== FALSE) {
-            $testLine = fgets($handleTemp);
-            fclose($handleTemp);
-            if (str_contains($testLine, ';')) {
-                $detectedDelimiter = ';';
-            }
-        }
-        $this->command->info('Delimitador detectado automáticamente: "' . $detectedDelimiter . '"');
+                // >>>>> INICIO DEL CÓDIGO A INSERTAR/REEMPLAZAR <<<<<
+        // Esta sección reemplaza toda la lógica anterior de fopen, fgetcsv y detección de delimitador.
+        try {
+            // 1. Crear una instancia de Reader
+            $csv = Reader::createFromPath($csvFile, 'r');
 
-        if (($handle = fopen($csvFile, 'r')) !== FALSE) {
-            $this->command->info('El archivo CSV se abrió correctamente para lectura.');
+            // 2. Establecer el delimitador y la codificación de forma explícita
+            $csv->setDelimiter(';'); // <--- ¡IMPORTANTE! Confirma si tu CSV usa coma ',' o punto y coma ';'
+            $csv->setHeaderOffset(0); // Tu CSV tiene encabezados en la primera fila
+            $csv->skipEmptyRecords(); // Saltar filas completamente vacías
 
-            // 3. Leer el encabezado del CSV
-            $header = fgetcsv($handle, 0, $detectedDelimiter);
-            if ($header === FALSE || empty($header)) {
-                $this->command->error('Error: No se pudo leer el encabezado del CSV o el encabezado está vacío.');
-                fclose($handle);
-                return;
-            }
-            $header = array_map(fn($h) => trim($h), $header);
-            $header = array_filter($header, fn($h) => $h !== '');
-            $expectedColumnCount = count($header);
-            $this->command->info('Encabezado leído (limpio): ' . implode(' | ', $header) . ' (Columnas: ' . $expectedColumnCount . ')');
+            // AÑADIR ESTA LÍNEA CLAVE PARA FORZAR LA CODIFICACIÓN UTF-8 AL LEER
+            $csv->setEncodingFrom('UTF-8'); // Indica que el archivo de origen YA es UTF-8
 
+            $this->command->info('Lectura del CSV con League\Csv finalizada.');
 
-            // 4. Mapeo de columnas del CSV a las de la base de datos
+            // Obtener el encabezado
+            $header = $csv->getHeader();
+            $this->command->info('Encabezado del CSV (leído por League\Csv): ' . implode(' | ', $header));
+
+            // 3. Mapeo de columnas del CSV a las de la base de datos
             $columnMapping = [
                 'NRO. C.I.' => 'cedula',
                 'APELLIDOS Y NOMBRES' => 'apellidos_nombres',
@@ -79,45 +77,22 @@ class EstudianteSeeder extends Seeder
             $this->command->info('Mapeo de columnas configurado.');
 
             $dataToInsert = [];
-            $rowNumber = 1;
             $rowsSkipped = 0;
+            $rowNumber = 1; // Para llevar la cuenta de la fila original en el CSV (excluyendo encabezado)
 
             $this->command->info('Iniciando lectura de filas de datos y preparación para inserción...');
 
-            // 5. Leer cada fila de datos del CSV
-            while (($row = fgetcsv($handle, 0, $detectedDelimiter)) !== FALSE) {
-                $rowNumber++;
+            // 4. Leer cada fila de datos del CSV usando los records de League\Csv
+            foreach ($csv->getRecords() as $offset => $record) {
+                $rowNumber = $offset + 2; // +1 por el offset base 0, +1 por el encabezado
                 $insertData = [];
 
-                $row = array_map(fn($value) => trim($value), $row);
-
-                $filteredRow = array_filter($row, fn($value) => !is_null($value) && $value !== '');
-                if (empty($filteredRow)) {
-                    $this->command->warn("Saltando fila {$rowNumber}: está completamente vacía después de limpiar.");
-                    $rowsSkipped++;
-                    continue;
-                }
-                
-                $currentColumnCount = count($row);
-                if ($currentColumnCount > $expectedColumnCount) {
-                    $row = array_slice($row, 0, $expectedColumnCount);
-                    $this->command->warn("ADVERTENCIA en fila {$rowNumber}: Más columnas de las esperadas. Truncando.");
-                } elseif ($currentColumnCount < $expectedColumnCount) {
-                    $row = array_pad($row, $expectedColumnCount, null);
-                    $this->command->warn("ADVERTENCIA en fila {$rowNumber}: Menos columnas de las esperadas. Rellenando con nulos.");
-                }
-
-                $rowData = array_combine($header, $row);
-
-                //dd($rowData); // <-- DESCOMENTA ESTA LÍNEA AQUÍ
-                // // Ejecuta el seeder. ¿Los datos de la fila se ven correctos y el array combinado tiene las claves del header?
-
+                // Verificar que las claves del mapeo existan en el record
                 foreach ($columnMapping as $csvColumnName => $dbColumnName) {
-                    $value = $rowData[$csvColumnName] ?? null;
+                    $value = $record[$csvColumnName] ?? null;
                     $insertData[$dbColumnName] = ($value === '') ? null : $value;
                 }
 
-                                // AÑADE EL SIGUIENTE BLOQUE DESPUÉS DEL FOREACH ANTERIOR
                 // ----- TRATAMIENTO ESPECÍFICO PARA FECHA DE NACIMIENTO -----
                 if (isset($insertData['fecha_nacimiento']) && !empty($insertData['fecha_nacimiento'])) {
                     try {
@@ -126,9 +101,7 @@ class EstudianteSeeder extends Seeder
                         if ($fechaNacimiento) {
                             $insertData['fecha_nacimiento'] = $fechaNacimiento->format('Y-m-d');
                         } else {
-                            // Si el formato no es 'j/n/Y', intenta otro común o asigna un default
-                            // Por ejemplo, si es 'YYYY-MM-DD' ya, no hace falta convertir
-                            // Si es otro formato como 'DD-MM-YYYY', cambia 'j/n/Y' a 'd-m-Y'
+                            // Si el formato no es 'd/m/Y', intenta otros o asigna un default
                             $this->command->warn("Fila {$rowNumber}: Formato de fecha de nacimiento inválido ('{$insertData['fecha_nacimiento']}'). Usando valor por defecto '1990-01-01'.");
                             $insertData['fecha_nacimiento'] = '1990-01-01'; // Asigna un valor por defecto si falla
                         }
@@ -140,23 +113,17 @@ class EstudianteSeeder extends Seeder
                     $insertData['fecha_nacimiento'] = '1990-01-01'; // Asigna un valor por defecto si está vacío o nulo
                 }
 
-                // // dd($insertData); // <-- DESCOMENTA ESTA LÍNEA AQUÍ
-                // // Ejecuta el seeder. ¿Los datos están mapeados a los nombres de tus columnas de DB, con nulls o valores esperados?
-                // // ¿'estatus_activo' es true/false? ¿'fecha_nacimiento' es YYYY-MM-DD?
-
                 if ($insertData['apellidos_nombres'] === null) {
                     $insertData['apellidos_nombres'] = 'N.N. Sin Nombre';
                 }
-                
+
                 if ($insertData['cedula'] === null || $insertData['cedula'] === '') {
-                    $this->command->error("Saltando fila {$rowNumber}: 'NRO. C.I.' (cédula) está vacío y es requerido. Contenido: " . implode(' | ', $row));
+                    $this->command->error("Saltando fila {$rowNumber}: 'NRO. C.I.' (cédula) está vacío y es requerido. Contenido: " . json_encode($record));
                     $rowsSkipped++;
-                    continue; 
+                    continue;
                 }
 
                 $insertData['estatus_activo'] = (isset($insertData['estatus_activo']) && ($insertData['estatus_activo'] === 'ACTIVO' || $insertData['estatus_activo'] === '1'));
-                //$insertData['fecha_nacimiento'] = $insertData['fecha_nacimiento'] ?? '1990-01-01'; // Ejemplo de default
-                
 
                 $dataToInsert[] = $insertData;
 
@@ -164,17 +131,12 @@ class EstudianteSeeder extends Seeder
                     $this->command->info("-> Procesados y preparados " . count($dataToInsert) . " registros.");
                 }
             }
-            fclose($handle);
 
-            $this->command->info('Lectura del CSV finalizada. Total de filas leídas: ' . ($rowNumber - 1));
+            $this->command->info('Lectura del CSV finalizada. Total de filas leídas: ' . ($rowNumber -1)); // -1 por el encabezado
             $this->command->info('Filas saltadas (vacías o con error de cédula): ' . $rowsSkipped);
             $this->command->info('Total de registros preparados para insertar: ' . count($dataToInsert));
 
-            //dd($dataToInsert); // <--- DESCOMENTA ESTA LÍNEA AQUÍ (¡Descomenta esta después de las anteriores!)
-            // Esta te mostrará el array COMPLETO de todos los registros listos para la inserción en bloque.
-            // Es la última oportunidad de verificar la integridad de los datos antes de la DB.
-
-            // 6. Insertar los datos en la base de datos por bloques
+            // 5. Insertar los datos en la base de datos por bloques
             if (empty($dataToInsert)) {
                 $this->command->error('¡ATENCIÓN! No hay registros válidos para insertar.');
             } else {
@@ -192,16 +154,22 @@ class EstudianteSeeder extends Seeder
 
                         $this->command->warn("Primer registro del bloque con error: " . json_encode($chunk[0]));
                         $this->command->warn("Deteniendo inserción. Revise los datos y restricciones de la DB (NULL, UNIQUE, etc.).");
-                        break;
+                        break; // Detener el loop en el primer error
                     }
                 }
                 $this->command->info('¡Proceso de siembra de estudiantes COMPLETO!');
                 $this->command->info('Total de registros insertados: ' . $totalInserted);
             }
 
-        } else {
-            $this->command->error('Error CRÍTICO: No se pudo abrir el archivo CSV. Verifique permisos o ruta.');
+        } catch (Exception $e) { // Captura excepciones específicas de League\Csv
+            $this->command->error("Error al procesar el archivo CSV: " . $e->getMessage());
+            // Considera añadir un dd($e->getTraceAsString()); para más detalles
+        } catch (\Exception $e) { // Captura cualquier otra excepción general
+            $this->command->error("Error inesperado durante la siembra: " . $e->getMessage());
         }
+        // >>>>> FIN DEL CÓDIGO A INSERTAR/REEMPLAZAR <<<<<
+
         $this->command->info('FINALIZANDO EstudianteSeeder.');
+
     }
 }

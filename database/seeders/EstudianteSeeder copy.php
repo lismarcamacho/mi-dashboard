@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Estudiante;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB; // Añadir esta línea si no está
 
 class EstudianteSeeder extends Seeder
 {
@@ -20,16 +19,8 @@ class EstudianteSeeder extends Seeder
         Estudiante::truncate();
         $this->command->info('Tabla de estudiantes truncada.');
 
-        // ¡ATENCIÓN A ESTO!
-        // Si tu CSV se llama 'estudiantes_para_importar_corregido.csv'
-        // pero aquí tienes 'estudiantes_para_importar.csv', CÁMBIALO:
-        $csvFileName = 'estudiantes_para_importar.csv'; // <-- ¡VERIFICA ESTE NOMBRE!
-        // También, si tu archivo no está en 'storage/app/', ajusta el path:
-        // Por ejemplo, si está en 'storage/app/public/':
-        $csvFile = Storage::path($csvFileName); // Asegúrate de que esta ruta sea correcta
-        // O si está en la raíz de storage/app:
-        // $csvFile = Storage::path($csvFileName);
-
+        $csvFileName = 'estudiantes_para_importar.csv';
+        $csvFile = Storage::path($csvFileName);
         $this->command->info('Ruta del archivo CSV: ' . $csvFile);
 
         if (!file_exists($csvFile)) {
@@ -52,15 +43,16 @@ class EstudianteSeeder extends Seeder
             $this->command->info('El archivo CSV se abrió correctamente para lectura.');
 
             // 3. Leer el encabezado del CSV
-            $header = fgetcsv($handle, 0, $detectedDelimiter);
+            $header = fgetcsv($handle, 0, $detectedDelimiter); // Usamos 0 para longitud máxima
             if ($header === FALSE || empty($header)) {
                 $this->command->error('Error: No se pudo leer el encabezado del CSV o el encabezado está vacío.');
                 fclose($handle);
                 return;
             }
+            // Limpiar encabezado: eliminar espacios extra y asegurar que no haya columnas vacías en el nombre
             $header = array_map(fn($h) => trim($h), $header);
-            $header = array_filter($header, fn($h) => $h !== '');
-            $expectedColumnCount = count($header);
+            $header = array_filter($header, fn($h) => $h !== ''); // Eliminar columnas del encabezado si están vacías
+            $expectedColumnCount = count($header); // El número de columnas esperado es el del encabezado limpio
             $this->command->info('Encabezado leído (limpio): ' . implode(' | ', $header) . ' (Columnas: ' . $expectedColumnCount . ')');
 
 
@@ -70,13 +62,12 @@ class EstudianteSeeder extends Seeder
                 'APELLIDOS Y NOMBRES' => 'apellidos_nombres',
                 'CORREO' => 'email',
                 'TELEFONO' => 'telefono',
-                'FECHA DE NACIMIENTO' => 'fecha_nacimiento', // CONFIRMA este nombre en tu CSV
+                'FECHA DE NACIMIENTO' => 'fecha_nacimiento', // <-- ¡Añade esta línea!
                 'SEDE' => 'sede',
                 'MUNICIPIO' => 'municipio',
                 'PARROQUIA' => 'parroquia',
                 'STATUS_ACTIVO' => 'estatus_activo'
             ];
-            $this->command->info('Mapeo de columnas configurado.');
 
             $dataToInsert = [];
             $rowNumber = 1;
@@ -85,81 +76,71 @@ class EstudianteSeeder extends Seeder
             $this->command->info('Iniciando lectura de filas de datos y preparación para inserción...');
 
             // 5. Leer cada fila de datos del CSV
-            while (($row = fgetcsv($handle, 0, $detectedDelimiter)) !== FALSE) {
+            while (($row = fgetcsv($handle, 0, $detectedDelimiter)) !== FALSE) { // Usamos 0 para longitud máxima
                 $rowNumber++;
-                $insertData = [];
+                $insertData = []; // Para los datos de la fila actual
 
+                // 5.1. Limpiar cada elemento de la fila de espacios extra
                 $row = array_map(fn($value) => trim($value), $row);
 
+                // 5.2. Saltar filas que estén completamente vacías después de limpiar
                 $filteredRow = array_filter($row, fn($value) => !is_null($value) && $value !== '');
                 if (empty($filteredRow)) {
                     $this->command->warn("Saltando fila {$rowNumber}: está completamente vacía después de limpiar.");
                     $rowsSkipped++;
-                    continue;
+                    continue; // Ir a la siguiente fila del CSV
                 }
                 
+                // 5.3. Ajustar el conteo de la fila si es necesario para que coincida con el encabezado.
+                // Esto es crucial para array_combine()
                 $currentColumnCount = count($row);
                 if ($currentColumnCount > $expectedColumnCount) {
+                    // Si la fila tiene más columnas, truncar las extras
                     $row = array_slice($row, 0, $expectedColumnCount);
                     $this->command->warn("ADVERTENCIA en fila {$rowNumber}: Más columnas de las esperadas. Truncando.");
                 } elseif ($currentColumnCount < $expectedColumnCount) {
+                    // Si la fila tiene menos columnas, rellenar con nulos para que array_combine funcione
                     $row = array_pad($row, $expectedColumnCount, null);
                     $this->command->warn("ADVERTENCIA en fila {$rowNumber}: Menos columnas de las esperadas. Rellenando con nulos.");
                 }
 
+                // 5.4. Combinar la fila leída con el encabezado.
+                // Ya no necesitamos @array_combine ni el chequeo de $rowData === false aquí,
+                // ya que hemos forzado que los conteos de header y row sean iguales.
                 $rowData = array_combine($header, $row);
 
-                //dd($rowData); // <-- DESCOMENTA ESTA LÍNEA AQUÍ
-                // // Ejecuta el seeder. ¿Los datos de la fila se ven correctos y el array combinado tiene las claves del header?
-
+                // 5.5. Mapear y preparar datos para la inserción, convirtiendo vacíos a null
                 foreach ($columnMapping as $csvColumnName => $dbColumnName) {
-                    $value = $rowData[$csvColumnName] ?? null;
-                    $insertData[$dbColumnName] = ($value === '') ? null : $value;
+                    $value = $rowData[$csvColumnName] ?? null; // Si no existe en rowData, es null
+                    $insertData[$dbColumnName] = ($value === '') ? null : $value; // Convertir cadenas vacías a null
                 }
 
-                                // AÑADE EL SIGUIENTE BLOQUE DESPUÉS DEL FOREACH ANTERIOR
-                // ----- TRATAMIENTO ESPECÍFICO PARA FECHA DE NACIMIENTO -----
-                if (isset($insertData['fecha_nacimiento']) && !empty($insertData['fecha_nacimiento'])) {
-                    try {
-                        // Intenta parsear la fecha en el formato 'D/M/YYYY' y luego formatearla a 'YYYY-MM-DD'
-                        $fechaNacimiento = \DateTime::createFromFormat('d/m/Y', $insertData['fecha_nacimiento']);
-                        if ($fechaNacimiento) {
-                            $insertData['fecha_nacimiento'] = $fechaNacimiento->format('Y-m-d');
-                        } else {
-                            // Si el formato no es 'j/n/Y', intenta otro común o asigna un default
-                            // Por ejemplo, si es 'YYYY-MM-DD' ya, no hace falta convertir
-                            // Si es otro formato como 'DD-MM-YYYY', cambia 'j/n/Y' a 'd-m-Y'
-                            $this->command->warn("Fila {$rowNumber}: Formato de fecha de nacimiento inválido ('{$insertData['fecha_nacimiento']}'). Usando valor por defecto '1990-01-01'.");
-                            $insertData['fecha_nacimiento'] = '1990-01-01'; // Asigna un valor por defecto si falla
-                        }
-                    } catch (\Exception $e) {
-                        $this->command->error("Fila {$rowNumber}: Error al procesar fecha de nacimiento '{$insertData['fecha_nacimiento']}': " . $e->getMessage());
-                        $insertData['fecha_nacimiento'] = '1990-01-01'; // Asigna un valor por defecto en caso de error
-                    }
-                } else {
-                    $insertData['fecha_nacimiento'] = '1990-01-01'; // Asigna un valor por defecto si está vacío o nulo
-                }
-
-                // // dd($insertData); // <-- DESCOMENTA ESTA LÍNEA AQUÍ
-                // // Ejecuta el seeder. ¿Los datos están mapeados a los nombres de tus columnas de DB, con nulls o valores esperados?
-                // // ¿'estatus_activo' es true/false? ¿'fecha_nacimiento' es YYYY-MM-DD?
-
+                // 5.6. Manejar campos NOT NULL que pueden venir vacíos del CSV
+                // 'apellidos_nombres' es NOT NULL en tu DB. Si viene null/vacío, le asignamos un valor por defecto.
                 if ($insertData['apellidos_nombres'] === null) {
                     $insertData['apellidos_nombres'] = 'N.N. Sin Nombre';
+                    // $this->command->warn("Fila {$rowNumber}: 'APELLIDOS Y NOMBRES' vacío. Asignado 'N.N. Sin Nombre'."); // Descomentar para depurar
                 }
                 
+                // 'cedula' es NOT NULL en tu DB. Si viene null/vacío, salta esta fila.
                 if ($insertData['cedula'] === null || $insertData['cedula'] === '') {
                     $this->command->error("Saltando fila {$rowNumber}: 'NRO. C.I.' (cédula) está vacío y es requerido. Contenido: " . implode(' | ', $row));
                     $rowsSkipped++;
                     continue; 
                 }
 
+                // 5.7. Transformaciones y valores por defecto para otros campos de la DB
+                // Asegúrate de que los campos 'genero', 'nacionalidad', 'email_institucional', 'telefono_fijo', 'direccion'
+                // estén definidos como NULLABLE en tu migración si pueden venir vacíos.
+                // Si son NOT NULL, deberías asignar un valor por defecto aquí si vienen vacíos.
                 $insertData['estatus_activo'] = (isset($insertData['estatus_activo']) && ($insertData['estatus_activo'] === 'ACTIVO' || $insertData['estatus_activo'] === '1'));
-                //$insertData['fecha_nacimiento'] = $insertData['fecha_nacimiento'] ?? '1990-01-01'; // Ejemplo de default
+                $insertData['fecha_nacimiento'] = $insertData['fecha_nacimiento'] ?? '1990-01-01'; // Ejemplo de default
                 
 
+                // 5.8. Agregar la fila preparada al array de inserción
                 $dataToInsert[] = $insertData;
 
+                // Información de progreso cada 500 registros
                 if (count($dataToInsert) > 0 && count($dataToInsert) % 500 === 0) {
                     $this->command->info("-> Procesados y preparados " . count($dataToInsert) . " registros.");
                 }
@@ -169,10 +150,6 @@ class EstudianteSeeder extends Seeder
             $this->command->info('Lectura del CSV finalizada. Total de filas leídas: ' . ($rowNumber - 1));
             $this->command->info('Filas saltadas (vacías o con error de cédula): ' . $rowsSkipped);
             $this->command->info('Total de registros preparados para insertar: ' . count($dataToInsert));
-
-            //dd($dataToInsert); // <--- DESCOMENTA ESTA LÍNEA AQUÍ (¡Descomenta esta después de las anteriores!)
-            // Esta te mostrará el array COMPLETO de todos los registros listos para la inserción en bloque.
-            // Es la última oportunidad de verificar la integridad de los datos antes de la DB.
 
             // 6. Insertar los datos en la base de datos por bloques
             if (empty($dataToInsert)) {
@@ -184,15 +161,17 @@ class EstudianteSeeder extends Seeder
 
                 foreach (array_chunk($dataToInsert, $chunkSize) as $chunk) {
                     try {
-                        Estudiante::insert($chunk); // Esto inserta el bloque de datos
+                        Estudiante::insert($chunk);
                         $totalInserted += count($chunk);
+                        // $this->command->info("-> Insertados " . $totalInserted . " registros."); // Descomentar para más detalles
                     } catch (\Exception $e) {
                         $errorMessage = $e->getMessage();
                         $this->command->error("Error SQL durante la inserción: " . $errorMessage);
 
+                        // Intenta mostrar el primer registro del bloque que causó el error para depuración
                         $this->command->warn("Primer registro del bloque con error: " . json_encode($chunk[0]));
                         $this->command->warn("Deteniendo inserción. Revise los datos y restricciones de la DB (NULL, UNIQUE, etc.).");
-                        break;
+                        break; // Detener el proceso en el primer error SQL
                     }
                 }
                 $this->command->info('¡Proceso de siembra de estudiantes COMPLETO!');
