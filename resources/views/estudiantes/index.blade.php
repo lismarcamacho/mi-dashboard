@@ -39,6 +39,7 @@
                 'cedula',
                 'Apellidos y Nombres',
                 'Telefono',
+                'Año Cohorte',
                 'Fecha de nacimiento',
                 'Correo',
                 'Estado Activo',
@@ -77,6 +78,7 @@
                     <td>{{ $estudiante->cedula }}</td>
                     <td>{{ $estudiante->apellidos_nombres }}</td>
                     <td>{{ $estudiante->telefono }}</td>
+                    <td>{{ $estudiante->anio_cohorte ? : 'N/A' }}</td>
                     <td>{{ \Carbon\Carbon::parse($estudiante->fecha_nacimiento)->format('d/m/Y') }}</td>
                     <td>{{ $estudiante->email }}</td>
                     <td>

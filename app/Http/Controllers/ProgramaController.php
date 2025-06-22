@@ -28,6 +28,7 @@ class ProgramaController extends Controller
         //
         // $especialidades = Especialidad::all(); // Obtener todas las especialidades
          $todasEspecialidades = Especialidad::orderBy('nombre_especialidad')->get();
+         
         return view('programas.create', compact('todasEspecialidades'));
     }
 
@@ -123,7 +124,7 @@ class ProgramaController extends Controller
             'codigo_programa' => 'required|string|max:105|unique:programas,codigo_programa,' . $programa->id,
             'fecha_programa' => 'required|date_format:Y-m-d',
             'descripcion' => 'required|string|max:255',
-            'especialidades' => 'nullable|array', // Las especialidades deben ser un array
+            'especialidades' => 'nullable|array', // Las especialidades deben ser un array, porque la relacion es many to many
             'especialidades.*' => 'exists:especialidades,id', // Cada ID en el array debe existir en la tabla especialidades
 
         ]);

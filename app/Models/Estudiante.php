@@ -45,6 +45,7 @@ class Estudiante extends Model
         'municipio',
         'parroquia',
         'estatus_activo',
+        'anio_cohorte', // ESTE ES EL AÑO DE LA COHORTE ULTIMA COLUMNA AGREGADA 19/06/25 
     ];
 
     /**

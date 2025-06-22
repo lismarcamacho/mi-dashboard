@@ -17,6 +17,7 @@ class Trayecto extends Model
         'numero_orden',
         'nombre_trayecto',
         'descripcion',
+        'programa_id'
 
     ];
 
@@ -39,5 +40,10 @@ class Trayecto extends Model
     public function mallasCurriculares()
     {
         return $this->belongsToMany(MallaCurricular::class, 'malla_trayecto', 'trayecto_id', 'malla_curricular_id');
+    }
+        // Un Trayecto pertenece a un Programa
+    public function programa()
+    {
+        return $this->belongsTo(Programa::class);
     }
 }

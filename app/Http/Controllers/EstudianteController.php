@@ -40,7 +40,9 @@ class EstudianteController extends Controller
             'municipio' => 'required|nullable|string|max:100',
             'parroquia' => 'required|nullable|string|max:100',
             'estatus_activo' => 'boolean', // Será 0 o 1
-            'fecha_nacimiento' => 'required|date_format:d/m/Y'
+            'fecha_nacimiento' => 'required|date_format:d/m/Y',
+            'anio_cohorte' => 'required|integer|min:1900' // CAMBIAR A nullable si toca
+            
 
         ]);
 
@@ -106,7 +108,8 @@ class EstudianteController extends Controller
             'municipio' => 'required|nullable|string|max:100',
             'parroquia' => 'required|nullable|string|max:100',
             'estatus_activo' => 'boolean',
-            'fecha_nacimiento' => 'required|date_format:d/m/Y'
+            'fecha_nacimiento' => 'required|date_format:d/m/Y',
+            'anio_cohorte' => 'required|integer|min:1900' // cambiar a nullable si toca
         ]);
 
         //dd($validatedData['fecha_nacimiento'], gettype($validatedData['fecha_nacimiento']));

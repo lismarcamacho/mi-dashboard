@@ -1,6 +1,10 @@
 @extends('adminlte::page')
 
 @section('title', 'Crear Nueva Sección')
+@section('preloader')
+    <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
+    <h4 class="mt-4 text-dark">Cargando Formulario Crear Nueva Sección..</h4>
+@stop
 
 @section('content_header')
     <h1 class="m-0 text-dark">Crear Nueva Sección</h1>

@@ -17,16 +17,16 @@ class RoleSeeder extends Seeder
     {
         //
 
-        $role1 = Role:: create(['name'=>'Administrador']);
-        $role2 = Role:: create(['name'=>'Profesor']);
-        $role3 = Role:: create(['name'=>'Analista']);
-        $role4 = Role:: create(['name'=>'Estudiante']);
-        $role5 = Role:: create(['name'=>'Jefe Dasce']);
-        $role6 = Role:: create(['name'=>'Coordinador PNFA']);
-        $role7 = Role:: create(['name'=>'Coordinador PNFC']);
-        $role8 = Role:: create(['name'=>'Coordinador PNFE']);
-        $role9 = Role:: create(['name'=>'Coordinador PNFM']);
-        $role9 = Role:: create(['name'=>'Supervisor PNFM']);
+        $role1 = Role:: firstOrCreate (['name'=>'Administrador']);
+        $role2 = Role:: firstOrCreate (['name'=>'Profesor']);
+        $role3 = Role:: firstOrCreate (['name'=>'Analista']);
+        $role4 = Role:: firstOrCreate (['name'=>'Estudiante']);
+        $role5 = Role:: firstOrCreate (['name'=>'Jefe Dasce']);
+        $role6 = Role:: firstOrCreate (['name'=>'Coordinador PNFA']);
+        $role7 = Role:: firstOrCreate (['name'=>'Coordinador PNFC']);
+        $role8 = Role:: firstOrCreate (['name'=>'Coordinador PNFE']);
+        $role9 = Role:: firstOrCreate (['name'=>'Coordinador PNFM']);
+        $role9 = Role:: firstOrCreate (['name'=>'Supervisor PNFM']);
     
     }
 }

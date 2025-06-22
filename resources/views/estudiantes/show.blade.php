@@ -50,6 +50,10 @@
                         <dd class="col-sm-8">
                             {{ $estudiante->fecha_nacimiento ? \Carbon\Carbon::parse($estudiante->fecha_nacimiento)->format('d/m/Y') : 'N/A' }}
                         </dd>
+                         <dt class="col-sm-4">Año de Cohorte:</dt>
+                        <dd class="col-sm-8">
+                            {{ $estudiante->anio_cohorte ? : 'N/A' }}
+                        </dd>
 
 
 

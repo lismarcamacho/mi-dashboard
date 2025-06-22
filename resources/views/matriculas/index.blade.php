@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Lista de Secciones')
+@section('title', 'Lista de Matriculas')
 @section('preloader')
     <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
-    <h4 class="mt-4 text-dark">Cargando Lista de Secciones..</h4>
+    <h4 class="mt-4 text-dark">Cargando Lista de Matriculas..</h4>
 @stop
 
 
 @section('content_header')
     <center>
-        <h1>Lista de Secciones</h1>
+        <h1>Lista de Matriculas</h1>
     </center>
 @stop
 
@@ -34,21 +34,37 @@
                 {{ session('error') }}
             </x-adminlte-alert>
         @endif
+
+        {{-- O un resumen de errores al principio del formulario --}}
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <!-- *************************************NO TOCAR***************************** -->
 
         {{-- Setup data for datatables --}}
         <div class="botones">
-            <a href="{{ route('secciones.create') }}" class="btn btn-primary ml-2"> <i class="fas fa-plus"></i>Agrega aqui
-                una nueva sección</a>
+            <a href="{{ route('matriculas.create') }}" class="btn btn-primary ml-2"> <i class="fas fa-plus"></i>Agrega aqui
+                una nueva Matricula</a>
         </div>
         @php
 
             $heads = [
                 'ID',
-                'Nombre de Sección',
-                'Capacidad Máxima',
-                'Fecha de Creación',
+                'CI- APELLIDOS Y NOMBRES',
 
+                'PNF',
+                'TRAYECTO',
+                'SECCION',
+                'FECHA INSCRIPCION',
+                'PERIODO ACADEMICO',
+                'CONDICION INSCRIPCION',
+                'CONDICION COHORTE',
                 ['label' => 'Acciones', 'no-export' => true, 'width' => 10],
             ];
 
@@ -79,23 +95,60 @@
         {{-- Minimal example / fill data using the component slot :config="$config" --}}
         <x-adminlte-datatable id="table5" :heads="$heads" :config="$config" theme="light" striped hoverable>
 
-
-            @foreach ($secciones as $seccion)
+            @foreach ($matriculas as $matricula)
                 <tr>
-                    <td>{{ $seccion->id }}</td>
-                    <td>{{ $seccion->nombre }}</td>
-                    <td>{{ $seccion->capacidad_maxima }}</td>
-                    <td>{{ $seccion->created_at->format('d/m/Y H:i') }}</td>
+                    <td>{{ $matricula->id }}</td>
+                    <td>
+                        @if ($matricula->estudiante)
+                            {{-- Verifica si la relación 'estudiante' existe --}}
+                            {{ $matricula->estudiante->cedula }}
+                            {{ $matricula->estudiante->apellidos_nombres }}
+                        @else
+                            <span class="badge badge-secondary">Sin Estudiante Asociado</span> {{-- Si no hay estudiante en esta matrícula --}}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($matricula->programa)
+                            {{-- Verifica si el programa existe --}}
+                            {{ $matricula->programa->codigo_programa }}
+                           {{ $matricula->programa->nombre_programa }}
+                        @else
+                            <span class="badge badge-secondary">Sin Programa Asociado</span> {{-- Si no hay programa en esta matrícula --}}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($matricula->trayecto)
+                            {{-- Verifica si el programa existe --}}
+                            {{ $matricula->trayecto->numero_orden }}
+                            {{ $matricula->trayecto->nombre_trayecto }}
+                        @else
+                            <span class="badge badge-secondary">Sin Trayecto Asociado</span> {{-- Si no hay programa en esta matrícula --}}
+                        @endif
+                    </td>
 
-                    <td><a href="{{ route('secciones.edit', $seccion) }}"
+                    <td>
+                        @if ($matricula->seccion)
+                            {{-- Verifica si el programa existe --}}
+                            {{ $matricula->seccion->nombre }}
+                           {{ $matricula->seccion->capacidad_maxima }}
+                        @else
+                            <span class="badge badge-secondary">Sin Trayecto Asociado</span> {{-- Si no hay programa en esta matrícula --}}
+                        @endif
+                    </td>
+                    <td>{{ $matricula->fecha_inscripcion->format('d/m/Y') }}</td>
+                    <td>{{ $matricula->periodo_academico }}</td>
+                    <td>{{ $matricula->condicion_inscripcion }}</td>
+                    <td>{{ $matricula->condicion_cohorte }}</td>
+
+                    <td><a href="{{ route('matriculas.edit', $matricula) }}"
                             class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </a>
-                        <a href="{{ route('secciones.show', $seccion) }}"
+                        <a href="{{ route('matriculas.show', $matricula) }}"
                             class="btn btn-xs btn-default text-primary mx-1 shadow" title="Show">
                             <i class="fa fa-lg fa-fw fa-eye"></i>
                         </a>
-                        <form style="display: inline" action="{{ route('secciones.destroy', $seccion) }}" method="POST"
+                        <form style="display: inline" action="{{ route('matriculas.destroy', $matricula) }}" method="POST"
                             class="formEliminar">
                             @csrf
                             @method('delete') {!! $btnDelete !!}
@@ -119,10 +172,10 @@
         <div style="height:800px;">
             <h2>Instrucciones</h2>
             <div style="height:400px;">
-                <p> - El boton lapiz lleva a otra interfaz llamada editar seccion<br>
+                <p> - El boton lapiz lleva a otra interfaz llamada editar matricula<br>
                     - El boton papelera elimina, primero pregunta si desea eliminar
                     el registro, luego lo elimina y envia una notifiacion en la <b>interfaz</b>
-                    lista de secciones
+                    lista de matriculas
                     de que el registro ha sido eliminado</p>
             </div>
         </div>

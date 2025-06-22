@@ -88,29 +88,29 @@
                         </div>
 
 
-                     <!--   <div class="form-group"> {{-- Usamos form-group para los márgenes --}}
+                        <!--   <div class="form-group"> {{-- Usamos form-group para los márgenes --}}
 
-                            <x-adminlte-input class="col-md-6" name="fecha_nacimiento" label="Fecha Nacimiento"
-                                placeholder="DD/MM/AAAA" label-class="text-lightblue"
-                                value="{ { old('fecha_nacimiento', \Carbon\Carbon::now()->format('d/m/Y')) }}"
-                                enable-old-support="false"
-                                title="Puedes cambiar la fecha haciendo clic o escribiendo aquí.">
-                                <x-slot name="prependSlot">
-                                    <div class="input-group-text bg-gradient-info">
-                                        <i class="fas fa-calendar-alt"></i>
-                                    </div>
-                                </x-slot>
+                                <x-adminlte-input class="col-md-6" name="fecha_nacimiento" label="Fecha Nacimiento"
+                                    placeholder="DD/MM/AAAA" label-class="text-lightblue"
+                                    value="{ { old('fecha_nacimiento', \Carbon\Carbon::now()->format('d/m/Y')) }}"
+                                    enable-old-support="false"
+                                    title="Puedes cambiar la fecha haciendo clic o escribiendo aquí.">
+                                    <x-slot name="prependSlot">
+                                        <div class="input-group-text bg-gradient-info">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                    </x-slot>
 
-                            </x-adminlte-input>
-                            @ error('fecha_nacimiento')
-                                <span class="text-danger">{ { $message }}</span>
-                            @ enderror
-                        </div> -->
+                                </x-adminlte-input>
+                                @ error('fecha_nacimiento')
+                                    <span class="text-danger">{ { $message }}</span>
+                                @ enderror
+                            </div> -->
 
-                      <div class="form-group"> {{-- Usamos form-group para los márgenes --}}
+                        <div class="form-group"> {{-- Usamos form-group para los márgenes --}}
                             <x-adminlte-input name="fecha_nacimiento" type="text" label="Fecha Nacimiento"
-                                placeholder="DD/MM/YYYY"  class="col-md-6"  label-class="text-lightblue"
-                                value="{{ old('fecha_nacimiento', \Carbon\Carbon::now()->format('d/m/Y'))}}"
+                                placeholder="DD/MM/YYYY" class="col-md-6" label-class="text-lightblue"
+                                value="{{ old('fecha_nacimiento', \Carbon\Carbon::now()->format('d/m/Y')) }}"
                                 enable-old-support="true" {{-- Esto es importante para x-adminlte-input --}}>
                                 <x-slot name="appendSlot">
                                     <div class="input-group-text bg-gradient-info">
@@ -118,7 +118,20 @@
                                     </div>
                                 </x-slot>
                             </x-adminlte-input>
-                        </div> 
+                        </div>
+
+                        <div class="form-group">
+                        
+                            <x-adminlte-input type="number" name="anio_cohorte" id="anio_cohorte" label="Año de Cohorte (Ingreso)"
+                                 class="col-md-6" label-class="text-lightblue" enable-old-support="true"
+                                value="{{ old('anio_cohorte', $estudiante->anio_cohorte ?? '') }}" min="1900"
+                                max="{{ date('Y') + 5 }}" placeholder="Ej: 2023">
+                          
+                            </x-adminlte-input>
+                              @error('anio_cohorte')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>{{--  FIN Columna izquierda (para datos personales, etc.) --}}
 
                     <div class="col-md-6"> {{-- Columna izquierda (para datos personales, etc.) --}}
@@ -253,14 +266,14 @@
 
 @section('js')
     <script>
-    $(document).ready(function() {
-        $('input[name="fecha_nacimiento"]').datepicker({
-            dateFormat: 'dd/mm/yy', // Este es el formato visual y el que debería enviar al input text
-            changeMonth: true,
-            changeYear: true,
-            yearRange: '-100:+0', // Ejemplo: rango de 100 años hacia atrás desde el actual
-            // No se necesita altFormat si el input type es "text" y el valor es el mismo que dateFormat
+        $(document).ready(function() {
+            $('input[name="fecha_nacimiento"]').datepicker({
+                dateFormat: 'dd/mm/yy', // Este es el formato visual y el que debería enviar al input text
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '-100:+0', // Ejemplo: rango de 100 años hacia atrás desde el actual
+                // No se necesita altFormat si el input type es "text" y el valor es el mismo que dateFormat
+            });
         });
-    });
-</script>
+    </script>
 @stop

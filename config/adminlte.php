@@ -458,9 +458,9 @@ return [
             'url' => '#',
             'submenu' => [
                  [
-                    'text' => 'Inscripciones PIU',
-                  // 'route' => 'programas.index',
-                    'url' => 'admin/programas',
+                    'text' => 'Lista de Matriculas',
+                  // 'route' => 'matriculas.index',
+                    'url' => 'admin/matriculas',
 
                 ],
                 [

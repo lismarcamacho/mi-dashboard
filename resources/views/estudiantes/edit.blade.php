@@ -92,7 +92,7 @@
                                 placeholder="DD/MM/AAAA" label-class="text-lightblue"
                                 value="{{ old('fecha_nacimiento', \Carbon\Carbon::parse($estudiante->fecha_nacimiento)->format('d/m/Y')) }}"
                                 enable-old-support="true" {{-- Para que old() funcione con AdminLTE components --}}>
-                            
+
                                 <x-slot name="prependSlot">
                                     <div class="input-group-text bg-gradient-info">
                                         <i class="fas fa-calendar-alt"></i>
@@ -104,15 +104,28 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
+
+                        <div class="form-group">
+
+                            <x-adminlte-input type="number" name="anio_cohorte" id="anio_cohorte"
+                                label="Año de Cohorte (Ingreso)" class="col-md-6" label-class="text-lightblue"
+                                enable-old-support="true"
+                                value="{{ old('anio_cohorte', $estudiante->anio_cohorte ?? '') }}" min="1900"
+                                max="{{ date('Y') + 5 }}" placeholder="Ej: 2023">
+
+                            </x-adminlte-input>
+                            @error('anio_cohorte')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>{{--  FIN Columna izquierda (para datos personales, etc.) --}}
 
                     <div class="col-md-6"> {{-- Columna izquierda (para datos personales, etc.) --}}
 
                         <div class="form-group"> {{-- Usamos form-group para los márgenes --}}
 
-                            <x-adminlte-input class="col-md-6" name="email" label="Correo"
-                                placeholder="email" label-class="text-lightblue"
-                                value="{{ $estudiante->email }}">
+                            <x-adminlte-input class="col-md-6" name="email" label="Correo" placeholder="email"
+                                label-class="text-lightblue" value="{{ $estudiante->email }}">
                                 <x-slot name="prependSlot">
                                     <div class="input-group-text">
                                         <i class=" text-darkblue"></i>
@@ -204,9 +217,9 @@
         </div>
     </div>
 
-        {{-- Custom --}}
-    <x-adminlte-modal id="modalCustom" title="Instrucciones" size="lg" theme="teal" icon="fas fa-bell" v-centered
-        static-backdrop scrollable>
+    {{-- Custom --}}
+    <x-adminlte-modal id="modalCustom" title="Instrucciones" size="lg" theme="teal" icon="fas fa-bell"
+        v-centered static-backdrop scrollable>
         <div style="height:800px;">
             <h2>Instrucciones</h2>
             <div style="height:400px;">
@@ -219,7 +232,7 @@
 
         <x-slot name="footerSlot">
             <x-adminlte-button class="mr-auto" theme="success" label="Accept" data-dismiss="modal" />
-            
+
         </x-slot>
     </x-adminlte-modal>
     {{-- Example button to open modal --}}
