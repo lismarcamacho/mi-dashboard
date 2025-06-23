@@ -81,7 +81,7 @@
             </dl>
                 </div>
                 <div class="card-footer">
-                    <a href="{{ route('mstriculas.edit', $matricula) }}" class="btn btn-warning">
+                    <a href="{{ route('matriculas.edit', $matricula) }}" class="btn btn-warning">
                         <i class="fas fa-edit"></i> Editar Sección
                     </a>
                     <a href="{{ route('matriculas.index') }}" class="btn btn-default float-right">
