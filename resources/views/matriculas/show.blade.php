@@ -1,128 +1,56 @@
-@extends('adminlte::page')
+{{-- resources/views/matriculas/show.blade.php --}}
+@extends('adminlte::page') {{-- Extiende la plantilla base de AdminLTE --}}
 
-@section('title', 'Detalles de matricula: ' . $matricula->id)
+@section('title', 'Detalles de Matrícula') {{-- Título de la página --}}
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Detalles de matricula: {{ $matricula->id }}</h1>
+    {{-- Encabezado de la sección, típico de AdminLTE --}}
+    <h1>Detalles de Matrícula</h1>
 @stop
 
 @section('content')
+    {{-- Sección de Mensajes (opcional, para notificaciones de éxito/error) --}}
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12"> {{-- Ajustado a col-md-12 ya que la otra columna se mueve --}}
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h3 class="card-title">Información General de la matricula</h3>
+                    <h3 class="card-title">Información General de la Matrícula</h3>
                 </div>
                 <div class="card-body">
-           <dl class="row">
-                <dt class="col-sm-4">ID de Matrícula:</dt>
-                <dd class="col-sm-8">{{ $matricula->id }}</dd>
+                    <p><strong>ID de Matrícula:</strong> {{ $matricula->id }}</p>
+                    <p><strong>Estudiante:</strong> (C.I: {{ $matricula->estudiante->cedula ?? 'N/A' }}) - {{ $matricula->estudiante->apellidos_nombres ?? 'N/A' }} </p>
+                    <p><strong>Programa:</strong> {{ $matricula->programa->nombre_programa ?? 'N/A' }} ({{ $matricula->programa->codigo_programa ?? 'N/A' }}) - {{ $matricula->programa->descripcion ?? '' }}</p>
+                    <p><strong>Sección:</strong> {{ $matricula->seccion->nombre ?? 'N/A' }}</p>
+                    <p><strong>Trayecto:</strong> {{ $matricula->trayecto->nombre_trayecto ?? 'N/A' }}</p>
+                    <p><strong>Fecha de Inscripción:</strong> {{ $matricula->fecha_inscripcion ? \Carbon\Carbon::parse($matricula->fecha_inscripcion)->format('d/m/Y') : 'N/A' }}</p>
+                    <p><strong>Período Académico:</strong> {{ $matricula->periodo_academico ?? 'N/A' }}</p>
+                    <p><strong>Condición de Inscripción:</strong> {{ $matricula->condicion_inscripcion ?? 'N/A' }}</p>
+                    <p><strong>Condición de Cohorte:</strong> {{ $matricula->condicion_cohorte ?? 'N/A' }}</p>
+                    <p><strong>Creado el:</strong> {{ $matricula->created_at ? \Carbon\Carbon::parse($matricula->created_at)->format('d/m/Y H:i') : 'N/A' }}</p>
+                    <p><strong>Última Actualización:</strong> {{ $matricula->updated_at ? \Carbon\Carbon::parse($matricula->updated_at)->format('d/m/Y H:i') : 'N/A' }}</p>
 
-                <dt class="col-sm-4">Estudiante:</dt>
-                <dd class="col-sm-8">
-                    @if ($matricula->estudiante) {{-- Usamos la relación singular 'estudiante' --}}
-                        {{ $matricula->estudiante->nombre }} {{ $matricula->estudiante->apellido }} (C.I: {{ $matricula->estudiante->cedula }})
-                    @else
-                        N/A
-                    @endif
-                </dd>
-
-                <dt class="col-sm-4">Programa:</dt>
-                <dd class="col-sm-8">
-                    @if ($matricula->programa) {{-- Usamos la relación singular 'programa' --}}
-                        {{ $matricula->programa->nombre_pr }} ({{ $matricula->programa->codigo_pr }})
-                    @else
-                        N/A
-                    @endif
-                </dd>
-
-                <dt class="col-sm-4">Sección:</dt>
-                <dd class="col-sm-8">
-                    @if ($matricula->seccion) {{-- Usamos la relación singular 'seccion' --}}
-                        {{ $matricula->seccion->codigo_sec }} {{-- Ajusta el campo real de tu sección --}}
-                    @else
-                        N/A
-                    @endif
-                </dd>
-
-                <dt class="col-sm-4">Trayecto:</dt>
-                <dd class="col-sm-8">
-                    @if ($matricula->trayecto) {{-- Usamos la relación singular 'trayecto' --}}
-                        {{ $matricula->trayecto->nombre_trayecto }} {{-- Ajusta el campo real de tu trayecto --}}
-                    @else
-                        N/A
-                    @endif
-                </dd>
-
-                <dt class="col-sm-4">Fecha de Inscripción:</dt>
-                <dd class="col-sm-8">
-                    {{-- Accedemos directamente a la propiedad de la matrícula y la formateamos --}}
-                    @if ($matricula->fecha_inscripcion)
-                        {{ $matricula->fecha_inscripcion->format('d/m/Y') }}
-                    @else
-                        N/A
-                    @endif
-                </dd>
-
-                <dt class="col-sm-4">Período Académico:</dt>
-                <dd class="col-sm-8">{{ $matricula->periodo_academico }}</dd>
-
-                <dt class="col-sm-4">Condición de Inscripción:</dt>
-                <dd class="col-sm-8">{{ $matricula->condicion_inscripcion }}</dd>
-
-                <dt class="col-sm-4">Condición de Cohorte:</dt>
-                <dd class="col-sm-8">{{ $matricula->condicion_cohorte }}</dd>
-
-                <dt class="col-sm-4">Creado el:</dt>
-                <dd class="col-sm-8">{{ $matricula->created_at->format('d/m/Y H:i') }}</dd>
-
-                <dt class="col-sm-4">Última Actualización:</dt>
-                <dd class="col-sm-8">{{ $matricula->updated_at->format('d/m/Y H:i') }}</dd>
-            </dl>
-                </div>
-                <div class="card-footer">
-                    <a href="{{ route('matriculas.edit', $matricula) }}" class="btn btn-warning">
-                        <i class="fas fa-edit"></i> Editar Sección
-                    </a>
-                    <a href="{{ route('matriculas.index') }}" class="btn btn-default float-right">
-                        <i class="fas fa-arrow-left"></i> Volver al Listado
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card card-info card-outline">
-                <div class="card-header">
-                    <h3 class="card-title">Estudiantes Matriculados en esta Sección (Estado Activo)</h3>
-                </div>
-                <div class="card-body">
-                    @if ($seccion->matriculas->where('estado', 'Activo')->count() > 0)
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Cédula</th>
-                                    <th>Estudiante</th>
-                                    <th>Programa</th>
-                                    <th>Periodo</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($seccion->matriculas->where('estado', 'Activo') as $matricula)
-                                    <tr>
-                                        <td>{{ $matricula->estudiante->cedula ?? 'N/A' }}</td>
-                                        <td>{{ $matricula->estudiante->apellidos_nombres ?? 'N/A' }}</td>
-                                        <td>{{ $matricula->programa->nombre_programa ?? 'N/A' }}</td>
-                                        <td>{{ $matricula->periodo_academico }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    @else
-                        <p class="text-muted">No hay estudiantes activos matriculados en esta sección.</p>
-                    @endif
+                    <a href="{{ route('matriculas.edit', $matricula->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Editar Matrícula</a>
+                    <a href="{{ route('matriculas.index') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver al Listado</a>
                 </div>
             </div>
         </div>
     </div>
+
 @stop

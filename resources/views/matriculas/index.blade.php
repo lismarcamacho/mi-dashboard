@@ -111,7 +111,7 @@
                         @if ($matricula->programa)
                             {{-- Verifica si el programa existe --}}
                             {{ $matricula->programa->codigo_programa }}
-                           {{ $matricula->programa->nombre_programa }}
+                            {{ $matricula->programa->nombre_programa }}
                         @else
                             <span class="badge badge-secondary">Sin Programa Asociado</span> {{-- Si no hay programa en esta matrícula --}}
                         @endif
@@ -130,12 +130,18 @@
                         @if ($matricula->seccion)
                             {{-- Verifica si el programa existe --}}
                             {{ $matricula->seccion->nombre }}
-                           {{ $matricula->seccion->capacidad_maxima }}
+                            {{ $matricula->seccion->capacidad_maxima }}
                         @else
                             <span class="badge badge-secondary">Sin Trayecto Asociado</span> {{-- Si no hay programa en esta matrícula --}}
                         @endif
                     </td>
-                    <td>{{ $matricula->fecha_inscripcion->format('d/m/Y') }}</td>
+                    <td>
+                        @if ($matricula->fecha_inscripcion instanceof \Carbon\Carbon)
+                            {{ $matricula->fecha_inscripcion->format('d/m/Y') }}
+                        @else
+                            {{ $matricula->fecha_inscripcion ?? 'N/A' }} {{-- Muestra el valor original si no es un objeto fecha --}}
+                        @endif
+                    </td>
                     <td>{{ $matricula->periodo_academico }}</td>
                     <td>{{ $matricula->condicion_inscripcion }}</td>
                     <td>{{ $matricula->condicion_cohorte }}</td>

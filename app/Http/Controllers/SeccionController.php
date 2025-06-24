@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Seccion; // ¡Importa el modelo Seccion!
+use App\Models\Seccion; 
 use Illuminate\Http\Request;
 
 class SeccionController extends Controller
@@ -51,13 +51,22 @@ class SeccionController extends Controller
      */
     public function show(Seccion $seccion)
     {
-        // Puedes implementar este metodo si necesitas una vista de detalles individual para cada sección
-
-        // CARGA LAS RELACIONES NECESARIAS:
-        // Carga la sección y sus matrículas. Dentro de cada matrícula, carga el estudiante y el programa.
-        $seccion->load(['matriculas' => function($query) {
-            $query->with('estudiante', 'programa');
+        // 1. Carga la sección con sus relaciones anidadas:
+        //    - 'matriculas': Todas las matrículas asociadas a esta sección.
+        //    - 'matriculas.estudiante': Para cada matrícula, carga también el estudiante asociado.
+        $seccion->load(['matriculas' => function ($query) {
+            $query->with('estudiante'); // Carga el estudiante para cada matrícula de la sección
         }]);
+
+        // --- INICIO DE DEPURACIÓN ---
+        
+        // VAMOS A VER QUÉ CONTIENE EL OBJETO $seccion COMPLETO Y SUS RELACIONES CARGADAS
+        //dd($seccion->toArray()); // Esto mostrará todos los atributos y relaciones de la sección y los estudiantes matriculados en esa seccion
+
+        // O, si quieres ver solo las matrículas y sus estudiantes:
+        // dd($seccion->matriculas->toArray());
+        // --- FIN DE DEPURACIÓN ---
+
         return view('secciones.show', compact('seccion'));
     }
 

@@ -9,5 +9,5 @@ class Seccion extends Model
      // ¡MUY IMPORTANTE! Especifica el nombre de la tabla
     protected $table = 'secciones';
     protected $fillable = ['nombre', 'capacidad_maxima'];
-    public function matriculas() { return $this->hasMany(Matricula::class); } // Relación inversa
+    public function matriculas() { return $this->hasMany(Matricula::class, 'seccion_id'); } // Relación inversa
 }

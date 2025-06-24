@@ -10,7 +10,7 @@
 @section('content')
 
 
-    {{-- Notificación de éxito si viene de la sesión --}}
+   {{-- Notificación de éxito si viene de la sesión --}}
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -19,6 +19,17 @@
             </button>
         </div>
     @endif
+
+    {{-- AÑADIR ESTE BLOQUE PARA MOSTRAR MENSAJES DE ERROR DE SESIÓN --}}
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    {{-- FIN DEL BLOQUE AÑADIDO --}}
 
     {{-- Mensajes de error de validación globales (opcional, si no usas @error en cada campo) --}}
     @if ($errors->any())
@@ -176,10 +187,14 @@
                                 <option value="RP" {{ old('condicion_inscripcion') == 'RP' ? 'selected' : '' }}>
                                     REPITENCIA</option>
                                 <option value="EQ" {{ old('condicion_inscripcion') == 'EQ' ? 'selected' : '' }}>
-                                    EQUIVALENTE</option>
+                                    EQUIVALENCIA</option>
+                                <option value="P" {{ old('condicion_inscripcion') == 'P' ? 'selected' : '' }}>
+                                    PROSECUCIÓN</option>
                                 <option value="IN" {{ old('condicion_inscripcion') == 'IN' ? 'selected' : '' }}>
                                     INTENSIVO</option>
                                 <option value="TR" {{ old('condicion_inscripcion') == 'TR' ? 'selected' : '' }}>TUTORIA
+                                </option>
+                                <option value="T" {{ old('condicion_inscripcion') == 'T' ? 'selected' : '' }}>TRASLADO
                                 </option>
                                 <option value="PER" {{ old('condicion_inscripcion') == 'PER' ? 'selected' : '' }}>PER
                                 </option>

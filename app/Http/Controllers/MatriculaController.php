@@ -8,10 +8,10 @@ use App\Models\Seccion;
 use App\Models\Estudiante;
 use App\Models\Programa;
 // app/Http/Controllers/MatriculaController.php
-use App\Models\Trayecto; 
+use App\Models\Trayecto;
 use Illuminate\Validation\Rule;
-use App\Http\Requests\StoreMatriculaRequest; 
-use App\Http\Requests\UpdateMatriculaRequest; 
+use App\Http\Requests\StoreMatriculaRequest;
+use App\Http\Requests\UpdateMatriculaRequest;
 
 
 class MatriculaController extends Controller
@@ -106,33 +106,62 @@ class MatriculaController extends Controller
      */
     public function store(StoreMatriculaRequest $request)
     {
-        //   
-           //dd($request->all()); // Pon esto para ver qué datos llegan
-
-    // Si el Form Request pasa la validación, los datos ya estarán validados
-    // y disponibles en $request->validated().
-    // Si no pasa, Laravel redirige automáticamente con los errores.
-
-        $validatedData = $request->validated(); // Obtiene solo los datos validados
-
-
-
+        //   FORMA SIMPLIFICADA SIN TOMAR EN CUENTA LA CAPACIDAD MAXIMA DE LAS SECCIONES
+        //dd($request->all()); // Pon esto para ver qué datos llegan
+        //$validatedData = $request->validated(); // Obtiene solo los datos validados
         // 3. Crear el nuevo registro en la base de datos utilizando los datos validados
-        $matricula = Matricula::create($validatedData);
+        //$matricula = Matricula::create($validatedData);
+        //return redirect()->route('matriculas.index')->with('success', 'Matricula creada exitosamente');
 
-        return redirect()->route('matriculas.index')->with('success', 'Matricula creada exitosamente');
+        //NUEVO METODO CONSIDERANDO LA CAPACIDAD MAXIMA DE LA SECCION***************
+        // 1. Obtener la ID de la sección de la solicitud de matrícula
+        $seccionId = $request->input('seccion_id');
+
+        // 2. Cargar la sección específica junto con el conteo actual de sus matrículas.
+        $seccion = Seccion::withCount('matriculas')->find($seccionId);
+
+        // 3. Verificar si la sección existe.
+        if (!$seccion) {
+            return redirect()->back()->withInput($request->input())->with('error', 'La sección seleccionada para la matrícula no existe.');
+        }
+
+        // 4. Implementar la validación de capacidad máxima:
+        //    - Se comprueba si la sección tiene una 'capacidad_maxima' definida (no nula y mayor que 0).
+        //    - Y si el número de matrículas actuales ('matriculas_count') es igual o mayor a la capacidad máxima.
+        if ($seccion->capacidad_maxima > 0 && $seccion->matriculas_count >= $seccion->capacidad_maxima) {
+            // ¡Esta es la redirección con el mensaje de error!
+            return redirect()->back()->withInput($request->input())->with('error', 'La sección "' . $seccion->nombre . '" ha alcanzado su capacidad máxima de ' . $seccion->capacidad_maxima . ' estudiantes. No se pueden añadir más matrículas.');
+        }
+
+        // Si la sección tiene espacio disponible, procede con la creación de la matrícula.
+        $validatedData = $request->validated(); // Obtiene solo los datos validados del Form Request
+
+        Matricula::create($validatedData); // Crea la matrícula
+
+        return redirect()->route('admin.matriculas.index')->with('success', 'Matrícula creada exitosamente.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Matricula $matricula) // Route Model Binding
+    
+    public function show(Matricula $matricula)
     {
-        //
-        // Cargar la relación 'trayecto' para acceder a sus datos
-        $matricula->load('trayecto'); // Carga la relación si no se hizo en el index
-        return view('matriculas.show', compact('matricula'));
+        // Carga solo las relaciones directas que necesitas para mostrar
+        // la información de esta matrícula específica en la vista matriculas.show.
+        // Las relaciones 'estudiante', 'programa', 'seccion' y 'trayecto'
+        // son esenciales para mostrar los detalles del panel izquierdo.
+        $matricula->load(['estudiante', 'programa', 'seccion', 'trayecto']);
+
+        // Ya no necesitamos cargar $seccion de nuevo con todas sus matrículas anidadas,
+        // porque esa lista de estudiantes por sección ahora reside en secciones.show.
+        // La variable $seccion ya está disponible a través de $matricula->seccion
+        // si la necesitas para mostrar el nombre de la sección en la vista de matrícula.
+        $seccion = $matricula->seccion; // Se mantiene por si la vista lo necesita directamente
+
+        return view('matriculas.show', compact('matricula', 'seccion'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -144,7 +173,7 @@ class MatriculaController extends Controller
         $secciones = Seccion::all();
         $trayectos = Trayecto::all();
 
-        return view('matriculas.edit', compact('matricula', 'estudiantes', 'programas', 'secciones','trayectos'));
+        return view('matriculas.edit', compact('matricula', 'estudiantes', 'programas', 'secciones', 'trayectos'));
     }
 
     /**
@@ -153,7 +182,7 @@ class MatriculaController extends Controller
     public function update(UpdateMatriculaRequest $request, Matricula $matricula)
     {
         //
-   
+
 
 
         // 3. Crear el nuevo registro en la base de datos utilizando los datos validados
