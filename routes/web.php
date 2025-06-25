@@ -177,13 +177,12 @@ Route::resource('admin/unidades-curriculares', UnidadCurricularController::class
 Route::resource('admin/mallas-curriculares', MallaCurricularController::class)->names('mallas-curriculares');
 
 Route::prefix('admin')->group(function () {
-    Route::get('/mallas-curriculares', [MallaCurricularController::class, 'index'])->name('mallas-curriculares.index');
-    Route::get('/mallas-curriculares/create', [MallaCurricularController::class, 'create'])->name('mallas-curriculares.create'); // administra el formulario para crear una nueva especialidad
-    Route::post('/mallas-curriculares', [MallaCurricularController::class, 'store'])->name('mallas-curriculares.store');
-    Route::get('/mallas-curriculares/{malla-curricular}', [MallaCurricularController::class, 'show'])->name('mallas-curriculares.show');
-    Route::get('/mallas-curriculares/{id}/edit', [MallaCurricularController::class, 'edit'])->name('mallas-curriculares.edit');
-    Route::put('/mallas-curriculares/{malla-curricular}', [MallaCurricularController::class, 'update'])->name('mallas-curriculares.update');
-    Route::delete('/mallas-curriculares/{id}', [MallaCurricularController::class, 'destroy'])->name('mallas-curriculares.destroy');
+    Route::resource('mallas-curriculares', MallaCurricularController::class);
+
+    // Rutas adicionales que ya tenías para unidades curriculares, si son necesarias.
+    Route::post('mallas-curriculares/{mallaCurricular}/unidades/attach', [MallaCurricularController::class, 'attachUnidadCurricular'])->name('mallas-curriculares.attach-unidad-curricular');
+    Route::delete('mallas-curriculares/{mallaCurricular}/unidades/{unidadCurricular}/detach', [MallaCurricularController::class, 'detachUnidadCurricular'])->name('mallas-curriculares.detach-unidad-curricular');
+    Route::get('mallas-curriculares/{mallaCurricular}/unidades/manage', [MallaCurricularController::class, 'manageUnidadesCurriculares'])->name('mallas-curriculares.manage-unidades-curriculares');
 });
 
 Route::resource('admin/estudiantes', EstudianteController::class);

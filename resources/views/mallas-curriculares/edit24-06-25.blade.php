@@ -16,14 +16,6 @@
 @section('content')
 
     <p> Modifique la información de la Malla Curricular</p>
-    {{-- >>>>> DD DE DEPURACIÓN PARA INSPECCIONAR EL OBJETO $mallaCurricular <<<<< --}}
-    @php
-        //dd($mallaCurricular);
-        // Descomenta la línea de arriba, guarda y recarga la página.
-        // Después de ver el resultado y confirmar que los datos están ahí, vuelve a comentarla o elimínala.
-    @endphp
-    {{-- >>>>> FIN DD DE DEPURACIÓN <<<<< --}}
-
 
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -36,9 +28,8 @@
         <div class="card-body">
             <h2>Editar Malla Curricular: {{ $mallaCurricular->nombre }}</h2>
 
-            {{-- LA ACCIÓN DEL FORMULARIO AHORA ES MANUAL PARA DEPURACIÓN --}}
-            {{-- Esto evita el helper route() que podría estar causando el problema --}}
-            <form action="/admin/mallas-curriculares/{{ $mallaCurricular->id }}" method="POST">
+            {{-- La acción del formulario. Se pasa el objeto modelo directamente para el Route Model Binding. --}}
+            <form action="{{ route('mallas-curriculares.update', $mallaCurricular) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -87,7 +78,7 @@
                             @foreach ($programas as $programa)
                                 <option value="{{ $programa->id }}"
                                     {{ old('id_programa', $mallaCurricular->id_programa) == $programa->id ? 'selected' : '' }}>
-                                    {{ $programa->nombre_programa }}
+                                    {{ $programa->nombre }}
                                 </option>
                             @endforeach
                         </select>

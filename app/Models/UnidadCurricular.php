@@ -44,21 +44,21 @@ class UnidadCurricular extends Model
 
 
     /**
-     * Define la relación de uno a muchos con MallaCurricular.
-     * Una unidad curricular puede estar en muchas entradas de la malla.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * Relación de muchos a muchos: Una UnidadCurricular puede estar en muchas Mallas Curriculares.
+     * La tabla pivote 'malla_unidad_curricular' une ambos modelos y contiene datos adicionales.
+     * @return \Illuminate->Database->Eloquent->Relations->BelongsToMany
      */
     public function mallasCurriculares()
     {
-        return $this->hasMany(MallaCurricular::class, 'id_unidad_curricular', 'id');
-        // 'MallaCurricular::class' es el nombre del modelo de la malla (aún no lo hemos creado, pero lo haremos)
-        // 'id_unidad_curricular' es la FK en la tabla 'mallas_curriculares'
-        // 'id' es la PK local en esta tabla 'unidades_curriculares'
+        return $this->belongsToMany(
+            MallaCurricular::class,
+            'malla_unidad_curricular', // Nombre de la tabla pivote
+            'unidad_curricular_id',    // FK de este modelo (UnidadCurricular) en la tabla pivote
+            'malla_curricular_id'      // FK del modelo relacionado (MallaCurricular) en la tabla pivote
+        )->withPivot('trayecto_id', 'minimo_aprobatorio', 'tipo_uc_en_malla', 'periodo_de_carga', 'numero_de_fase'); // ¡Añadidos nuevos campos al pivote!
     }
 
-    // Aquí podrías añadir otras relaciones futuras, como si una unidad curricular tiene pre-requisitos
-    // (a través de la tabla Prelaciones y MallaCurricular), o profesores, etc.
+    
 
     public function trayecto()
     {
