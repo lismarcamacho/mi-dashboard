@@ -9,12 +9,45 @@
 
 @section('content_header')
     <center>
-        <h1>Lista de Estudiantes</h1>
+        <h1>Lista General de Estudiantes</h1>
     </center>
 @stop
 
 @section('content')
+    {{-- Custom --}}
+    <x-adminlte-modal id="modalCustom" title="Instrucciones" size="lg" theme="teal" icon="fas fa-bell" v-centered
+        static-backdrop scrollable>
+        <div style="height:800px;">
+            <h2>Instrucciones</h2>
+            <div style="height:400px;">
+                 <p> - En este vista veras una lista de los datos personales de todos los estudiantes.<br>
+                    - En <b>acciones</b> hay tres botones: editar (lapiz), detalles (ojo) y eliminar (cesta).<br>
+                    Esas acciones son para cada estudiante.<br> 
+                    - Apellidos y Nombres debe quedar registrado en ese orden.<br>
+                    - Solo se debe ingresar un numero de telefono por campo.<br><br>
+                    - <b> estado_actual_estudiante.</b> Este campo podría contener valores como:<br>
+                    <b>Activo:</b> El estudiante está cursando actualmente.<br>
+                    <b>Inactivo:</b> El estudiante está en una pausa temporal (ej. por un semestre, pero planea regresar).<br>
+                    <b>Abandono:</b> El estudiante ha dejado de cursar sin intención de regresar en el corto plazo.<br>
+                    <b>Egresado:</b> El estudiante ha completado sus estudios.<br>
+                    <b>Suspendido:</b> El estudiante ha sido suspendido por razones académicas o disciplinarias.<br>
+                   <br>
 
+                    - Los estudiantes <b>TODOS</b> tienen el estado <b>ACTIVO</b> por defecto, este valor puede ser editado. <br>
+                    - La <b>cohorte actual</b> esta definida para los casos especiales, en que el estudiante abandona y se inscribe por Prosecución,
+                      entoces la cohorte ingreso ya no es la fecha o periodo valida para ese estudiante, si no esta Cohorte actual<br>
+
+                </p>
+            </div>
+        </div>
+
+        <x-slot name="footerSlot">
+            <x-adminlte-button class="mr-auto" theme="success" label="Aceptar" data-dismiss="modal" />
+            
+        </x-slot>
+    </x-adminlte-modal>
+    {{-- Example button to open modal --}}
+    <x-adminlte-button label="Leer Instructivo" data-toggle="modal" data-target="#modalCustom" class="bg-teal" />
     <!--  { { $carreras }} Nada mas con esta directiva puedo SABER si la informacion registrada esta llegando a la vista-->
     <div class="container"
         style="margin-top: 3%; background-color: #fff; box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);
@@ -24,9 +57,23 @@
         </center>
 
         <!-- NO TOCAR : SIN ESTA DIRECTIVA NO SE VAN A ENVIAR LAS NOTIFICACIONES DE GUARDADO, ELIMINACION, EDICION,ECT -->
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+    @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+    @if (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+
+    {{-- Aquí se mostrarán los errores generales si hay algún problema no relacionado con un campo específico --}}
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
         <!-- *************************************NO TOCAR***************************** -->
 
         {{-- Setup data for datatables --}}
@@ -39,17 +86,18 @@
                 'cedula',
                 'Apellidos y Nombres',
                 'Telefono',
-                'Año Cohorte',
+                'Cohorte Ingreso',
+                'Cohorte Actual',
                 'Fecha de nacimiento',
                 'Correo',
-                'Estado Activo',
+                'Estado',
                 ['label' => 'Acciones', 'no-export' => true, 'width' => 10],
             ];
 
             $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                 <i class="fa fa-lg fa-fw fa-pen"></i>
             </button>';
-            $btnDelete = '<button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
+            $btnDelete = '<button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Eliminar-estudiante">
                   <i class="fa fa-lg fa-fw fa-trash"></i>
               </button>';
             $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
@@ -78,21 +126,23 @@
                     <td>{{ $estudiante->cedula }}</td>
                     <td>{{ $estudiante->apellidos_nombres }}</td>
                     <td>{{ $estudiante->telefono }}</td>
-                    <td>{{ $estudiante->anio_cohorte ? : 'N/A' }}</td>
+                    <td>{{ $estudiante->cohorte_ingreso ? : 'N/A' }}</td>
+                    <td>{{ $estudiante->cohorte_actual ? : 'N/A' }}</td>
                     <td>{{ \Carbon\Carbon::parse($estudiante->fecha_nacimiento)->format('d/m/Y') }}</td>
                     <td>{{ $estudiante->email }}</td>
-                    <td>
-                        @if ($estudiante->estatus_activo)
+                    <td>{{ $estudiante->estado_estudiante }}</td>
+                    <!-- <td>
+                       @ if ($estudiante->estatus_activo)
                             Activo
-                        @else
+                        @ else
                             Inactivo
-                        @endif
-                    </td>
+                        @ endif
+                    </td>-->
                     <td><a href="{{ route('estudiantes.edit', $estudiante) }}"
-                            class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
+                            class="btn btn-xs btn-default text-primary mx-1 shadow" title="Editar-estudiante">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </a><a href="{{ route('estudiantes.show', $estudiante) }}"
-                            class="btn btn-xs btn-default text-primary mx-1 shadow" title="Show">
+                            class="btn btn-xs btn-default text-primary mx-1 shadow" title="Detalle-estudiante">
                             <i class="fa fa-lg fa-fw fa-eye"></i>
                         </a>
                         <form style="display: inline" action="{{ route('estudiantes.destroy', $estudiante) }}"
@@ -113,27 +163,7 @@
 
 
     </div>
-    {{-- Custom --}}
-    <x-adminlte-modal id="modalCustom" title="Instrucciones" size="lg" theme="teal" icon="fas fa-bell" v-centered
-        static-backdrop scrollable>
-        <div style="height:800px;">
-            <h2>Instrucciones</h2>
-            <div style="height:400px;">
-                <p> - El boton lapiz lleva a otra interfaz llamada editar programa<br>
-                    - El boton papelera elimina, primero pregunta si desea eliminar
-                    el registro, luego lo elimina y envia una notifiacion en la <b>interfaz</b>
-                    lista de programas
-                    de que el registro ha sido eliminado</p>
-            </div>
-        </div>
 
-        <x-slot name="footerSlot">
-            <x-adminlte-button class="mr-auto" theme="success" label="Accept" />
-            <x-adminlte-button theme="danger" label="Dismiss" data-dismiss="modal" />
-        </x-slot>
-    </x-adminlte-modal>
-    {{-- Example button to open modal --}}
-    <x-adminlte-button label="Leer Instructivo" data-toggle="modal" data-target="#modalCustom" class="bg-teal" />
 
 @endsection
 
@@ -214,8 +244,4 @@
     </script>
 @stop
 
-@section('js')
 
-    <script></script>
-
-@stop

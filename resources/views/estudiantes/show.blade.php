@@ -25,7 +25,7 @@
                     <i class="fas fa-edit"></i> Editar
                 </a>
                 <a href="{{ route('estudiantes.index') }}" class="btn btn-secondary btn-sm">
-                    <i class="fas fa-arrow-left"></i> Volver a la Lista
+                    <i class="fas fa-arrow-left"></i> Volver a la Lista General de Estudiantes
                 </a>
             </div>
         </div>
@@ -50,10 +50,12 @@
                         <dd class="col-sm-8">
                             {{ $estudiante->fecha_nacimiento ? \Carbon\Carbon::parse($estudiante->fecha_nacimiento)->format('d/m/Y') : 'N/A' }}
                         </dd>
-                         <dt class="col-sm-4">Año de Cohorte:</dt>
-                        <dd class="col-sm-8">
-                            {{ $estudiante->anio_cohorte ? : 'N/A' }}
-                        </dd>
+                        <dt class="col-sm-4">Cohorte Ingreso:</dt>
+                        <dd class="col-sm-8">{{ $estudiante->cohorte_ingreso ?? 'N/A' }}</dd>
+                        <dt class="col-sm-4">Cohorte Actual:</dt>
+                        <dd class="col-sm-8">{{ $estudiante->cohorte_actual ?? 'N/A' }}</dd>
+                        <dt class="col-sm-4">Estado Estudiante:</dt>
+                        <dd class="col-sm-8">{{ $estudiante->estado_estudiante ?? 'N/A' }}</dd>
 
 
 
@@ -74,16 +76,17 @@
                         <dt class="col-sm-4">Parroquia:</dt>
                         <dd class="col-sm-8">{{ $estudiante->parroquia ?? 'N/A' }}</dd>
 
-
-
-                        <dt class="col-sm-4">Estatus Activo:</dt>
+                    
+                    
+                       <!-- <dt class="col-sm-4">Estatus Activo:</dt>
                         <dd class="col-sm-8">
-                            @if ($estudiante->estatus_activo)
+                            @ if ($estudiante->estatus_activo)
                                 <span class="badge badge-success">Activo</span>
-                            @else
+                            @ else
                                 <span class="badge badge-danger">Inactivo</span>
-                            @endif
-                        </dd>
+                            @ endif
+                        </dd>-->
+                       
 
                         <dt class="col-sm-4">Creado el:</dt>
                         <dd class="col-sm-8">

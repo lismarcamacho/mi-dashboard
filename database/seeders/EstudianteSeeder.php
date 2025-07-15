@@ -74,7 +74,7 @@ class EstudianteSeeder extends Seeder
                 'SEDE' => 'sede',
                 'MUNICIPIO' => 'municipio',
                 'PARROQUIA' => 'parroquia',
-                'STATUS_ACTIVO' => 'estatus_activo'
+                //'STATUS_ACTIVO' => 'estatus_activo'
             ];
             $this->command->info('Mapeo de columnas configurado.');
 
@@ -154,7 +154,7 @@ class EstudianteSeeder extends Seeder
                     continue; 
                 }
 
-                $insertData['estatus_activo'] = (isset($insertData['estatus_activo']) && ($insertData['estatus_activo'] === 'ACTIVO' || $insertData['estatus_activo'] === '1'));
+                //$insertData['estatus_activo'] = (isset($insertData['estatus_activo']) && ($insertData['estatus_activo'] === 'ACTIVO' || $insertData['estatus_activo'] === '1'));
                 //$insertData['fecha_nacimiento'] = $insertData['fecha_nacimiento'] ?? '1990-01-01'; // Ejemplo de default
                 
 

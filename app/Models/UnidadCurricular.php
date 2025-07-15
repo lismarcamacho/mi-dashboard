@@ -23,6 +23,7 @@ class UnidadCurricular extends Model
         'descripcion',
         'anio_de_vigencia_de_entrada',
         'anio_de_salida_vigencia',
+        'trayecto_id'
 
     ];
 

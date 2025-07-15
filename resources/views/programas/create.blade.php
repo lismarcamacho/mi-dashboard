@@ -108,19 +108,20 @@
                     {{-- Usamos x-adminlte-textarea para descripciones multilínea --}}
                     <x-adminlte-textarea name="descripcion" label="Descripción"
                         placeholder="Ingrese una descripción del programa" label-class="text-lightblue" rows="3"
-                        fgroup-class="col-md-6">
+                        fgroup-class="col-md-6" value="{{ old('descripcion') }}">
                         <x-slot name="prependSlot">
                             <div class="input-group-text">
                                 <i class="fas fa-align-left text-darkblue"></i> {{-- Icono para descripción --}}
                             </div>
                         </x-slot>
-                        {{ old('descripcion') }} {{-- old() va dentro del textarea --}}
-                        @error('descripcion')
+                        {{-- old() va dentro del textarea  {{ old('descripcion') }} --}}
+                       
+                    </x-adminlte-textarea>
+                     @error('descripcion')
                             <span class="invalid-feedback d-block" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
-                    </x-adminlte-textarea>
                 </div> {{-- Fin de la fila --}}
 
                 {{-- Asignar Especialidades (Checkbox Group) --}}

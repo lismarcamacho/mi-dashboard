@@ -41,12 +41,21 @@ Route::middleware([
 |  puede definir una ruta y un controlador para capturar
 | las palabras clave enviadas en el navvar superior, como se muestra a continuación:
 */
-Route::get('/search', [SearchController::class, 'index'])->name('search.index'); // Ruta para la página de búsqueda principal
+Route::match(
+    ['get', 'post'],
+    '/navbar/search',
+    'SearchController@showNavbarSearchResults'
+);
 Route::match(['get', 'post'], '/nav-bar/search', [SearchController::class, 'showNavBarSearchResults'])->name('nav-bar-search');
-//Route::get('/estudiantes/buscar', [EstudianteController::class, 'buscar'])->name('api.estudiantes.buscar');
+
+// agregado 17/06/25
+Route::get('/search', [SearchController::class, 'index']); // Estilo moderno, pero requiere importación
+
 
 /* ruta a Controlador de notificaciones */
-Route::get('notifications/get',[App\Http\Controllers\NotificationsController::class, 'getNotificationsData']
+Route::get(
+    'notifications/get',
+    [App\Http\Controllers\NotificationsController::class, 'getNotificationsData']
 )->name('notifications.get');
 
 // routes/web.php
@@ -58,7 +67,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-Route::get('/profile/password', [PerfilController::class, 'showChangePasswordForm'])->name('profile.update-password-form');
+Route::get('/admin/password', [PerfilController::class, 'showChangePasswordForm'])->name('profile.update-password-form');
 Route::post('/profile/cambiar-clave', [PerfilController::class, 'cambiarClave'])->name('profile.cambiarClave');
 //Route::get('/profile', [PerfilController::class, 'index'])->name('profile.show'); 
 Route::get('/profile', [PerfilController::class, 'index'])->name('profile.index');
@@ -71,22 +80,22 @@ Route::resource('users', UsuarioController::class);
 // Ruta para mostrar una lista de usuarios (asumiendo un método 'index' en el controlador)
 Route::get('/users', [UsuarioController::class, 'index'])->name('users.listUser');
 
-//Route::get('/users', [PerfilController::class, 'index'])->name('users.index');
+Route::get('/users', [PerfilController::class, 'index'])->name('users.index');
 // Ruta para mostrar el formulario de creación de un nuevo usuario (asumiendo un método 'create')
 //Route::get('/users/crear', [UsuarioController::class, 'create'])->name('users.create');
 // Si quieres que la maneje otro controlador (por ejemplo, UserController)
-//Route::get('/users/create', [UsuarioController::class, 'create'])->name('users.create');
+Route::get('/users/create', [UsuarioController::class, 'create'])->name('users.create');
 // Ruta para guardar un nuevo usuario (asumiendo un método 'store')
-//Route::post('/users', [UsuarioController::class, 'store'])->name('users.store');
+Route::post('/users', [UsuarioController::class, 'store'])->name('users.store');
 // Ruta para mostrar los detalles de un usuario específico (asumiendo un método 'show')
-//Route::get('/users/{user}', [UsuarioController::class, 'show'])->name('users.show');
+Route::get('/users/{user}', [UsuarioController::class, 'show'])->name('users.show');
 
 // Ruta para mostrar el formulario de edición de un usuario (asumiendo un método 'edit')
-//Route::get('/users/{user}/edit', [UsuarioController::class, 'edit'])->name('users.edit');
+Route::get('/users/{user}/edit', [UsuarioController::class, 'edit'])->name('users.edit');
 
 // Ruta para actualizar un usuario existente (asumiendo un método 'update')
-//Route::put('/users/{user}', [UsuarioController::class, 'update'])->name('users.update');
-//Route::patch('/users/{user}', [UsuarioController::class, 'update'])->name('users.update');
+Route::put('/users/{user}', [UsuarioController::class, 'update'])->name('users.update');
+Route::patch('/users/{user}', [UsuarioController::class, 'update'])->name('users.update');
 
 // Ruta para eliminar un usuario (asumiendo un método 'destroy')
 //Route::delete('/users/{user}', [UsuarioController::class, 'destroy'])->name('users.destroy');
@@ -128,10 +137,8 @@ Route::resource('admin/programas', ProgramaController::class);
 Route::get('/admin/programas/{id}', [ProgramaController::class, 'show'])->name('programas.show');
 //----------------------------------------------------------------------------------------------------------//
 
-Route::resource('admin/especialidades', EspecialidadController::class)->parameters(['especialidades' => 'especialidad' ])->names('especialidades');
-// Esto le dice a Laravel que el parámetro para el recurso 'especialidades' debe ser 'especialidad'
- // Mantén esto para los nombres de las rutas como 'especialidades.edit'
-/*Route::prefix('admin')->group(function () {
+Route::resource('/especialidades', EspecialidadController::class)->names('especialidades');
+Route::prefix('admin')->group(function () {
     Route::get('/especialidades', [EspecialidadController::class, 'index'])->name('especialidades.index');
     Route::get('/especialidades/create', [EspecialidadController::class, 'create'])->name('especialidades.create'); // administra el formulario para crear una nueva especialidad
     Route::post('/especialidades', [EspecialidadController::class, 'store'])->name('especialidades.store');
@@ -142,10 +149,10 @@ Route::resource('admin/especialidades', EspecialidadController::class)->paramete
     // Ruta para mostrar la estructura del pensum de una especialidad
     Route::get('/especialidades/{id}/malla', [EspecialidadController::class, 'showMallaStructure'])->name('especialidades.malla_structure');
 
-});*/
+});
 
-Route::resource('admin/titulos', TituloController::class)->names('titulos');; // Esto crea varias rutas: index, create, store, show, edit, update, destroy
-/*Route::prefix('admin')->group(function () {
+Route::resource('/titulos', TituloController::class)->names('titulos');; // Esto crea varias rutas: index, create, store, show, edit, update, destroy
+Route::prefix('admin')->group(function () {
     Route::get('/titulos', [TituloController::class, 'index'])->name('titulos.index');
     Route::get('/titulos/create', [TituloController::class, 'create'])->name('titulos.create'); // administra el formulario para crear una nueva especialidad
     Route::post('/titulos', [TituloController::class, 'store'])->name('titulos.store');
@@ -153,10 +160,10 @@ Route::resource('admin/titulos', TituloController::class)->names('titulos');; //
     Route::get('/titulos/{titulo}/edit', [TituloController::class, 'edit'])->name('titulos.edit');
     Route::put('/titulos/{titulo}', [TituloController::class, 'update'])->name('titulos.update');
     Route::delete('/titulos/{titulo}', [TituloController::class, 'destroy'])->name('titulos.destroy');
-});*/
+});
 
-Route::resource('admin/trayectos', TrayectoController::class)->names('trayectos');
-/*Route::prefix('admin')->group(function () {
+Route::resource('trayectos', TrayectoController::class)->names('trayectos');
+Route::prefix('admin')->group(function () {
     Route::get('/trayectos', [TrayectoController::class, 'index'])->name('trayectos.index');
     Route::get('/trayectos/create', [TrayectoController::class, 'create'])->name('trayectos.create'); // administra el formulario para crear una nueva especialidad
     Route::post('/trayectos', [TrayectoController::class, 'store'])->name('trayectos.store');
@@ -164,38 +171,40 @@ Route::resource('admin/trayectos', TrayectoController::class)->names('trayectos'
     Route::get('/trayectos/{trayecto}/edit', [TrayectoController::class, 'edit'])->name('trayectos.edit');
     Route::put('/trayectos/{trayecto}', [TrayectoController::class, 'update'])->name('trayectos.update');
     Route::delete('/trayectos/{trayecto}', [TrayectoController::class, 'destroy'])->name('trayectos.destroy');
-});*/
+});
 
 Route::resource('admin/unidades-curriculares', UnidadCurricularController::class)->names('unidades-curriculares');
 Route::resource('admin/mallas-curriculares', MallaCurricularController::class)->names('mallas-curriculares');
 
-
-Route::resource('admin/mallas-curriculares', MallaCurricularController::class);
+Route::prefix('admin')->group(function () {
+    Route::resource('mallas-curriculares', MallaCurricularController::class);
 
     // Rutas adicionales que ya tenías para unidades curriculares, si son necesarias.
-Route::post('admin/mallas-curriculares/{mallaCurricular}/unidades/attach', [MallaCurricularController::class, 'attachUnidadCurricular'])->name('mallas-curriculares.attach-unidad-curricular');
-Route::delete('admin/mallas-curriculares/{mallaCurricular}/unidades/{unidadCurricular}/detach', [MallaCurricularController::class, 'detachUnidadCurricular'])->name('mallas-curriculares.detach-unidad-curricular');
-Route::get('admin/mallas-curriculares/{mallaCurricular}/unidades/manage', [MallaCurricularController::class, 'manageUnidadesCurriculares'])->name('mallas-curriculares.manage-unidades-curriculares');
-
+    Route::post('mallas-curriculares/{mallaCurricular}/unidades/attach', [MallaCurricularController::class, 'attachUnidadCurricular'])->name('mallas-curriculares.attach-unidad-curricular');
+    Route::delete('mallas-curriculares/{mallaCurricular}/unidades/{unidadCurricular}/detach', [MallaCurricularController::class, 'detachUnidadCurricular'])->name('mallas-curriculares.detach-unidad-curricular');
+    Route::get('mallas-curriculares/{mallaCurricular}/unidades/manage', [MallaCurricularController::class, 'manageUnidadesCurriculares'])->name('mallas-curriculares.manage-unidades-curriculares');
+});
 
 Route::resource('admin/estudiantes', EstudianteController::class);
         
 Route::get('admin/estudiantes/search', [EstudianteController::class, 'searchApi'])->name('admin.estudiantes.search');
 
 
+Route::prefix('admin')->group(function () {
 
     // Rutas de recursos para Estudiantes
-Route::get('admin//estudiantes', [EstudianteController::class, 'index'])->name('estudiantes.index'); // Muestra todos los estudiantes
-Route::get('admin//estudiantes/{estudiante}', [EstudianteController::class, 'show'])->name('estudiantes.show'); // Muestra un estudiante específico
+    Route::get('/estudiantes', [EstudianteController::class, 'index'])->name('estudiantes.index'); // Muestra todos los estudiantes
+    Route::get('/estudiantes/{estudiante}', [EstudianteController::class, 'show'])->name('estudiantes.show'); // Muestra un estudiante específico
+});
 Route::resource('admin/matriculas', MatriculaController::class);
 
 
-
- Route::resource('admin/secciones', SeccionController::class)->parameters([
+Route::prefix('admin')->group(function () {
+ Route::resource('secciones', SeccionController::class)->parameters([
         'secciones' => 'seccion' // ¡IMPORTANTE! Esto asegura que el comodín sea {seccion}
     ]);
 
-
+});
 
 }); // **************************************FIN MIDDLEWARE***************************
 

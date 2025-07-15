@@ -43,6 +43,8 @@ class UnidadCurricularController extends Controller
             'horas_trabajo_estudiantil' => 'required|numeric',
             'eje' => 'required|string|max:255',
             'descripcion' => 'string|max:255',
+            'trayecto_id' => 'nullable|exists:trayectos,id'
+
  
         ]);
 

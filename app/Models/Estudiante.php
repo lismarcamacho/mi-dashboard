@@ -44,8 +44,13 @@ class Estudiante extends Model
         'sede',
         'municipio',
         'parroquia',
-        'estatus_activo',
-        'anio_cohorte', // ESTE ES EL AÑO DE LA COHORTE ULTIMA COLUMNA AGREGADA 19/06/25 
+        //'estatus_activo',
+        'cohorte_ingreso', /* ESTE ES EL AÑO DE LA COHORTE MAS ANTIGUA DEL
+                             ESTUDIANTEeta para colocar un periodo tambien
+                              ULTIMA COLUMNA AGREGADA 25/06/25 */
+        'cohorte_actual', /* este es un año (o periodo) en el que el estudiante vuelve si abandono
+                           y e ingresa por prosecucion*/
+        'estado_estudiante'
     ];
 
     /**
@@ -55,7 +60,7 @@ class Estudiante extends Model
      */
     protected $casts = [
         'fecha_nacimiento' => 'date', // Laravel convierte automáticamente la fecha a un objeto Carbon
-        'estatus_activo' => 'boolean', // Laravel convierte 0/1 a true/false
+        //'estatus_activo' => 'boolean', // Laravel convierte 0/1 a true/false
     ];
 
     /**

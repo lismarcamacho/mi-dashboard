@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\UnidadCurricular;
 class MallaCurricular extends Model
 {
     use HasFactory;
@@ -15,6 +15,8 @@ class MallaCurricular extends Model
         'nombre',
         'id_especialidad',
         'id_programa', // Nuevo campo 24-06-25 para vincular directamente al programa
+        'unidad_curricular_id',
+        'trayecto_id',
         'minimo_aprobatorio',
         'duracion_en_malla',
         'fase_malla',
@@ -32,7 +34,8 @@ class MallaCurricular extends Model
     ];
 
     /**
-     * Define la relación de muchos a uno con Especialidad.
+     * Define la relación de 
+     *  a uno con Especialidad.
      * Una entrada de malla pertenece a una especialidad.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

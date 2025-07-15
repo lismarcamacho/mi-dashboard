@@ -10,6 +10,10 @@ use GuzzleHttp\Client;
 use Illuminate\Validation\Rules\Can;
 //use lluminate\Http\RedirectResponse;
 
+use App\Models\Titulo;          
+use App\Models\UnidadCurricular;
+use App\Models\Trayecto;
+
 
 // Gestion de especialidades (crear, leer, actualizar, eliminar carreras)
 class EspecialidadController extends Controller
@@ -92,31 +96,38 @@ class EspecialidadController extends Controller
     /**
      * Display the specified resource.
      */
+  
     public function show(Especialidad $especialidad)
     {
+        // Carga la relación 'titulos' para esta especialidad
+        // y las mallas curriculares con sus relaciones anidadas
 
-// Carga la especialidad y sus mallas curriculares (asumiendo una relación hasMany en Especialidad)
-    //$especialidad->load(['titulos','mallasCurriculares.unidadCurricular', 'mallasCurriculares.trayecto']);
-    $especialidad->load('titulos');
+        
+       //dd('Llegué al controlador. ID de especialidad: ' . $especialidad->id);
+         //dd($especialidad->toArray());
 
-    // Necesitarías una relación en Especialidad.php:
-    // public function mallasCurriculares() { return $this->hasMany(MallaCurricular::class, 'id_especialidad', 'id'); }
-        //$especialidad->load('titulos', 'mallasCurriculares');
-    // === Lógica para obtener la Malla Vigente (como lo hicimos antes) ===
-    //$mallasVigentesPorEspecialidad = null;
-    //$latestYear = $especialidad->mallasCurriculares()->max('anio_de_vigencia_de_entrada_malla');
+        $especialidad->load(['titulos', 'mallasCurriculares.unidadesCurriculares', 'mallasCurriculares.trayectos','programas']);
+        //dd($especialidad->toArray());
+        // === Lógica para obtener la Malla Vigente ===
+        // Busca el año de vigencia más reciente entre las mallas de esta especialidad
+        //$latestYear = $especialidad->mallasCurriculares()->max('anio_de_vigencia_de_entrada_malla');
 
-    //if ($latestYear) {
-    //    $mallasVigentesPorEspecialidad = $especialidad->mallasCurriculares()
-    //                                                 ->where('anio_de_vigencia_de_entrada_malla', $latestYear)
-    //                                                 ->with(['unidadCurricular', 'trayecto']) // ¡Importante! Precargar estas relaciones
-    //                                                 ->orderBy('id_trayecto')
-    //                                                 ->orderBy('fase_malla')
-    //                                                 ->get();
-    //}
-        //return view('especialidades.show', compact('especialidad', 'mallasVigentesPorEspecialidad'));
-         return view('especialidades.show', compact('especialidad'));
+        //$mallasVigentesPorEspecialidad = null; // Inicializa a null
+
+        //if ($latestYear) {
+            // Si existe un año más reciente, filtra las mallas por ese año
+            // y las ordena por trayecto y fase
+        //    $mallasVigentesPorEspecialidad = $especialidad->mallasCurriculares
+        //                                                ->where('anio_de_vigencia_de_entrada_malla', $latestYear)
+        //                                                ->sortBy('id_trayecto') // Ordena por la propiedad del modelo
+        //                                                ->sortBy('fase_malla'); // Y luego por fase
+        //}
+
+        // Pasa ambas variables a la vista
+       // return view('especialidades.show', compact('especialidad', 'mallasVigentesPorEspecialidad'));
+        return view('especialidades.show', compact('especialidad'));
     }
+
 
         /**
      * Muestra la estructura detallada del pensum para una especialidad específica.
@@ -146,10 +157,13 @@ class EspecialidadController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Especialidad $especialidad)
     {
         //
-        $especialidad = Especialidad::find($id);
+    // Con Route Model Binding, Laravel ya cargó la especialidad por su ID.
+    // No necesitas Especialidad::find($id);
+    // El objeto $especialidad ya está disponible aquí.
+        //$especialidad = Especialidad::find($id);
         //return $carrera; // comprobando que el registro se obtiene correctamente
         return view('especialidades.edit', compact('especialidad'));
         //return ($id);  Comprobamos que el id se obtiene correctamente

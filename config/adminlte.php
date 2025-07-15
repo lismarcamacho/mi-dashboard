@@ -395,7 +395,7 @@ return [
         ],
         [
             'text' => 'Cambiar clave',
-            'url'  => 'admin/password',
+            'url'  => 'profile/password',
             'icon' => 'fas fa-fw fa-lock'],
                
             ],
@@ -465,7 +465,7 @@ return [
                 ],
                 [
                     'text' => 'Inscripciones PNF',
-                    'url' => 'admin/programas/create',
+                    'url' => 'admin/matriculas/create',
                 ],
                                 [
                     'text' => 'Inscripciones PER',
@@ -646,7 +646,7 @@ return [
                 ],
                 [
                     'text' => 'Agregar',
-                    'url' => 'admin/trayectos/create',
+                    'url' => 'admin/unidades-curriculares/create',
                 ],
                
             ],
@@ -960,16 +960,16 @@ return [
             ],
         ],
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
                 ],
             ],

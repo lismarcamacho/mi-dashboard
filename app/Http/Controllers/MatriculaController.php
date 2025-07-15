@@ -12,6 +12,8 @@ use App\Models\Trayecto;
 use Illuminate\Validation\Rule;
 use App\Http\Requests\StoreMatriculaRequest;
 use App\Http\Requests\UpdateMatriculaRequest;
+use Illuminate\Support\Facades\Log;
+
 
 
 class MatriculaController extends Controller
@@ -22,12 +24,25 @@ class MatriculaController extends Controller
     public function index(Request $request)
     {
         //
+        // Inicializa $search al principio para que esté disponible para Log::info y dd si es necesario
+        $search = $request->input('search'); // Esto obtendrá el valor de 'search' del query string, o null si no existe.
+
         // Inicia la consulta del modelo Matricula
         $query = Matricula::query();
 
         // Carga las relaciones necesarias para mostrar los nombres en la tabla
         // Esto evita el problema de "N+1 query" y carga los datos relacionados de forma eficiente.
         $query->with(['seccion', 'estudiante', 'programa']);
+
+         // --- Depuración: Descomenta estas líneas temporalmente para ver qué recibe el método ---
+    
+ 
+ 
+    // --- Depuración: Descomenta estas líneas temporalmente para ver qué recibe el método ---
+        Log::info('searchApi: Término de búsqueda recibido: ' . $search);
+    // dd($search); // Esto detendrá la ejecución y mostrará el valor de $search. Eliminar después de depurar.
+
+    // 1. Filtro de búsqueda
 
         // 1. Filtro de búsqueda
         // Podrías buscar por periodo académico, o por nombre de estudiante/sección si unes las tablas.
@@ -90,6 +105,7 @@ class MatriculaController extends Controller
         //
 
         //$estudiantes = Estudiante::all();
+        //$estudiantes = Estudiante::select('id', 'apellidos_nombres', 'cedula')->get();
         $estudiantes = Estudiante::orderBy('id')->paginate(50);
         $programas = Programa::orderBy('nombre_programa')->get();
         $secciones = Seccion::orderBy('nombre')->get(); // Asume que Seccion tiene 'nombre'
@@ -106,12 +122,7 @@ class MatriculaController extends Controller
      */
     public function store(StoreMatriculaRequest $request)
     {
-        //   FORMA SIMPLIFICADA SIN TOMAR EN CUENTA LA CAPACIDAD MAXIMA DE LAS SECCIONES
-        //dd($request->all()); // Pon esto para ver qué datos llegan
-        //$validatedData = $request->validated(); // Obtiene solo los datos validados
-        // 3. Crear el nuevo registro en la base de datos utilizando los datos validados
-        //$matricula = Matricula::create($validatedData);
-        //return redirect()->route('matriculas.index')->with('success', 'Matricula creada exitosamente');
+
 
         //NUEVO METODO CONSIDERANDO LA CAPACIDAD MAXIMA DE LA SECCION***************
         // 1. Obtener la ID de la sección de la solicitud de matrícula
@@ -136,7 +147,49 @@ class MatriculaController extends Controller
         // Si la sección tiene espacio disponible, procede con la creación de la matrícula.
         $validatedData = $request->validated(); // Obtiene solo los datos validados del Form Request
 
-        Matricula::create($validatedData); // Crea la matrícula
+        // ** Recupera la instancia del estudiante. **
+        // Puedes recuperar el estudiante de nuevo aquí si necesitas sus atributos completos,
+        // o pasarla desde el Request si la preparaste allí.
+        $estudiante = Estudiante::find($validatedData['estudiante_id']);
+
+        //Matricula::create($validatedData); // Crea la matrícula
+
+              // 1. Crea la nueva matrícula
+        $matricula = Matricula::create([
+            'estudiante_id' => $validatedData['estudiante_id'],
+            'periodo_academico' => $validatedData['periodo_academico'],
+            'programa_id' => $validatedData['programa_id'],
+            'trayecto_id' => $validatedData['trayecto_id'],
+            'seccion_id' => $validatedData['seccion_id'],
+            'condicion_inscripcion' => $validatedData['condicion_inscripcion'],
+            'condicion_cohorte' => $validatedData['condicion_cohorte'],
+            'fecha_inscripcion' => $validatedData['fecha_inscripcion'],
+        ]);
+
+            // 2. Actualiza la cohorte_actual y estado_estudiante del estudiante
+        // basado en la 'condicion_inscripcion'.
+        if (in_array($validatedData['condicion_inscripcion'], ['REINGRESO', 'PROSECUCION', 'EQUIVALENCIA', 'NUEVO INGRESO'])) {
+            // Define el período actual de forma consistente (ej. "2024-II")
+            // Puedes tomarlo del $validatedData['periodo_academico'] si el formulario lo envía con el formato completo
+            // O generarlo si es el período en que se realiza la matrícula
+            $currentYearPeriod = $validatedData['periodo_academico']; // Usar el periodo del formulario
+
+            $estudiante->estado_estudiante = 'Activo';
+            $estudiante->cohorte_actual = $currentYearPeriod;
+            $estudiante->save();
+
+            // 3. Si tienes una tabla historial_estados_estudiante, añade un registro aquí
+            // (Asegúrate de importar el modelo HistorialEstadoEstudiante)
+            // if (class_exists(HistorialEstadoEstudiante::class)) {
+            //     HistorialEstadoEstudiante::create([
+            //         'estudiante_id' => $estudiante->id,
+            //         'estado' => 'Activo',
+            //         'fecha_cambio' => now(),
+            //         'motivo' => 'Inscripción por ' . $validatedData['condicion_inscripcion'],
+            //         'periodo_academico' => $currentYearPeriod, // Agrega el período aquí también
+            //     ]);
+            // }
+        }
 
         return redirect()->route('admin.matriculas.index')->with('success', 'Matrícula creada exitosamente.');
     }
@@ -188,7 +241,38 @@ class MatriculaController extends Controller
         // 3. Crear el nuevo registro en la base de datos utilizando los datos validados
         $validatedData = $request->validated(); // Obtiene solo los datos validados
 
-        $matricula->update($validatedData);
+        //$matricula->update($validatedData);
+
+        $estudiante = Estudiante::find($validatedData['estudiante_id']);
+
+        $matricula->update([
+            'estudiante_id' => $validatedData['estudiante_id'],
+            'periodo_academico' => $validatedData['periodo_academico'],
+            'programa_id' => $validatedData['programa_id'],
+            'trayecto_id' => $validatedData['trayecto_id'],
+            'seccion_id' => $validatedData['seccion_id'],
+            'condicion_inscripcion' => $validatedData['condicion_inscripcion'],
+            'condicion_cohorte' => $validatedData['condicion_cohorte'],
+            'fecha_inscripcion' => $validatedData['fecha_inscripcion'],
+        ]);
+
+        if (in_array($validatedData['condicion_cohorte'], ['REINGRESO', 'PROSECUCION', 'EQUIVALENCIA','NORMAL', 'INICIAL'])) {
+            $currentYearPeriod = $validatedData['periodo_academico'];
+            $estudiante->estado_estudiante = 'Activo';
+            $estudiante->cohorte_actual = $currentYearPeriod;
+            $estudiante->save();
+
+            // HistorialEstadoEstudiante (si existe)
+            // if (class_exists(HistorialEstadoEstudiante::class)) {
+            //     HistorialEstadoEstudiante::create([
+            //         'estudiante_id' => $estudiante->id,
+            //         'estado' => 'Activo',
+            //         'fecha_cambio' => now(),
+            //         'motivo' => 'Actualización de matrícula por ' . $validatedData['condicion_inscripcion'],
+            //         'periodo_academico' => $currentYearPeriod,
+            //     ]);
+            // }
+        }
 
         return redirect()->route('matriculas.index')->with('success', 'Matricula creada exitosamente');
     }

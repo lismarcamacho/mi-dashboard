@@ -35,6 +35,7 @@
                     <p><strong>ID de Sección:</strong> {{ $seccion->id }}</p>
                     <p><strong>Nombre de Sección:</strong> {{ $seccion->nombre ?? 'N/A' }}</p>
                     {{-- Puedes añadir más detalles de la sección aquí si los tienes --}}
+                     <p><strong>Capacidad Maxima:</strong> {{ $seccion->capacidad_maxima ?? 'N/A'  }}</p>
 
                     <a href="{{ route('secciones.index') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver al Listado de Secciones</a>
                 </div>
@@ -55,7 +56,7 @@
                                 // CAMBIO CLAVE 1:
                                 // 'estatus_activo' se casteó a booleano en el modelo, así que compara con 'true'.
                                 // Se usa 'STATUS_ACTIVO' si ese es el nombre real de la columna en la BD.
-                                return $matriculaSeccion->estudiante && $matriculaSeccion->estudiante->estatus_activo === true;
+                                return $matriculaSeccion->estudiante && $matriculaSeccion->estudiante->estado_estudiante === 'Activo';
                             });
                         }
                     @endphp
